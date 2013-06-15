@@ -1,0 +1,24 @@
+<Dictionary>
+  <Words>
+    <Unrecognized>
+      <Word/>
+    </Unrecognized>
+    <Recognized>
+      <Word/>
+    </Recognized>
+    <Deprecated>
+      <Term PreferredAlternate=""/>
+    </Deprecated>
+    <Compound>
+      <Term CompoundAlternate=""/>
+    </Compound>
+    <DiscreteExceptions>
+      <Term/>
+    </DiscreteExceptions>
+  </Words>
+  <Acronyms>
+    <CasingExceptions>
+      <Acronym/>
+    </CasingExceptions>
+  </Acronyms>
+</Dictionary>
