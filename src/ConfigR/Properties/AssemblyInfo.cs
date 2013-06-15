@@ -4,6 +4,7 @@
 
 using System;
 using System.Reflection;
+using System.Runtime.InteropServices;
 
 [assembly: AssemblyTitle("ConfigR")]
 [assembly: AssemblyDescription("A flexible configuration system")]
@@ -11,6 +12,7 @@ using System.Reflection;
 [assembly: AssemblyProduct("ConfigR")]
 [assembly: AssemblyCopyright("Copyright (c) ConfigR contributors. (configr.net@gmail.com)")]
 
+[assembly: ComVisible(false)]
 [assembly: CLSCompliant(true)]
 
 [assembly: AssemblyVersion("0.1.0")]

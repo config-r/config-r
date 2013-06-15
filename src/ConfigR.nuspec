@@ -14,7 +14,7 @@
     <tags>configuration</tags>
   </metadata>
   <files>
-    <file src="ConfigR\bin\Release\ConfigR.dll" target="lib\portable40-win8+net40+sl40+wp7" />
-    <file src="ConfigR\bin\Release\ConfigR.xml" target="lib\portable40-win8+net40+sl40+wp7" />
+    <file src="ConfigR\bin\Release\ConfigR.dll" target="lib\net45" />
+    <file src="ConfigR\bin\Release\ConfigR.xml" target="lib\net45" />
   </files>
 </package>
