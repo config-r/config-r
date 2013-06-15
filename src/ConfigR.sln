@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionFiles", "SolutionFiles", "{4928A491-6E0E-4948-A9DD-F24A4A0AAC08}"
+	ProjectSection(SolutionItems) = preProject
+		ConfigR.Dictionary = ConfigR.Dictionary
+		ConfigR.nuspec = ConfigR.nuspec
+		ConfigR.ruleset = ConfigR.ruleset
+		ConfigR.snk = ConfigR.snk
+		Settings.StyleCop = Settings.StyleCop
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConfigR", "ConfigR\ConfigR.csproj", "{A294DB75-7707-4C47-8BEC-56F5ADA25367}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{B32D81B0-BCE2-48E7-9CCE-8CD79547A5DE}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A294DB75-7707-4C47-8BEC-56F5ADA25367}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A294DB75-7707-4C47-8BEC-56F5ADA25367}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A294DB75-7707-4C47-8BEC-56F5ADA25367}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A294DB75-7707-4C47-8BEC-56F5ADA25367}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
