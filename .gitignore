@@ -1,0 +1,16 @@
+bin
+obj
+
+*.suo
+*.user
+
+/src/packages/*
+!/src/packages/StyleCop.MSBuild.*
+/src/packages/StyleCop.MSBuild.*/*
+/src/packages/StyleCop.MSBuild.*/*.*
+!/src/packages/StyleCop.MSBuild.*/tools
+/src/packages/StyleCop.MSBuild.*/tools/*
+/src/packages/StyleCop.MSBuild.*/tools/*.*
+!/src/packages/StyleCop.MSBuild.*/tools/StyleCop.Targets
+
+*.sln.ide

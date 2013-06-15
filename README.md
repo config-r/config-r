@@ -1,2 +1,3 @@
-configurate
-===========
+# ConfigR
+
+All will be revealed...
