@@ -6,7 +6,7 @@ Fed up with XML soup? Frustrated that app settings can only be strings? Then Con
 
 Get it at [NuGet](https://nuget.org/packages/ConfigR/ "ConfigR on Nuget").
 
-# Quickstart
+## Quickstart
 
 * Create a console application project in Visual Studio
 * Install ConfigR from [NuGet](https://nuget.org/packages/ConfigR/ "ConfigR on Nuget")
