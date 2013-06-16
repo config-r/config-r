@@ -58,7 +58,7 @@ namespace ConfigR
             var code = System.IO.File.ReadAllText(path);
             var engine = new RoslynScriptEngine(new ScriptHostFactory(), log);
             log.Debug("Compiling and executing configuration script " + path);
-            var result = engine.Execute(code, new string[0], new[] { "System.dll", "ConfigR.dll" }, new[] { "System", "ConfigR" }, new ScriptPackSession(new IScriptPack[0]));
+            var result = engine.Execute(code, new string[0], new[] { "System.dll" }, new[] { "System", "ConfigR" }, new ScriptPackSession(new IScriptPack[0]));
             if (result.CompileException != null)
             {
                 log.Error("Error compiling configuration script " + path, result.CompileException);
