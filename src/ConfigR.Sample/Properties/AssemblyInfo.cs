@@ -6,12 +6,6 @@ using System;
 using System.Reflection;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyTitle("ConfigR")]
-[assembly: AssemblyDescription("C# configuration for .NET apps based on scriptcs.")]
-[assembly: AssemblyCompany("ConfigR contributors")]
-[assembly: AssemblyProduct("ConfigR")]
-[assembly: AssemblyCopyright("Copyright (c) ConfigR contributors. (configr.net@gmail.com)")]
-
 [assembly: ComVisible(false)]
 [assembly: CLSCompliant(true)]
 

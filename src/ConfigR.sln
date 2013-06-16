@@ -6,7 +6,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionFiles", "SolutionFi
 		ConfigR.Dictionary = ConfigR.Dictionary
 		ConfigR.nuspec = ConfigR.nuspec
 		ConfigR.ruleset = ConfigR.ruleset
-		ConfigR.snk = ConfigR.snk
 		Settings.StyleCop = Settings.StyleCop
 	EndProjectSection
 EndProject
@@ -19,6 +18,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{B32D81
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConfigR.Features", "test\ConfigR.Features\ConfigR.Features.csproj", "{B80B228F-08E7-44F7-8209-6556DC4E68FB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{BFAB0B22-0936-409D-AA3A-04E5C503F479}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sample", "Sample", "{42CCC2FF-268C-4D91-90BD-D63C9D8B25CB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConfigR.Sample", "ConfigR.Sample\ConfigR.Sample.csproj", "{57B9AA12-79B6-4899-BF02-26C8E808747A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,8 +36,20 @@ Global
 		{A294DB75-7707-4C47-8BEC-56F5ADA25367}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A294DB75-7707-4C47-8BEC-56F5ADA25367}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A294DB75-7707-4C47-8BEC-56F5ADA25367}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B80B228F-08E7-44F7-8209-6556DC4E68FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B80B228F-08E7-44F7-8209-6556DC4E68FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B80B228F-08E7-44F7-8209-6556DC4E68FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B80B228F-08E7-44F7-8209-6556DC4E68FB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{57B9AA12-79B6-4899-BF02-26C8E808747A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{57B9AA12-79B6-4899-BF02-26C8E808747A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{57B9AA12-79B6-4899-BF02-26C8E808747A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{57B9AA12-79B6-4899-BF02-26C8E808747A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B80B228F-08E7-44F7-8209-6556DC4E68FB} = {BFAB0B22-0936-409D-AA3A-04E5C503F479}
+		{57B9AA12-79B6-4899-BF02-26C8E808747A} = {42CCC2FF-268C-4D91-90BD-D63C9D8B25CB}
 	EndGlobalSection
 EndGlobal

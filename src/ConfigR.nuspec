@@ -8,13 +8,12 @@
     <projectUrl>https://github.com/config-r/config-r/</projectUrl>
     <licenseUrl>https://github.com/config-r/config-r/blob/master/license.txt</licenseUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>TBD</description>
-    <releaseNotes>TBD</releaseNotes>
+    <description>C# configuration for .NET apps based on scriptcs.</description>
+    <releaseNotes>Initial Release</releaseNotes>
     <copyright>Copyright (c) ConfigR contributors. (configr.net@gmail.com)</copyright>
     <tags>configuration</tags>
   </metadata>
   <files>
-    <file src="ConfigR\bin\Release\ConfigR.dll" target="lib\portable40-win8+net40+sl40+wp7" />
-    <file src="ConfigR\bin\Release\ConfigR.xml" target="lib\portable40-win8+net40+sl40+wp7" />
+    <file src="ConfigR\bin\Release\ConfigR.dll" target="lib\net45" />
   </files>
 </package>
