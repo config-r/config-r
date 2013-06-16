@@ -11,6 +11,7 @@ specs = [
 ]
 
 features = [
+  { :command => xunit_command, :assembly => "src/test/ConfigR.Features/bin/Debug/ConfigR.Features.dll" },
 ]
 
 samples = [
