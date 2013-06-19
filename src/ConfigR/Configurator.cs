@@ -24,6 +24,14 @@ namespace ConfigR
         {
             current.Add(key, value);
         }
+        
+        public static void Add(object initiator)
+        {
+            foreach (var prop in initiator.GetType().GetProperties())
+            {
+                dict[prop.Name] = prop.GetValue(initiator);
+            }
+        }
 
         public static void Load()
         {
