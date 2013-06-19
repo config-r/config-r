@@ -14,6 +14,8 @@ namespace ConfigR
         dynamic this[string key] { get; }
 
         void Add(string key, dynamic value);
+        
+        void Add(object initiator);
 
         void Load();
 
