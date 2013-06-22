@@ -7,7 +7,6 @@ namespace ConfigR
     using System;
     using System.Collections.Generic;
     using System.Globalization;
-    using System.Reflection;
     using Common.Logging;
     using ScriptCs;
     using ScriptCs.Contracts;
@@ -58,7 +57,12 @@ namespace ConfigR
             var code = System.IO.File.ReadAllText(path);
             var engine = new RoslynScriptEngine(new ScriptHostFactory(), log);
             log.Debug("Compiling and executing configuration script " + path);
+#if DEBUG
+            var result = engine.Execute(code, new string[0], new[] { "System.dll", "ConfigR.dll" }, new[] { "System", "ConfigR" }, new ScriptPackSession(new IScriptPack[0]));
+#else
             var result = engine.Execute(code, new string[0], new[] { "System.dll" }, new[] { "System", "ConfigR" }, new ScriptPackSession(new IScriptPack[0]));
+#endif
+
             if (result.CompileException != null)
             {
                 log.Error("Error compiling configuration script " + path, result.CompileException);
@@ -104,7 +108,7 @@ namespace ConfigR
                 ? (T)value
                 : default(T);
         }
-        
+
         private void EnsureLoaded()
         {
             if (this.loaded)
