@@ -48,8 +48,11 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Configurator.cs" />
-    <Compile Include="IConfigurator.cs" />
+    <Compile Include="CascadingConfigurator.cs" />
+    <Compile Include="ConfiguratorExtensions.cs" />
     <Compile Include="LocalConfigurator.cs" />
+    <Compile Include="IConfigurator.cs" />
+    <Compile Include="FileConfigurator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
