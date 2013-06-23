@@ -79,8 +79,15 @@ namespace ConfigR
 
         private class ConfigRScriptPack : ScriptPack<ConfigRPack>
         {
+            public ConfigRScriptPack()
+            {
+                this.Context = new ConfigRPack();
+            }
+
             public override void Initialize(IScriptPackSession session)
             {
+                Guard.AgainstNullArgument("session", session);
+
                 base.Initialize(session);
 
                 session.ImportNamespace("ConfigR");

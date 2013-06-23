@@ -10,7 +10,6 @@ namespace ConfigR.Sample
 
     public static class Program
     {
-        [SuppressMessage("Microsoft.Globalization", "CA1303:Do not pass literals as localized parameters", MessageId = "System.Console.WriteLine(System.String,System.Object,System.Object)", Justification = "Just a sample.")]
         public static void Main(string[] args)
         {
             // you can retreive settings as their underlying type
