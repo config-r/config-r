@@ -1,5 +1,7 @@
-﻿Configurator
-    .Add("Count", 345)
-    .Add("Uri", new Uri("https://github.com/config-r/config-r/foobarbazfoobarbaz"))
-    .Add("FromCustom1File", false)
-    .Add("FromCustom2File", true);
+﻿#load "Custom2.Data.csx"
+
+Configurator
+    .Add("Count", count)
+    .Add("Uri", uri)
+    .Add("FromCustom1File", fromCustom1File)
+    .Add("FromCustom2File", fromCustom1File);
