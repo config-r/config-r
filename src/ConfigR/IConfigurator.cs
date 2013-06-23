@@ -13,18 +13,8 @@ namespace ConfigR
 
         dynamic this[string key] { get; }
 
-        void Add(string key, dynamic value);
+        IConfigurator Load();
 
-        void Load();
-
-        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Get", Justification = "By design.")]
-        dynamic Get(string key);
-
-        dynamic GetOrDefault(string key);
-
-        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Get", Justification = "By design.")]
-        T Get<T>(string key);
-
-        T GetOrDefault<T>(string key);
+        IConfigurator Add(string key, dynamic value);
     }
 }

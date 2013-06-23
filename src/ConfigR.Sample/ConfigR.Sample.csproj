@@ -59,7 +59,33 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' " Include="Autofac">
+      <HintPath>..\packages\Autofac.3.0.2\lib\net40\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' " Include="Autofac.Configuration">
+      <HintPath>..\packages\Autofac.3.0.2\lib\net40\Autofac.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' " Include="Autofac.Integration.Mef">
+      <HintPath>..\packages\Autofac.Mef.3.0.1\lib\net40\Autofac.Integration.Mef.dll</HintPath>
+    </Reference>
+    <Reference Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' " Include="Common.Logging">
+      <HintPath>..\packages\Common.Logging.2.1.2\lib\net40\Common.Logging.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' " Include="NuGet.Core, Version=2.5.40416.9020, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\NuGet.Core.2.5.0\lib\net40-Client\NuGet.Core.dll</HintPath>
+    </Reference>
+    <Reference Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' " Include="ScriptCs.Contracts, Version=0.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\ScriptCs.Contracts.0.5.1\lib\net45\ScriptCs.Contracts.dll</HintPath>
+    </Reference>
+    <Reference Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' " Include="ScriptCs.Core">
+      <HintPath>..\packages\ScriptCs.Core.0.5.1\lib\net45\ScriptCs.Core.dll</HintPath>
+    </Reference>
+    <Reference Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' " Include="ServiceStack.Text">
+      <HintPath>..\packages\ServiceStack.Text.3.9.54\lib\net35\ServiceStack.Text.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
   </ItemGroup>
@@ -71,6 +97,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="ConfigR.Sample.exe.csx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Custom1.csx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Custom2.csx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />

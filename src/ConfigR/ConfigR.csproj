@@ -48,8 +48,11 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Configurator.cs" />
-    <Compile Include="IConfigurator.cs" />
+    <Compile Include="CascadingConfigurator.cs" />
+    <Compile Include="ConfiguratorExtensions.cs" />
     <Compile Include="LocalConfigurator.cs" />
+    <Compile Include="IConfigurator.cs" />
+    <Compile Include="FileConfigurator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -75,9 +78,9 @@
       <HintPath>..\packages\Common.Logging.2.1.2\lib\net40\Common.Logging.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="NuGet.Core, Version=2.2.31210.9045, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Include="NuGet.Core, Version=2.5.40416.9020, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\NuGet.Core.2.2.0\lib\net40-Client\NuGet.Core.dll</HintPath>
+      <HintPath>..\packages\NuGet.Core.2.5.0\lib\net40-Client\NuGet.Core.dll</HintPath>
     </Reference>
     <Reference Include="Roslyn.Compilers, Version=1.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
@@ -87,17 +90,21 @@
       <Private>True</Private>
       <HintPath>..\packages\Roslyn.Compilers.CSharp.1.2.20906.2\lib\net45\Roslyn.Compilers.CSharp.dll</HintPath>
     </Reference>
-    <Reference Include="ScriptCs.Contracts">
-      <HintPath>..\packages\ScriptCs.Contracts.0.3.2\lib\net45\ScriptCs.Contracts.dll</HintPath>
+    <Reference Include="ScriptCs.Contracts, Version=0.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\ScriptCs.Contracts.0.5.1\lib\net45\ScriptCs.Contracts.dll</HintPath>
     </Reference>
-    <Reference Include="ScriptCs.Core">
-      <HintPath>..\packages\ScriptCs.Core.0.5.0\lib\net45\ScriptCs.Core.dll</HintPath>
+    <Reference Include="ScriptCs.Core, Version=0.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\ScriptCs.Core.0.5.1\lib\net45\ScriptCs.Core.dll</HintPath>
     </Reference>
-    <Reference Include="ScriptCs.Engine.Roslyn">
-      <HintPath>..\packages\ScriptCs.Engine.Roslyn.0.5.0\lib\net45\ScriptCs.Engine.Roslyn.dll</HintPath>
+    <Reference Include="ScriptCs.Engine.Roslyn, Version=0.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\ScriptCs.Engine.Roslyn.0.5.1\lib\net45\ScriptCs.Engine.Roslyn.dll</HintPath>
     </Reference>
-    <Reference Include="ServiceStack.Text">
-      <HintPath>..\packages\ServiceStack.Text.3.9.49\lib\net35\ServiceStack.Text.dll</HintPath>
+    <Reference Include="ServiceStack.Text, Version=3.9.54.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\ServiceStack.Text.3.9.54\lib\net35\ServiceStack.Text.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
@@ -106,7 +113,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="AfterBuild">
-    <Exec Command="&quot;$(SolutionDir)packages\ilmerge.2.13.0307\ILmerge.exe&quot; /lib:$(OutputPath) /targetplatform:&quot;v4,$(MSBuildProgramFiles32)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5&quot; /internalize:&quot;$(SolutionDir)ILMerge.Internalize.Exclude.txt&quot; /out:@(MainAssembly) /log:$(OutputPath)ILMerge.log &quot;@(IntermediateAssembly)&quot; &quot;$(OutputPath)Autofac.Configuration.dll&quot; &quot;$(OutputPath)Autofac.dll&quot; &quot;$(OutputPath)Autofac.Integration.Mef.dll&quot; &quot;$(OutputPath)Common.Logging.dll&quot; &quot;$(OutputPath)NuGet.Core.dll&quot; &quot;$(OutputPath)Roslyn.Compilers.CSharp.dll&quot; &quot;$(OutputPath)Roslyn.Compilers.dll&quot; &quot;$(OutputPath)ScriptCs.Contracts.dll&quot; &quot;$(OutputPath)ScriptCs.Core.dll&quot; &quot;$(OutputPath)ScriptCs.Engine.Roslyn.dll&quot; &quot;$(OutputPath)ServiceStack.Text.dll&quot;" />
+    <Exec Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' " Command="&quot;$(SolutionDir)packages\ilmerge.2.13.0307\ILmerge.exe&quot; /lib:$(OutputPath) /targetplatform:&quot;v4,$(MSBuildProgramFiles32)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5&quot; /internalize:&quot;$(SolutionDir)ILMerge.Internalize.Exclude.txt&quot; /out:@(MainAssembly) /log:$(OutputPath)ILMerge.log &quot;@(IntermediateAssembly)&quot; &quot;$(OutputPath)Autofac.Configuration.dll&quot; &quot;$(OutputPath)Autofac.dll&quot; &quot;$(OutputPath)Autofac.Integration.Mef.dll&quot; &quot;$(OutputPath)Common.Logging.dll&quot; &quot;$(OutputPath)NuGet.Core.dll&quot; &quot;$(OutputPath)Roslyn.Compilers.CSharp.dll&quot; &quot;$(OutputPath)Roslyn.Compilers.dll&quot; &quot;$(OutputPath)ScriptCs.Contracts.dll&quot; &quot;$(OutputPath)ScriptCs.Core.dll&quot; &quot;$(OutputPath)ScriptCs.Engine.Roslyn.dll&quot; &quot;$(OutputPath)ServiceStack.Text.dll&quot;" />
   </Target>
   <PropertyGroup>
     <StyleCopMSBuildTargetsFile>..\packages\StyleCop.MSBuild.4.7.44.1\tools\StyleCop.targets</StyleCopMSBuildTargetsFile>
