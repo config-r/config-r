@@ -12,6 +12,18 @@
     <releaseNotes>Initial Release</releaseNotes>
     <copyright>Copyright (c) ConfigR contributors. (configr.net@gmail.com)</copyright>
     <tags>configuration</tags>
+    <dependencies>
+      <dependency id="Autofac" version="3.0.2" />
+      <dependency id="Autofac.Mef" version="3.0.1" />
+      <dependency id="Common.Logging" version="2.1.2" />
+      <dependency id="NuGet.Core" version="2.5.0" />
+      <dependency id="Roslyn.Compilers.Common" version="1.2.20906.2" />
+      <dependency id="Roslyn.Compilers.CSharp" version="1.2.20906.2" />
+      <dependency id="ScriptCs.Contracts" version="0.5.1" />
+      <dependency id="ScriptCs.Core" version="0.5.1" />
+      <dependency id="ScriptCs.Engine.Roslyn" version="0.5.1" />
+      <dependency id="ServiceStack.Text" version="3.9.54" />
+    </dependencies>
   </metadata>
   <files>
     <file src="ConfigR\bin\Release\ConfigR.dll" target="lib\net45" />
