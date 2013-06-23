@@ -87,6 +87,8 @@ namespace ConfigR
 
         public CascadingConfigurator Load(IConfigurator configurator)
         {
+            Guard.AgainstNullArgument("configurator", configurator);
+
             this.currentAdditionTarget = configurator;
             try
             {

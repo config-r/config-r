@@ -24,7 +24,7 @@
     <WarningLevel>4</WarningLevel>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <UseVSHostingProcess>false</UseVSHostingProcess>
-    <CodeAnalysisRuleSet>..\ConfigR.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -37,7 +37,7 @@
     <DocumentationFile>
     </DocumentationFile>
     <UseVSHostingProcess>false</UseVSHostingProcess>
-    <CodeAnalysisRuleSet>..\ConfigR.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <StyleCopTreatErrorsAsWarnings>false</StyleCopTreatErrorsAsWarnings>
   </PropertyGroup>
   <PropertyGroup>
@@ -50,13 +50,7 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <CodeAnalysisDictionary Include="..\ConfigR.Dictionary">
-      <Link>Properties\ConfigR.Dictionary</Link>
-    </CodeAnalysisDictionary>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Program.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' " Include="Autofac">
@@ -109,6 +103,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

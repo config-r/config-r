@@ -42,7 +42,7 @@ namespace ConfigR.Features
 
             public dynamic this[string key]
             {
-                get { throw new NotImplementedException(); }
+                get { return this.Configuration[key]; }
             }
 
             public IConfigurator Load()
