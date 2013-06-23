@@ -43,14 +43,17 @@ namespace ConfigR
             log.Debug("Clearing configuration");
             this.configuration.Clear();
             log.DebugFormat(CultureInfo.InvariantCulture, "Loading configuration script {0}", this.path);
-            var code = System.IO.File.ReadAllText(this.path);
             var engine = new RoslynScriptEngine(new ScriptHostFactory(), log);
+            var fileSystem = new FileSystem();
+            var executor = new ScriptExecutor(fileSystem, new FilePreProcessor(fileSystem, log), engine, log);
             log.DebugFormat(CultureInfo.InvariantCulture, "Compiling and executing configuration script {0}", this.path);
 #if DEBUG
-            var result = engine.Execute(code, new string[0], new[] { "System.dll", "ConfigR.dll" }, new[] { "System", "ConfigR" }, new ScriptPackSession(new IScriptPack[0]));
+            executor.Initialize(new[] { "ConfigR.dll" }, new[] { new ConfigRScriptPack() });
 #else
-            var result = engine.Execute(code, new string[0], new[] { "System.dll" }, new[] { "System", "ConfigR" }, new ScriptPackSession(new IScriptPack[0]));
+            executor.Initialize(new string[0], new[] { new ConfigRScriptPack() });
 #endif
+            engine.BaseDirectory = fileSystem.CurrentDirectory; // set to /bin in executor.Initialize()
+            var result = executor.Execute(this.path);
 
             if (result.CompileException != null)
             {
@@ -72,6 +75,20 @@ namespace ConfigR
             log.InfoFormat(CultureInfo.InvariantCulture, "Adding configuration item with key '{0}', value {1}.", key, value);
             this.configuration.Add(key, value);
             return this;
+        }
+
+        private class ConfigRScriptPack : ScriptPack<ConfigRPack>
+        {
+            public override void Initialize(IScriptPackSession session)
+            {
+                base.Initialize(session);
+
+                session.ImportNamespace("ConfigR");
+            }
+        }
+
+        private class ConfigRPack : IScriptPackContext
+        {
         }
     }
 }
