@@ -8,7 +8,7 @@ namespace ConfigR
 
     public static class Configurator
     {
-        private static IConfigurator current = new LocalConfigurator();
+        private static CascadingConfigurator current = new CascadingConfigurator();
 
         public static IConfigurator Current
         {
@@ -20,14 +20,9 @@ namespace ConfigR
             get { return current.Configuration; }
         }
 
-        public static void Add(string key, dynamic value)
+        public static IConfigurator Add(string key, dynamic value)
         {
-            current.Add(key, value);
-        }
-
-        public static void Load()
-        {
-            current.Load();
+            return current.Add(key, value);
         }
 
         public static dynamic Get(string key)
@@ -48,6 +43,26 @@ namespace ConfigR
         public static T GetOrDefault<T>(string key)
         {
             return current.GetOrDefault<T>(key);
+        }
+
+        public static CascadingConfigurator Load(string path)
+        {
+            return current.Load(path);
+        }
+
+        public static CascadingConfigurator LoadLocal()
+        {
+            return current.LoadLocal();
+        }
+
+        public static CascadingConfigurator Load(IConfigurator configurator)
+        {
+            return current.Load(configurator);
+        }
+
+        public static CascadingConfigurator Unload()
+        {
+            return current.Unload();
         }
     }
 }

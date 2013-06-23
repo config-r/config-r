@@ -59,7 +59,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="LocalConfiguratorFeature.cs" />
+    <Compile Include="CascadingConfigurationFeature.cs" />
+    <Compile Include="CustomConfigurationFeature.cs" />
+    <Compile Include="FileConfigurationFeature.cs" />
+    <Compile Include="LocalConfigurationFeature.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\ConfigR\ConfigR.csproj">

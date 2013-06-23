@@ -1,0 +1,151 @@
+﻿// <copyright file="CascadingConfigurationFeature.cs" company="ConfigR contributors">
+//  Copyright (c) ConfigR contributors. (configr.net@gmail.com)
+// </copyright>
+
+namespace ConfigR.Features
+{
+    using System.IO;
+    using System.Reflection;
+    using FluentAssertions;
+    using Xbehave;
+
+    public static class CascadingConfigurationFeature
+    {
+        [Scenario]
+        public static void RetreivingAnObjectDefinedInTwoFiles(Foo result)
+        {
+            "Given a config file containing a Foo with a Bar of 'baz'"
+                .Given(() =>
+                {
+                    using (var writer = new StreamWriter("foo1.csx"))
+                    {
+                        writer.WriteLine(@"#r ""ConfigR.Features.dll""");
+                        writer.WriteLine(@"using ConfigR.Features;");
+                        writer.WriteLine(@"Configurator.Add(""foo"", new CascadingConfigurationFeature.Foo { Bar = ""baz"" });");
+                        writer.Flush();
+                    }
+                })
+                .Teardown(() => File.Delete("foo1.csx"));
+
+            "And another config file containing a Foo with a Bar of 'bazzzzz'"
+                .Given(() =>
+                {
+                    using (var writer = new StreamWriter("foo2.csx"))
+                    {
+                        writer.WriteLine(@"#r ""ConfigR.Features.dll""");
+                        writer.WriteLine(@"using ConfigR.Features;");
+                        writer.WriteLine(@"Configurator.Add(""foo"", new CascadingConfigurationFeature.Foo { Bar = ""bazzzzz"" });");
+                        writer.Flush();
+                    }
+                })
+                .Teardown(() => File.Delete("foo2.csx"));
+
+            "When I load the first file"
+                .When(() => Configurator.Load("foo1.csx"));
+
+            "And I load the second file"
+                .And(() => Configurator.Load("foo2.csx"));
+
+            "And I get the Foo"
+                .And(() => result = Configurator.Get<Foo>("foo"))
+                .Teardown(() => Configurator.Unload());
+
+            "Then the Foo has a Bar of 'baz'"
+                .Then(() => result.Bar.Should().Be("baz"));
+        }
+
+        [Scenario]
+        public static void RetreivingAnObjectDefinedInTheSecondOfTwoFiles(Foo result)
+        {
+            "Given a config file not containing a Foo"
+                .Given(() =>
+                {
+                    using (var writer = new StreamWriter("foo1.csx"))
+                    {
+                        writer.WriteLine(@"#r ""ConfigR.Features.dll""");
+                        writer.WriteLine(@"using ConfigR.Features;");
+                        writer.WriteLine(@"Configurator.Add(""notfoo"", new CascadingConfigurationFeature.Foo { Bar = ""baz"" });");
+                        writer.Flush();
+                    }
+                })
+                .Teardown(() => File.Delete("foo1.csx"));
+
+            "And another config file containing a Foo with a Bar of 'bazzzzz'"
+                .Given(() =>
+                {
+                    using (var writer = new StreamWriter("foo2.csx"))
+                    {
+                        writer.WriteLine(@"#r ""ConfigR.Features.dll""");
+                        writer.WriteLine(@"using ConfigR.Features;");
+                        writer.WriteLine(@"Configurator.Add(""foo"", new CascadingConfigurationFeature.Foo { Bar = ""bazzzzz"" });");
+                        writer.Flush();
+                    }
+                })
+                .Teardown(() => File.Delete("foo2.csx"));
+
+            "When I load the first file"
+                .When(() => Configurator.Load("foo1.csx"));
+
+            "And I load the second file"
+                .And(() => Configurator.Load("foo2.csx"));
+
+            "And I get the Foo"
+                .And(() => result = Configurator.Get<Foo>("foo"))
+                .Teardown(() => Configurator.Unload());
+
+            "Then the Foo has a Bar of 'baz'"
+                .Then(() => result.Bar.Should().Be("bazzzzz"));
+        }
+
+        [Scenario]
+        public static void RetreivingAnObjectDefinedInAFileWhoseNameIsDefinedInAnotherFile(string otherFileName, Foo result)
+        {
+            "Given a config file containing the name of another config file"
+                .Given(() =>
+                {
+                    using (var writer = new StreamWriter("foo1.csx"))
+                    {
+                        writer.WriteLine(@"#r ""ConfigR.Features.dll""");
+                        writer.WriteLine(@"using ConfigR.Features;");
+                        writer.WriteLine(@"Configurator.Add(""otherFileName"", ""foo2.csx"");");
+                        writer.Flush();
+                    }
+                })
+                .Teardown(() => File.Delete("foo1.csx"));
+
+            "And another config file containing a Foo with a Bar of 'bazzzzz'"
+                .Given(() =>
+                {
+                    using (var writer = new StreamWriter("foo2.csx"))
+                    {
+                        writer.WriteLine(@"#r ""ConfigR.Features.dll""");
+                        writer.WriteLine(@"using ConfigR.Features;");
+                        writer.WriteLine(@"Configurator.Add(""foo"", new CascadingConfigurationFeature.Foo { Bar = ""bazzzzz"" });");
+                        writer.Flush();
+                    }
+                })
+                .Teardown(() => File.Delete("foo2.csx"));
+
+            "When I load the first file"
+                .When(() => Configurator.Load("foo1.csx"));
+
+            "And I get the name of the other file"
+                .And(() => otherFileName = Configurator.Get<string>("otherFileName"));
+
+            "And I load the second file"
+                .And(() => Configurator.Load(otherFileName));
+
+            "And I get the Foo"
+                .And(() => result = Configurator.Get<Foo>("foo"))
+                .Teardown(() => Configurator.Unload());
+
+            "Then the Foo has a Bar of 'baz'"
+                .Then(() => result.Bar.Should().Be("bazzzzz"));
+        }
+
+        public class Foo
+        {
+            public string Bar { get; set; }
+        }
+    }
+}
