@@ -2,6 +2,9 @@
   <GlobalSettings>
     <BooleanProperty Name="WriteCache">False</BooleanProperty>
     <BooleanProperty Name="AutoCheckForUpdate">False</BooleanProperty>
+    <CollectionProperty Name="RecognizedWords">
+      <Value>nullable</Value>
+    </CollectionProperty>
   </GlobalSettings>
   <Parsers>
     <Parser ParserId="StyleCop.CSharp.CsParser">
