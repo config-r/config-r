@@ -93,6 +93,9 @@
     <None Include="ConfigR.Sample.exe.csx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="Custom3.csx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Custom2.Data.csx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
