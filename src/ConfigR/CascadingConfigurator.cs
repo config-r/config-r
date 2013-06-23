@@ -12,7 +12,7 @@ namespace ConfigR
     {
         private static readonly Comparer<dynamic> comparer = new Comparer<dynamic>();
         private readonly List<IConfigurator> configurators = new List<IConfigurator>();
-        private IConfigurator currentAdditionTarget;
+        private Stack<IConfigurator> currentAdditionTargets = new Stack<IConfigurator>();
         private IConfigurator[] configuratorsAwaitingLoad;
 
         public IDictionary<string, dynamic> Configuration
@@ -89,7 +89,7 @@ namespace ConfigR
         {
             Guard.AgainstNullArgument("configurator", configurator);
 
-            this.currentAdditionTarget = configurator;
+            this.currentAdditionTargets.Push(configurator);
             try
             {
                 this.configurators.Add(configurator);
@@ -105,7 +105,10 @@ namespace ConfigR
             }
             finally
             {
-                this.currentAdditionTarget = this.configurators.FirstOrDefault();
+                if (this.currentAdditionTargets.Count > 1)
+                {
+                    this.currentAdditionTargets.Pop();
+                }
             }
 
             return this;
@@ -115,7 +118,7 @@ namespace ConfigR
         {
             this.EnsureLoaded();
 
-            this.currentAdditionTarget.Add(key, value);
+            this.currentAdditionTargets.Peek().Add(key, value);
             return this;
         }
 
