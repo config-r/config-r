@@ -12,7 +12,7 @@ Powered by [scriptcs](https://github.com/scriptcs/scriptcs) and [Roslyn](http://
 
 * Create a console app in Visual Studio
 * Install ConfigR from [NuGet](https://nuget.org/packages/ConfigR/ "ConfigR on Nuget")
-* Add a new file named the same as your project output file with a `csx` extension, e.g. `ConsoleAppliction1.exe.csx` and in the file properties set `Copy to Output Directory` to `Copy if newer`
+* Add a new file named the same as your project output file with a `csx` extension, e.g. `ConsoleAppliction1.exe.csx` and in the file properties set `Copy to Output Directory` to `Copy always`
 * Add some configuration to the csx file e.g.
 
 ```C#
@@ -37,7 +37,7 @@ Congratulations! You've freed yourself from the shackles of XML and strings! :tr
 
 ConfigR does plenty more! Features include the ability to specify the path of your configuration file(s), multiple cascading configuration files and custom configurators. [See the wiki for details](https://github.com/config-r/config-r/wiki).
 
-TIP: you can write **any C# you like** in your 'configuration file' :wink:.
+TIP: you can write **any C# you like** in your 'configuration file' :wink:. The scriptcs [#load](https://github.com/scriptcs/scriptcs/wiki/Writing-a-script#loading-referenced-scripts) and [#r](https://github.com/scriptcs/scriptcs/wiki/Writing-a-script#referencing-assemblies) features are both supported for loading scripts and referencing assemblies.
 
 ## Updates
 
