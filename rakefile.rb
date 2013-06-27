@@ -26,6 +26,12 @@ end
 desc "Execute default tasks"
 task :default => [:spec, :feature, :pack]
 
+desc "Restore solution level NuGet packages"
+exec :restore do |cmd|
+  cmd.command = nuget_command
+  cmd.parameters "install #{File.dirname(nuget_command)}/packages.config -output #{File.dirname(solution)}/packages"
+end
+
 desc "Clean solution"
 msbuild :clean do |msb|
   FileUtils.rmtree output
@@ -35,7 +41,7 @@ msbuild :clean do |msb|
 end
 
 desc "Build solution"
-msbuild :build => [:clean] do |msb|
+msbuild :build => [:clean, :restore] do |msb|
   msb.properties = { :configuration => :Release }
   msb.targets = [:Build]
   msb.solution = solution
