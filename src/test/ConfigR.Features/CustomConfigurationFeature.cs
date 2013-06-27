@@ -6,6 +6,7 @@ namespace ConfigR.Features
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using FluentAssertions;
     using Xbehave;
 
@@ -35,14 +36,16 @@ namespace ConfigR.Features
 
         public class CustomConfigurator : IConfigurator
         {
-            public IDictionary<string, dynamic> Configuration
+            private readonly Dictionary<string, dynamic> configuration = new Dictionary<string, dynamic> { { "foo", "bar" } };
+
+            public IEnumerable<KeyValuePair<string, dynamic>> Items
             {
-                get { return new Dictionary<string, dynamic> { { "foo", "bar" } }; }
+                get { return this.configuration.Select(item => item); }
             }
 
             public dynamic this[string key]
             {
-                get { return this.Configuration[key]; }
+                get { return this.configuration[key]; }
             }
 
             public IConfigurator Load()
@@ -52,7 +55,13 @@ namespace ConfigR.Features
 
             public IConfigurator Add(string key, dynamic value)
             {
+                this.configuration.Add(key, value);
                 return this;
+            }
+
+            public bool TryGet(string key, out dynamic value)
+            {
+                return this.configuration.TryGetValue(key, out value);
             }
         }
     }

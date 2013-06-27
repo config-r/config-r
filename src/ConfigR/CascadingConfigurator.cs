@@ -15,16 +15,14 @@ namespace ConfigR
         private Stack<IConfigurator> currentAdditionTargets = new Stack<IConfigurator>();
         private IConfigurator[] configuratorsAwaitingLoad;
 
-        public IDictionary<string, dynamic> Configuration
+        public IEnumerable<KeyValuePair<string, dynamic>> Items
         {
             get
             {
                 this.EnsureLoaded();
 
                 IEnumerable<KeyValuePair<string, dynamic>> seed = new KeyValuePair<string, dynamic>[0];
-                return this.configurators
-                    .Aggregate(seed, (current, configurator) => current.Union(configurator.Configuration, comparer))
-                    .ToDictionary(pair => pair.Key, pair => pair.Value);
+                return this.configurators.Aggregate(seed, (current, configurator) => current.Union(configurator.Items, comparer));
             }
         }
 
@@ -120,6 +118,13 @@ namespace ConfigR
 
             this.currentAdditionTargets.Peek().Add(key, value);
             return this;
+        }
+
+        public bool TryGet(string key, out dynamic value)
+        {
+            this.EnsureLoaded();
+
+            return this.Items.ToDictionary(pair => pair.Key, pair => pair.Value).TryGetValue(key, out value);
         }
 
         public CascadingConfigurator Unload()

@@ -15,9 +15,9 @@ namespace ConfigR
             get { return current; }
         }
 
-        public static IDictionary<string, dynamic> Configuration
+        public static IEnumerable<KeyValuePair<string, dynamic>> Configuration
         {
-            get { return current.Configuration; }
+            get { return current.Items; }
         }
 
         public static IConfigurator Add(string key, dynamic value)

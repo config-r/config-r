@@ -7,6 +7,7 @@ namespace ConfigR
     using System;
     using System.Collections.Generic;
     using System.Globalization;
+    using System.Linq;
     using Common.Logging;
     using ScriptCs;
     using ScriptCs.Contracts;
@@ -28,9 +29,9 @@ namespace ConfigR
             get { return this.path; }
         }
 
-        public IDictionary<string, dynamic> Configuration
+        public IEnumerable<KeyValuePair<string, dynamic>> Items
         {
-            get { return this.configuration; }
+            get { return this.configuration.Select(item => item); }
         }
 
         public dynamic this[string key]
@@ -71,6 +72,11 @@ namespace ConfigR
             log.DebugFormat(CultureInfo.InvariantCulture, "Adding configuration item with key '{0}', value {1}.", key, value);
             this.configuration.Add(key, value);
             return this;
+        }
+
+        public bool TryGet(string key, out dynamic value)
+        {
+            return this.configuration.TryGetValue(key, out value);
         }
 
         private class ConfigRScriptPack : ScriptPack<ConfigRPack>
