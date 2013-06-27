@@ -9,12 +9,14 @@ namespace ConfigR
 
     public interface IConfigurator
     {
-        IDictionary<string, dynamic> Configuration { get; }
+        IEnumerable<KeyValuePair<string, dynamic>> Items { get; }
 
         dynamic this[string key] { get; }
 
         IConfigurator Load();
 
         IConfigurator Add(string key, dynamic value);
+
+        bool TryGet(string key, out dynamic value);
     }
 }
