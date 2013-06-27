@@ -15,7 +15,7 @@ namespace ConfigR
             get { return current; }
         }
 
-        public static IEnumerable<KeyValuePair<string, dynamic>> Configuration
+        public static IEnumerable<KeyValuePair<string, dynamic>> Items
         {
             get { return current.Items; }
         }
