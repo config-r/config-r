@@ -50,6 +50,7 @@
     <Compile Include="Configurator.cs" />
     <Compile Include="CascadingConfigurator.cs" />
     <Compile Include="ConfiguratorExtensions.cs" />
+    <Compile Include="ConfigRFileSystem.cs" />
     <Compile Include="Guard.cs" />
     <Compile Include="LocalConfigurator.cs" />
     <Compile Include="IConfigurator.cs" />
