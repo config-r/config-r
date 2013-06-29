@@ -41,15 +41,20 @@ namespace ConfigR
 
         public IConfigurator Load()
         {
+            var fileSystem = new FileSystem();
+            log.DebugFormat(CultureInfo.InvariantCulture, "Initialized file system with current directory {0}", fileSystem.CurrentDirectory);
+            
+            var engine = new RoslynScriptEngine(new ScriptHostFactory(), log);
+            var executor = new ScriptExecutor(fileSystem, new FilePreProcessor(fileSystem, log), engine, log);
+
+            log.DebugFormat(CultureInfo.InvariantCulture, "Initializing script executor");
+            executor.Initialize(new[] { "ConfigR.dll" }, new[] { new ConfigRScriptPack() });
+            engine.BaseDirectory = fileSystem.CurrentDirectory; // NOTE (adamralph): set to bin subfolder in executor.Initialize()!
+
             log.Debug("Clearing configuration");
             this.configuration.Clear();
-            log.DebugFormat(CultureInfo.InvariantCulture, "Loading configuration script {0}", this.path);
-            var engine = new RoslynScriptEngine(new ScriptHostFactory(), log);
-            var fileSystem = new FileSystem();
-            var executor = new ScriptExecutor(fileSystem, new FilePreProcessor(fileSystem, log), engine, log);
+
             log.DebugFormat(CultureInfo.InvariantCulture, "Compiling and executing configuration script {0}", this.path);
-            executor.Initialize(new[] { "ConfigR.dll" }, new[] { new ConfigRScriptPack() });
-            engine.BaseDirectory = fileSystem.CurrentDirectory; // set to /bin in executor.Initialize()
             var result = executor.Execute(this.path);
 
             if (result.CompileException != null)

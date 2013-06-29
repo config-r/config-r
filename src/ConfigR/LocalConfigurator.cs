@@ -5,12 +5,6 @@
 namespace ConfigR
 {
     using System;
-    using System.Collections.Generic;
-    using System.Globalization;
-    using Common.Logging;
-    using ScriptCs;
-    using ScriptCs.Contracts;
-    using ScriptCs.Engine.Roslyn;
 
     public class LocalConfigurator : FileConfigurator
     {
