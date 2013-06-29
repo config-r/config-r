@@ -18,9 +18,7 @@ namespace ConfigR.Testing.Service
         {
             ConfigureLogging();
 
-            var greeting = Configurator.Get<string>("greeting");
-            var valediction = Configurator.Get<string>("valediction");
-            HostFactory.Run(x => x.Service<TestService>(() => new TestService(greeting, valediction)));
+            HostFactory.Run(x => x.Service<TestService>(() => new TestService(Configurator.Current)));
         }
 
         private static void ConfigureLogging()
@@ -43,24 +41,24 @@ namespace ConfigR.Testing.Service
         {
             private static readonly ILog log = Common.Logging.LogManager.GetCurrentClassLogger();
 
-            private readonly string greeting;
-            private readonly string valediction;
+            private readonly IConfigurator configurator;
 
-            public TestService(string greeting, string valediction)
+            public TestService(IConfigurator configurator)
             {
-                this.greeting = greeting;
-                this.valediction = valediction;
+                Guard.AgainstNullArgument("configurator", configurator);
+
+                this.configurator = configurator;
             }
 
             public bool Start(HostControl hostControl)
             {
-                log.Info(this.greeting);
+                log.Info(this.configurator.Get<string>("greeting"));
                 return true;
             }
 
             public bool Stop(HostControl hostControl)
             {
-                log.Info(this.valediction);
+                log.Info(this.configurator.Get<string>("valediction"));
                 return true;
             }
         }

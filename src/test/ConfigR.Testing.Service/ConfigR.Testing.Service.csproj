@@ -46,6 +46,7 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Guard.cs" />
     <Compile Include="Program.cs" />
   </ItemGroup>
   <ItemGroup>
