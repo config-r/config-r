@@ -43,7 +43,7 @@ namespace ConfigR
         {
             var fileSystem = new ConfigRFileSystem(new FileSystem());
             log.DebugFormat(CultureInfo.InvariantCulture, "Initialized file system with current directory {0}", fileSystem.CurrentDirectory);
-            
+
             var engine = new RoslynScriptEngine(new ScriptHostFactory(), log);
             var executor = new ScriptExecutor(fileSystem, new FilePreProcessor(fileSystem, log), engine, log);
 
@@ -74,7 +74,7 @@ namespace ConfigR
 
         public IConfigurator Add(string key, dynamic value)
         {
-            log.DebugFormat(CultureInfo.InvariantCulture, "Adding configuration item with key '{0}', value {1}.", key, value);
+            log.DebugFormat(CultureInfo.InvariantCulture, "Adding configuration item '{0}': {1}.", key, value);
             this.configuration.Add(key, value);
             return this;
         }
