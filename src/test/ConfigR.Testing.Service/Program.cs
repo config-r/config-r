@@ -5,62 +5,23 @@
 namespace ConfigR.Testing.Service
 {
     using System;
-    using System.Collections.Specialized;
-    using System.IO;
     using Common.Logging;
-    using Common.Logging.Log4Net;
     using ConfigR;
     using Topshelf;
 
     public static class Program
     {
+        private static ILog log = LogManager.GetCurrentClassLogger();
+
         public static void Main(string[] args)
         {
-            ConfigureLogging();
-
-            HostFactory.Run(x => x.Service<TestService>(() => new TestService(Configurator.Current)));
-        }
-
-        private static void ConfigureLogging()
-        {
-            AppDomain.CurrentDomain.UnhandledException += (sender, e) =>
+            AppDomain.CurrentDomain.UnhandledException += (sender, e) => log.Fatal((Exception)e.ExceptionObject);
+            HostFactory.Run(x => x.Service<string>(o =>
             {
-                var ex = (Exception)e.ExceptionObject;
-                Common.Logging.LogManager.GetCurrentClassLogger().Fatal(ex);
-                throw ex;
-            };
-
-            LogManager.Adapter = new Log4NetLoggerFactoryAdapter(new NameValueCollection
-            {
-                { "configType", "FILE" },
-                { "configFile", Path.Combine(Path.GetDirectoryName(typeof(Program).Assembly.Location), "log4net.config") },
-            });
-        }
-
-        public class TestService : ServiceControl
-        {
-            private static readonly ILog log = Common.Logging.LogManager.GetCurrentClassLogger();
-
-            private readonly IConfigurator configurator;
-
-            public TestService(IConfigurator configurator)
-            {
-                Guard.AgainstNullArgument("configurator", configurator);
-
-                this.configurator = configurator;
-            }
-
-            public bool Start(HostControl hostControl)
-            {
-                log.Info(this.configurator.Get<Settings>("settings").Greeting);
-                return true;
-            }
-
-            public bool Stop(HostControl hostControl)
-            {
-                log.Info(this.configurator.Get<Settings>("settings").Valediction);
-                return true;
-            }
+                o.ConstructUsing(n => n);
+                o.WhenStarted(n => log.Info(Configurator.Get<Settings>("settings").Greeting));
+                o.WhenStopped(n => log.Info(Configurator.Get<Settings>("settings").Valediction));
+            }));
         }
     }
 }

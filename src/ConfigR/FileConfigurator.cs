@@ -16,7 +16,7 @@ namespace ConfigR
 
     public class FileConfigurator : IConfigurator
     {
-        private static readonly ILog log = Common.Logging.LogManager.GetCurrentClassLogger();
+        private static readonly ILog log = LogManager.GetCurrentClassLogger();
         private readonly Dictionary<string, dynamic> configuration = new Dictionary<string, dynamic>();
         private readonly string path;
 
@@ -45,8 +45,9 @@ namespace ConfigR
             var fileSystem = new ConfigRFileSystem(new FileSystem());
             log.DebugFormat(CultureInfo.InvariantCulture, "Initialized file system with current directory {0}", fileSystem.CurrentDirectory);
 
-            var engine = new RoslynScriptEngine(new ScriptHostFactory(), log);
-            var executor = new ScriptExecutor(fileSystem, new FilePreProcessor(fileSystem, log), engine, log);
+            var scriptCsLog = LogManager.GetLogger("ScriptCs");
+            var engine = new RoslynScriptEngine(new ScriptHostFactory(), scriptCsLog);
+            var executor = new ScriptExecutor(fileSystem, new FilePreProcessor(fileSystem, scriptCsLog), engine, scriptCsLog);
 
             log.DebugFormat(CultureInfo.InvariantCulture, "Initializing script executor");
             executor.Initialize(new string[0], new[] { new ConfigRScriptPack() });
@@ -78,7 +79,7 @@ namespace ConfigR
 
         public IConfigurator Add(string key, dynamic value)
         {
-            log.DebugFormat(CultureInfo.InvariantCulture, "Adding configuration item '{0}': {1}", key, StringExtensions.ToJsv(value));
+            log.DebugFormat(CultureInfo.InvariantCulture, "Adding '{0}': {1}", key, StringExtensions.ToJsv(value));
             this.configuration.Add(key, value);
             return this;
         }
