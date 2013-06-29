@@ -11,7 +11,6 @@ namespace ConfigR
 
     public class ConfigRFileSystem : IFileSystem
     {
-        private static readonly string currentDirectory = Path.GetDirectoryName(typeof(ConfigRFileSystem).Assembly.Location);
         private readonly IFileSystem fileSystem;
 
         [CLSCompliant(false)]
@@ -24,7 +23,7 @@ namespace ConfigR
 
         public string CurrentDirectory
         {
-            get { return currentDirectory; }
+            get { return AppDomain.CurrentDomain.SetupInformation.ApplicationBase; }
         }
 
         public string NewLine

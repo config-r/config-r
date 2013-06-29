@@ -8,7 +8,7 @@ namespace ConfigR
 
     public class LocalConfigurator : FileConfigurator
     {
-        private static readonly string path = System.IO.Path.GetFileNameWithoutExtension(AppDomain.CurrentDomain.SetupInformation.ConfigurationFile) + ".csx";
+        private static readonly string path = System.IO.Path.ChangeExtension(AppDomain.CurrentDomain.SetupInformation.ConfigurationFile, "csx");
 
         public LocalConfigurator()
             : base(path)

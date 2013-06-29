@@ -12,6 +12,7 @@ namespace ConfigR
     using ScriptCs;
     using ScriptCs.Contracts;
     using ScriptCs.Engine.Roslyn;
+    using ServiceStack.Text;
 
     public class FileConfigurator : IConfigurator
     {
@@ -48,7 +49,7 @@ namespace ConfigR
             var executor = new ScriptExecutor(fileSystem, new FilePreProcessor(fileSystem, log), engine, log);
 
             log.DebugFormat(CultureInfo.InvariantCulture, "Initializing script executor");
-            executor.Initialize(new[] { typeof(Configurator).Assembly.Location }, new[] { new ConfigRScriptPack() });
+            executor.Initialize(new string[0], new[] { new ConfigRScriptPack() });
             engine.BaseDirectory = fileSystem.CurrentDirectory; // NOTE (adamralph): set to bin subfolder in executor.Initialize()!
 
             log.Debug("Clearing configuration");
@@ -56,6 +57,9 @@ namespace ConfigR
 
             log.DebugFormat(CultureInfo.InvariantCulture, "Compiling and executing configuration script {0}", this.path);
             var result = executor.Execute(this.path);
+
+            log.DebugFormat(CultureInfo.InvariantCulture, "Terminating script executor");
+            executor.Terminate();
 
             if (result.CompileException != null)
             {
@@ -74,7 +78,7 @@ namespace ConfigR
 
         public IConfigurator Add(string key, dynamic value)
         {
-            log.DebugFormat(CultureInfo.InvariantCulture, "Adding configuration item '{0}': {1}.", key, value);
+            log.DebugFormat(CultureInfo.InvariantCulture, "Adding configuration item '{0}': {1}", key, StringExtensions.ToJsv(value));
             this.configuration.Add(key, value);
             return this;
         }
@@ -98,6 +102,7 @@ namespace ConfigR
                 base.Initialize(session);
 
                 session.ImportNamespace("ConfigR");
+                session.AddReference(typeof(ConfigRScriptPack).Assembly.Location);
             }
         }
 

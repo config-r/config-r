@@ -52,13 +52,13 @@ namespace ConfigR.Testing.Service
 
             public bool Start(HostControl hostControl)
             {
-                log.Info(this.configurator.Get<string>("greeting"));
+                log.Info(this.configurator.Get<Settings>("settings").Greeting);
                 return true;
             }
 
             public bool Stop(HostControl hostControl)
             {
-                log.Info(this.configurator.Get<string>("valediction"));
+                log.Info(this.configurator.Get<Settings>("settings").Valediction);
                 return true;
             }
         }

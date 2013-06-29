@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="Guard.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="Settings.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Common.Logging, Version=2.1.2.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
