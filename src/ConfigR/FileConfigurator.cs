@@ -12,10 +12,11 @@ namespace ConfigR
     using ScriptCs;
     using ScriptCs.Contracts;
     using ScriptCs.Engine.Roslyn;
+    using ServiceStack.Text;
 
     public class FileConfigurator : IConfigurator
     {
-        private static readonly ILog log = Common.Logging.LogManager.GetCurrentClassLogger();
+        private static readonly ILog log = LogManager.GetCurrentClassLogger();
         private readonly Dictionary<string, dynamic> configuration = new Dictionary<string, dynamic>();
         private readonly string path;
 
@@ -41,16 +42,25 @@ namespace ConfigR
 
         public IConfigurator Load()
         {
+            var fileSystem = new ConfigRFileSystem(new FileSystem());
+            log.DebugFormat(CultureInfo.InvariantCulture, "Initialized file system with current directory {0}", fileSystem.CurrentDirectory);
+
+            var scriptCsLog = LogManager.GetLogger("ScriptCs");
+            var engine = new RoslynScriptEngine(new ScriptHostFactory(), scriptCsLog);
+            var executor = new ScriptExecutor(fileSystem, new FilePreProcessor(fileSystem, scriptCsLog), engine, scriptCsLog);
+
+            log.DebugFormat(CultureInfo.InvariantCulture, "Initializing script executor");
+            executor.Initialize(new string[0], new[] { new ConfigRScriptPack() });
+            engine.BaseDirectory = fileSystem.CurrentDirectory; // NOTE (adamralph): set to bin subfolder in executor.Initialize()!
+
             log.Debug("Clearing configuration");
             this.configuration.Clear();
-            log.DebugFormat(CultureInfo.InvariantCulture, "Loading configuration script {0}", this.path);
-            var engine = new RoslynScriptEngine(new ScriptHostFactory(), log);
-            var fileSystem = new FileSystem();
-            var executor = new ScriptExecutor(fileSystem, new FilePreProcessor(fileSystem, log), engine, log);
+
             log.DebugFormat(CultureInfo.InvariantCulture, "Compiling and executing configuration script {0}", this.path);
-            executor.Initialize(new[] { "ConfigR.dll" }, new[] { new ConfigRScriptPack() });
-            engine.BaseDirectory = fileSystem.CurrentDirectory; // set to /bin in executor.Initialize()
             var result = executor.Execute(this.path);
+
+            log.DebugFormat(CultureInfo.InvariantCulture, "Terminating script executor");
+            executor.Terminate();
 
             if (result.CompileException != null)
             {
@@ -69,7 +79,7 @@ namespace ConfigR
 
         public IConfigurator Add(string key, dynamic value)
         {
-            log.DebugFormat(CultureInfo.InvariantCulture, "Adding configuration item with key '{0}', value {1}.", key, value);
+            log.DebugFormat(CultureInfo.InvariantCulture, "Adding '{0}': {1}", key, StringExtensions.ToJsv(value));
             this.configuration.Add(key, value);
             return this;
         }
@@ -93,6 +103,7 @@ namespace ConfigR
                 base.Initialize(session);
 
                 session.ImportNamespace("ConfigR");
+                session.AddReference(typeof(ConfigRScriptPack).Assembly.Location);
             }
         }
 

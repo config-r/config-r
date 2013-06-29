@@ -26,6 +26,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sample", "Sample", "{42CCC2
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConfigR.Sample", "ConfigR.Sample\ConfigR.Sample.csproj", "{57B9AA12-79B6-4899-BF02-26C8E808747A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConfigR.Testing.Service", "test\ConfigR.Testing.Service\ConfigR.Testing.Service.csproj", "{3ABA6C87-14D3-4CDE-ADEA-052381287C99}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -44,12 +46,17 @@ Global
 		{57B9AA12-79B6-4899-BF02-26C8E808747A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{57B9AA12-79B6-4899-BF02-26C8E808747A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{57B9AA12-79B6-4899-BF02-26C8E808747A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3ABA6C87-14D3-4CDE-ADEA-052381287C99}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3ABA6C87-14D3-4CDE-ADEA-052381287C99}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3ABA6C87-14D3-4CDE-ADEA-052381287C99}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3ABA6C87-14D3-4CDE-ADEA-052381287C99}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{B80B228F-08E7-44F7-8209-6556DC4E68FB} = {BFAB0B22-0936-409D-AA3A-04E5C503F479}
+		{3ABA6C87-14D3-4CDE-ADEA-052381287C99} = {BFAB0B22-0936-409D-AA3A-04E5C503F479}
 		{57B9AA12-79B6-4899-BF02-26C8E808747A} = {42CCC2FF-268C-4D91-90BD-D63C9D8B25CB}
 	EndGlobalSection
 EndGlobal
