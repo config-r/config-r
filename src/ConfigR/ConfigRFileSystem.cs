@@ -22,6 +22,16 @@ namespace ConfigR
             this.fileSystem = fileSystem;
         }
 
+        public string CurrentDirectory
+        {
+            get { return currentDirectory; }
+        }
+
+        public string NewLine
+        {
+            get { return this.fileSystem.NewLine; }
+        }
+
         public IEnumerable<string> EnumerateFiles(string dir, string searchPattern)
         {
             return this.fileSystem.EnumerateFiles(dir, searchPattern);
@@ -60,16 +70,6 @@ namespace ConfigR
         public bool IsPathRooted(string path)
         {
             return this.fileSystem.IsPathRooted(path);
-        }
-
-        public string CurrentDirectory
-        {
-            get { return currentDirectory; }
-        }
-
-        public string NewLine
-        {
-            get { return this.fileSystem.NewLine; }
         }
 
         public DateTime GetLastWriteTime(string file)
