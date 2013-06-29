@@ -74,7 +74,7 @@ def execute_xunit(tests)
     xunit = XUnitTestRunner.new
     xunit.command = test[:command]
     xunit.assembly = test[:assembly]
-    xunit.options "/html", File.expand_path(test[:assembly] + ".TestResults.html"), "/xml", File.expand_path(test[:assembly] + ".TestResults.xml")
+    xunit.options "/html", File.expand_path(test[:assembly] + ".TestResults.html"), "/xml", File.expand_path(test[:assembly] + ".TestResults.xml"), "/noshadow"
     xunit.execute  
   end
 end
