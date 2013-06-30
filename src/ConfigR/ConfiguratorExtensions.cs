@@ -4,7 +4,9 @@
 
 namespace ConfigR
 {
-    using System.Diagnostics.CodeAnalysis;
+    using System;
+    using System.Globalization;
+    using Microsoft.CSharp.RuntimeBinder;
 
     public static class ConfiguratorExtensions
     {
@@ -22,7 +24,7 @@ namespace ConfigR
         {
             Guard.AgainstNullArgument("configurator", configurator);
 
-            return (T)configurator[key];
+            return Get<T>(key, configurator[key]);
         }
 
         public static T GetOrDefault<T>(this IConfigurator configurator, string key)
@@ -30,7 +32,7 @@ namespace ConfigR
             Guard.AgainstNullArgument("configurator", configurator);
 
             dynamic value;
-            return configurator.TryGet(key, out value) ? (T)value : default(T);
+            return configurator.TryGet(key, out value) ? Get<T>(key, value) : default(T);
         }
 
         public static bool TryGet<T>(this IConfigurator configurator, string key, out T value)
@@ -44,8 +46,20 @@ namespace ConfigR
                 return false;
             }
 
-            value = (T)dynamicValue;
+            value = Get<T>(key, dynamicValue);
             return true;
+        }
+
+        private static T Get<T>(string key, dynamic value)
+        {
+            try
+            {
+                return (T)value;
+            }
+            catch (RuntimeBinderException ex)
+            {
+                throw new InvalidOperationException(string.Format(CultureInfo.InvariantCulture, "Error getting '{0}'.", key), ex);
+            }
         }
     }
 }

@@ -61,6 +61,7 @@
     <Compile Include="CustomConfigurationFeature.cs" />
     <Compile Include="FileConfigurationFeature.cs" />
     <Compile Include="LocalConfigurationFeature.cs" />
+    <Compile Include="TypedConfigurationItemFeature.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\ConfigR\ConfigR.csproj">

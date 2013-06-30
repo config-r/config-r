@@ -4,10 +4,12 @@
 
 namespace ConfigR.Features
 {
+    using System;
     using System.IO;
     using System.Reflection;
     using FluentAssertions;
     using Xbehave;
+    using Xunit;
 
     public static class CascadingConfigurationFeature
     {
@@ -141,6 +143,33 @@ namespace ConfigR.Features
 
             "Then the Foo has a Bar of 'baz'"
                 .Then(() => result.Bar.Should().Be("bazzzzz"));
+        }
+
+        [Scenario]
+        public static void TryingToRetreiveANonExistentObject(Exception ex)
+        {
+            "Given an empty config file"
+                .f(() =>
+                {
+                    using (var writer = new StreamWriter("foo1.csx"))
+                    {
+                        writer.Flush();
+                    }
+                })
+                .Teardown(() => File.Delete("foo1.csx"));
+
+            "When I load the file"
+                .f(() => Configurator.Load("foo1.csx"));
+
+            "And I try and get an object named 'foo'"
+                .f(() => ex = Record.Exception(() => Configurator.Get<Foo>("foo")))
+                .Teardown(() => Configurator.Unload());
+
+            "Then an exception is thrown"
+                .f(() => ex.Should().NotBeNull());
+
+            "And the exception message contains 'foo'"
+                .f(() => ex.Message.Should().Contain("foo"));
         }
 
         public class Foo
