@@ -6,6 +6,7 @@ namespace ConfigR
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq;
 
     public class CascadingConfigurator : IConfigurator
@@ -46,7 +47,7 @@ namespace ConfigR
                     }
                 }
 
-                throw new KeyNotFoundException();
+                throw new KeyNotFoundException(string.Format(CultureInfo.InvariantCulture, "'{0}' not found.", key));
             }
         }
 
