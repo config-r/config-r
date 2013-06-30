@@ -11,6 +11,6 @@
   </head>
   <body>
     <img src="@Path['~/Content/nancy-logo.png']" alt="Nancy logo" /><br />
-    This view was rendered using the SuperSimpleViewEngine
+    @Model.Greeting
   </body>
 </html>

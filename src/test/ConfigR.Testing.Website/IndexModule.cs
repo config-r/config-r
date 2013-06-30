@@ -4,6 +4,7 @@
 
 namespace ConfigR.Testing.Website
 {
+    using ConfigR;
     using Nancy;
 
     public class IndexModule : NancyModule
@@ -12,7 +13,8 @@ namespace ConfigR.Testing.Website
         {
             this.Get["/"] = parameters =>
             {
-                return View["index"];
+                var model = new { Greeting = Configurator.Get<string>("greeting") };
+                return View["index", model];
             };
         }
     }
