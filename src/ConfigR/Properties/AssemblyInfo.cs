@@ -7,7 +7,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 
 [assembly: AssemblyTitle("ConfigR")]
-[assembly: AssemblyDescription("C# configuration for .NET apps based on scriptcs.")]
+[assembly: AssemblyDescription("Write your .NET configuration files in C#.")]
 [assembly: AssemblyCompany("ConfigR contributors")]
 [assembly: AssemblyProduct("ConfigR")]
 [assembly: AssemblyCopyright("Copyright (c) ConfigR contributors. (configr.net@gmail.com)")]
@@ -17,4 +17,4 @@ using System.Runtime.InteropServices;
 
 [assembly: AssemblyVersion("0.2.0")]
 [assembly: AssemblyFileVersion("0.2.0")]
-[assembly: AssemblyInformationalVersion("0.2.0-beta05")]
+[assembly: AssemblyInformationalVersion("0.2.0")]
