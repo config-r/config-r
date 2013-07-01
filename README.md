@@ -2,7 +2,7 @@
 
 Write your .NET configuration files in C# :sunglasses:.
 
-Fed up with XML soup? Frustrated that app settings can only be strings? Then ConfigR is for you!
+Fed up with XML soup? Frustrated that app settings can only be strings? Want to do more in your configuration file than just define objects? Then ConfigR is for you!
 
 Get it at [NuGet](https://nuget.org/packages/ConfigR/ "ConfigR on Nuget").
 
