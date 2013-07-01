@@ -10,16 +10,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Write your .NET configuration files in C#.
 Fed up with XML soup? Frustrated that app settings can only be strings? Want to do more in your configuration file than just define objects? Then ConfigR is for you!</description>
-    <releaseNotes>New: Support for Web.csx for web apps - https://github.com/config-r/config-r/issues/24/
-New: Support for windows services - https://github.com/config-r/config-r/issues/30/
-New: Ability to specify configuration file path - https://github.com/config-r/config-r/issues/7/
-New: Multiple cascading configuration files - https://github.com/config-r/config-r/issues/13/
-New: Ability to use custom configurators - https://github.com/config-r/config-r/issues/14/
-New: Support #load in scripts - https://github.com/config-r/config-r/issues/15/
-New: Descriptive exceptions when config items are incorrectly typed - https://github.com/config-r/config-r/issues/33/
-New: Descriptive exceptions when config items are missing - https://github.com/config-r/config-r/issues/35/
-Fixed: (Breaking) Adding items to Configurator.Configuration has no effect - https://github.com/config-r/config-r/issues/25/
-Other: Abandon ILMerging of dependencies - https://github.com/config-r/config-r/issues/22/</releaseNotes>
+    <releaseNotes>TBD</releaseNotes>
     <copyright>Copyright (c) ConfigR contributors. (configr.net@gmail.com)</copyright>
     <tags>configuration</tags>
     <dependencies>
