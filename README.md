@@ -54,3 +54,8 @@ No pull request is too small. Even whitespace fixes are appreciated. Before you 
 ## What do the version numbers mean? ##
 
 ConfigR uses [Semantic Versioning](http://semver.org/). The current release is 0.x which means 'initial development'. Version 1.0 will follow the release of [scriptcs](https://github.com/scriptcs/scriptcs) version 1.0.
+
+## Sponsors ##
+Our build server is kindly provided by [CodeBetter](http://codebetter.com/) and [JetBrains](http://www.jetbrains.com/).
+
+![YouTrack and TeamCity](http://www.jetbrains.com/img/banners/Codebetter300x250.png)
