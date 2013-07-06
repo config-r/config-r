@@ -45,6 +45,8 @@ namespace ConfigR
             var fileSystem = new ConfigRFileSystem(new FileSystem());
             log.DebugFormat(CultureInfo.InvariantCulture, "Initialized file system with current directory {0}", fileSystem.CurrentDirectory);
 
+            log.InfoFormat(CultureInfo.InvariantCulture, "Loading '{0}'", fileSystem.GetFullPath(this.path));
+
             var scriptCsLog = LogManager.GetLogger("ScriptCs");
             var engine = new RoslynScriptEngine(new ScriptHostFactory(), scriptCsLog);
             var executor = new ScriptExecutor(fileSystem, new FilePreProcessor(fileSystem, scriptCsLog), engine, scriptCsLog);
