@@ -5,19 +5,14 @@
 namespace ConfigR
 {
     using System;
-    using System.Collections.Generic;
     using System.Globalization;
-    using System.Linq;
     using Common.Logging;
     using ScriptCs;
-    using ScriptCs.Contracts;
     using ScriptCs.Engine.Roslyn;
-    using ServiceStack.Text;
 
-    public class FileConfigurator : IConfigurator
+    public class FileConfigurator : BasicConfigurator
     {
         private static readonly ILog log = LogManager.GetCurrentClassLogger();
-        private readonly Dictionary<string, dynamic> configuration = new Dictionary<string, dynamic>();
         private readonly string path;
 
         public FileConfigurator(string path)
@@ -30,17 +25,7 @@ namespace ConfigR
             get { return this.path; }
         }
 
-        public IEnumerable<KeyValuePair<string, dynamic>> Items
-        {
-            get { return this.configuration.Select(item => item); }
-        }
-
-        public dynamic this[string key]
-        {
-            get { return this.configuration[key]; }
-        }
-
-        public IConfigurator Load()
+        public override IConfigurator Load()
         {
             var fileSystem = new ConfigRFileSystem(new FileSystem());
             log.DebugFormat(CultureInfo.InvariantCulture, "Initialized file system with current directory {0}", fileSystem.CurrentDirectory);
@@ -52,11 +37,8 @@ namespace ConfigR
             var executor = new ScriptExecutor(fileSystem, new FilePreProcessor(fileSystem, scriptCsLog), engine, scriptCsLog);
 
             log.DebugFormat(CultureInfo.InvariantCulture, "Initializing script executor");
-            executor.Initialize(new string[0], new[] { new ConfigRScriptPack() });
+            executor.Initialize(new string[0], new[] { new ConfigRScriptHack() });
             engine.BaseDirectory = fileSystem.CurrentDirectory; // NOTE (adamralph): set to bin subfolder in executor.Initialize()!
-
-            log.Debug("Clearing configuration");
-            this.configuration.Clear();
 
             log.DebugFormat(CultureInfo.InvariantCulture, "Compiling and executing configuration script {0}", this.path);
             var result = executor.Execute(this.path);
@@ -77,40 +59,6 @@ namespace ConfigR
             }
 
             return this;
-        }
-
-        public IConfigurator Add(string key, dynamic value)
-        {
-            log.DebugFormat(CultureInfo.InvariantCulture, "Adding '{0}': {1}", key, StringExtensions.ToJsv(value));
-            this.configuration.Add(key, value);
-            return this;
-        }
-
-        public bool TryGet(string key, out dynamic value)
-        {
-            return this.configuration.TryGetValue(key, out value);
-        }
-
-        private class ConfigRScriptPack : ScriptPack<ConfigRPack>
-        {
-            public ConfigRScriptPack()
-            {
-                this.Context = new ConfigRPack();
-            }
-
-            public override void Initialize(IScriptPackSession session)
-            {
-                Guard.AgainstNullArgument("session", session);
-
-                base.Initialize(session);
-
-                session.ImportNamespace("ConfigR");
-                session.AddReference(typeof(ConfigRScriptPack).Assembly.Location);
-            }
-        }
-
-        private class ConfigRPack : IScriptPackContext
-        {
         }
     }
 }
