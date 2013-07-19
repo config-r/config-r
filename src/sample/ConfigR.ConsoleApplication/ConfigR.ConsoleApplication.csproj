@@ -67,7 +67,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="ConfigR.Sample.exe.csx">
+    <None Include="ConfigR.ConsoleApplication.exe.csx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Custom3.csx">

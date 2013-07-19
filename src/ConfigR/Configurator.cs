@@ -4,6 +4,7 @@
 
 namespace ConfigR
 {
+    using System;
     using System.Collections.Generic;
 
     public static class Configurator
@@ -43,6 +44,11 @@ namespace ConfigR
         public static T GetOrDefault<T>(string key)
         {
             return current.GetOrDefault<T>(key);
+        }
+
+        public static CascadingConfigurator Load(Uri uri)
+        {
+            return current.Load(uri);
         }
 
         public static CascadingConfigurator Load(string path)

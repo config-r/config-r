@@ -73,7 +73,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="ConfigR.Testing.Service.exe.csx">
+    <None Include="ConfigR.WindowsService.exe.csx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />
