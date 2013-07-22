@@ -69,6 +69,11 @@ namespace ConfigR
             return this;
         }
 
+        public CascadingConfigurator Load(Uri uri)
+        {
+            return this.Load(new WebConfigurator(uri));
+        }
+
         public CascadingConfigurator Load(string path)
         {
             return this.Load(new FileConfigurator(path));
