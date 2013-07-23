@@ -18,7 +18,7 @@ namespace ConfigR
         {
             log.DebugFormat(CultureInfo.InvariantCulture, "The current directory is {0}", this.fileSystem.CurrentDirectory);
             var path = this.GetScriptPath();
-            log.InfoFormat(CultureInfo.InvariantCulture, "Loading '{0}'", this.fileSystem.GetFullPath(path));
+            log.DebugFormat(CultureInfo.InvariantCulture, "Executing '{0}'", this.fileSystem.GetFullPath(path));
             using (var executor = new ConfigRScriptExecutor(this.fileSystem))
             {
                 executor.Initialize(new string[0], new[] { new ConfigRScriptHack() });
