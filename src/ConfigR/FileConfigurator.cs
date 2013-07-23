@@ -4,8 +4,12 @@
 
 namespace ConfigR
 {
+    using Common.Logging;
+
     public class FileConfigurator : ScriptConfigurator
     {
+        private static readonly ILog log = LogManager.GetCurrentClassLogger();
+
         private readonly string path;
 
         public FileConfigurator(string path)
@@ -16,6 +20,12 @@ namespace ConfigR
         public string Path
         {
             get { return this.path; }
+        }
+
+        public override IConfigurator Load()
+        {
+            log.InfoFormat("Loading '{0}'", this.path);
+            return base.Load();
         }
 
         protected override string GetScriptPath()
