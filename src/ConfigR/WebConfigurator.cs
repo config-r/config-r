@@ -27,6 +27,12 @@ namespace ConfigR
             get { return this.uri; }
         }
 
+        public override IConfigurator Load()
+        {
+            log.InfoFormat("Loading '{0}'", this.uri.ToString());
+            return base.Load();
+        }
+
         protected override string GetScriptPath()
         {
             var path = Path.GetTempFileName();
