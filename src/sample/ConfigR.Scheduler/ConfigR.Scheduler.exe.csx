@@ -10,20 +10,20 @@ Configurator
         {
             new Schedule
             {
-                Action = () => Console.WriteLine("First schedule is running!"),
+                Action = () => Console.WriteLine("{0}: 1st schedule is running!", DateTime.Now.ToString("o")),
                 NextRun = DateTime.Now.AddSeconds(1),
                 RepeatInterval = TimeSpan.FromSeconds(4),
             },
             new Schedule
             {
-                Action = () => Console.WriteLine("Second schedule is running!"),
+                Action = () => Console.WriteLine("{0}: 2nd schedule is running!", DateTime.Now.ToString("o")),
                 NextRun = DateTime.Now.AddSeconds(2),
                 RepeatInterval = TimeSpan.FromSeconds(4),
             },
             new Schedule
             {
-                Action = () => Console.WriteLine("Third schedule is running!"),
-                NextRun = DateTime.Now.AddSeconds(2),
+                Action = () => Console.WriteLine("{0}: 3rd schedule is running!", DateTime.Now.ToString("o")),
+                NextRun = DateTime.Now.AddSeconds(3),
                 RepeatInterval = TimeSpan.FromSeconds(4),
             },
         });
