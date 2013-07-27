@@ -10,20 +10,32 @@ Configurator
         {
             new Schedule
             {
-                Action = () => Console.WriteLine("{0}: 1st schedule is running!", DateTime.Now.ToString("o")),
-                NextRun = DateTime.Now.AddSeconds(1),
-                RepeatInterval = TimeSpan.FromSeconds(4),
+                Action = () =>
+                    {
+                        Console.WriteLine("{0}: The 1st schedule is sending some emails!", DateTime.Now.ToString("o"));
+                        // send some emails
+                    },
+                NextRun = DateTime.Now.AddSeconds(4),
+                RepeatInterval = TimeSpan.FromSeconds(8),
             },
             new Schedule
             {
-                Action = () => Console.WriteLine("{0}: 2nd schedule is running!", DateTime.Now.ToString("o")),
-                NextRun = DateTime.Now.AddSeconds(2),
-                RepeatInterval = TimeSpan.FromSeconds(4),
+                Action = () =>
+                    {
+                        Console.WriteLine("{0}: The 2nd schedule is downloading some reports!", DateTime.Now.ToString("o"));
+                        // download some reports
+                    },
+                NextRun = DateTime.Now.AddSeconds(6),
+                RepeatInterval = TimeSpan.FromSeconds(8),
             },
             new Schedule
             {
-                Action = () => Console.WriteLine("{0}: 3rd schedule is running!", DateTime.Now.ToString("o")),
-                NextRun = DateTime.Now.AddSeconds(3),
-                RepeatInterval = TimeSpan.FromSeconds(4),
-            },
+                Action = () =>
+                    {
+                        Console.WriteLine("{0}: The 3rd schedule is performing some housekeeping!", DateTime.Now.ToString("o"));
+                        // perform some housekeeping
+                    },
+                NextRun = DateTime.Now.AddSeconds(8),
+                RepeatInterval = TimeSpan.FromSeconds(8),
+            }
         });

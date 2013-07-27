@@ -16,8 +16,9 @@ namespace ConfigR.Scheduler
     {
         public static void Main(string[] args)
         {
-            var log = LogManager.GetCurrentClassLogger();
-            AppDomain.CurrentDomain.UnhandledException += (sender, e) => log.Error((Exception)e.ExceptionObject);
+            // NOTE (Adam): I purposely ommitted some stuff which ought to be in here to avoid cluttering the sample, including:
+            // * thread safety between schedule execution and timer disposal
+            // * initialization/schedule execution overlapping with next dueTime - currently an exception would be thrown due to negative dueTime
             HostFactory.Run(h => h.Service<Schedule[]>(s =>
             {
                 s.ConstructUsing(() => Configurator.Get<Schedule[]>("Schedules"));
@@ -34,7 +35,7 @@ namespace ConfigR.Scheduler
                             }
                             catch (Exception ex)
                             {
-                                log.Error("Error executing schedule", ex);
+                                LogManager.GetCurrentClassLogger().Error("Error executing schedule", ex);
                             }
 
                             timers[schedule].Change((schedule.NextRun += schedule.RepeatInterval) - DateTime.Now, TimeSpan.FromMilliseconds(-1));
