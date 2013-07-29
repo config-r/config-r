@@ -21,6 +21,11 @@ namespace ConfigR
             get { return current.Items; }
         }
 
+        public static IConfigurator Add(dynamic value)
+        {
+            return current.Add(value as object);
+        }
+
         public static IConfigurator Add(string key, dynamic value)
         {
             return current.Add(key, value);
@@ -34,6 +39,11 @@ namespace ConfigR
         public static dynamic GetOrDefault(string key)
         {
             return current.GetOrDefault(key);
+        }
+
+        public static T Get<T>()
+        {
+            return current.Get<T>();
         }
 
         public static T Get<T>(string key)
