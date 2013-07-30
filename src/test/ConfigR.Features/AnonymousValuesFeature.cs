@@ -89,7 +89,34 @@ namespace ConfigR.Features
         }
 
         [Scenario]
-        public static void TryingToRetreiveANonExistentAnonymousValue(Exception ex)
+        public static void TryingToRetreiveAnAnonymousValue(Foo value, bool result)
+        {
+            "Given a local config file containing a named Foo with a Bar of 'baz'"
+                .Given(() =>
+                {
+                    using (var writer = new StreamWriter(new LocalConfigurator().Path))
+                    {
+                        writer.WriteLine(@"#r ""ConfigR.Features.dll""");
+                        writer.WriteLine(@"using ConfigR.Features;");
+                        writer.WriteLine(@"Configurator.Add(""foo"", new AnonymousValuesFeature.Foo { Bar = ""baz"" });");
+                        writer.Flush();
+                    }
+                })
+                .Teardown(() => File.Delete(new LocalConfigurator().Path));
+
+            "When I try to get a Foo"
+                .When(() => result = Configurator.TryGet<Foo>(out value))
+                .Teardown(() => Configurator.Unload());
+
+            "Then the result is true"
+                .Then(() => result.Should().BeTrue());
+
+            "And the Foo has a Bar of 'baz'"
+                .And(() => value.Bar.Should().Be("baz"));
+        }
+
+        [Scenario]
+        public static void RetreivingANonExistentAnonymousValue(Exception ex)
         {
             "Given a local config file not containing any string item"
                 .Given(() =>
@@ -111,6 +138,56 @@ namespace ConfigR.Features
 
             "Then an exception is thrown"
                 .Then(() => ex.Should().NotBeNull());
+        }
+
+        [Scenario]
+        public static void RetreivingANonExistentAnonymousValueOrDefault(string result)
+        {
+            "Given a local config file not containing any string item"
+                .Given(() =>
+                {
+                    using (var writer = new StreamWriter(new LocalConfigurator().Path))
+                    {
+                        writer.WriteLine(@"#r ""ConfigR.Features.dll""");
+                        writer.WriteLine(@"using ConfigR.Features;");
+                        writer.WriteLine(@"Configurator.Add(""foo"", new AnonymousValuesFeature.Foo { Bar = ""baz"" });");
+                        writer.WriteLine(@"Configurator.Add(""id"", 12);");
+                        writer.Flush();
+                    }
+                })
+                .Teardown(() => File.Delete(new LocalConfigurator().Path));
+
+            "When I get a string item or default"
+                .When(() => result = Configurator.GetOrDefault<string>())
+                .Teardown(() => Configurator.Unload());
+
+            "Then the result should be the default string"
+                .Then(() => result.Should().Be(default(string)));
+        }
+
+        [Scenario]
+        public static void TryingToRetreiveANonExistentAnonymousValue(string value, bool result)
+        {
+            "Given a local config file not containing any string item"
+                .Given(() =>
+                {
+                    using (var writer = new StreamWriter(new LocalConfigurator().Path))
+                    {
+                        writer.WriteLine(@"#r ""ConfigR.Features.dll""");
+                        writer.WriteLine(@"using ConfigR.Features;");
+                        writer.WriteLine(@"Configurator.Add(""foo"", new AnonymousValuesFeature.Foo { Bar = ""baz"" });");
+                        writer.WriteLine(@"Configurator.Add(""id"", 12);");
+                        writer.Flush();
+                    }
+                })
+                .Teardown(() => File.Delete(new LocalConfigurator().Path));
+
+            "When I try to get a string item"
+                .When(() => result = Configurator.TryGet<string>(out value))
+                .Teardown(() => Configurator.Unload());
+
+            "Then the result should be false"
+                .Then(() => result.Should().BeFalse());
         }
 
         public class Foo
