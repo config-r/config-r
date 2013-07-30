@@ -31,6 +31,21 @@ namespace ConfigR
             return current.Add(key, value);
         }
 
+        public static T Get<T>()
+        {
+            return current.Get<T>();
+        }
+
+        public static T GetOrDefault<T>()
+        {
+            return current.GetOrDefault<T>();
+        }
+
+        public static bool TryGet<T>(out T value)
+        {
+            return current.TryGet<T>(out value);
+        }
+
         public static dynamic Get(string key)
         {
             return current[key];
@@ -41,9 +56,9 @@ namespace ConfigR
             return current.GetOrDefault(key);
         }
 
-        public static T Get<T>()
+        public static bool TryGet(string key, out dynamic value)
         {
-            return current.Get<T>();
+            return current.TryGet(key, out value);
         }
 
         public static T Get<T>(string key)
@@ -54,6 +69,11 @@ namespace ConfigR
         public static T GetOrDefault<T>(string key)
         {
             return current.GetOrDefault<T>(key);
+        }
+
+        public static bool TryGet<T>(string key, out T value)
+        {
+            return current.TryGet<T>(key, out value);
         }
 
         public static CascadingConfigurator Load(Uri uri)
