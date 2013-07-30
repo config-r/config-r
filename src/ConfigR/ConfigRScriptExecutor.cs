@@ -6,6 +6,8 @@ namespace ConfigR
 {
     using System;
     using System.Collections.Generic;
+    using System.Runtime.ExceptionServices;
+
     using Common.Logging;
     using ScriptCs;
     using ScriptCs.Contracts;
@@ -36,17 +38,10 @@ namespace ConfigR
         public override ScriptResult Execute(string script, string[] scriptArgs)
         {
             var result = base.Execute(script, scriptArgs);
-            if (result.CompileException != null)
-            {
-                log.ErrorFormat("Failed to compile {0}", result.CompileException, script);
-                result.CompileException.RethrowWithNoStackTraceLoss();
-            }
 
-            if (result.ExecuteException != null)
-            {
-                log.ErrorFormat("Failed to execute {0}", result.ExecuteException, script);
-                result.ExecuteException.RethrowWithNoStackTraceLoss();
-            }
+            RethrowCompileExceptionIfAny(result, script);
+
+            RethrowExecuteExceptionIfAny(result, script);
 
             return result;
         }
@@ -54,6 +49,29 @@ namespace ConfigR
         public void Dispose()
         {
             this.Terminate();
+        }
+
+        private static void RethrowExecuteExceptionIfAny(ScriptResult result, string script)
+        {
+            RethrowExceptionIfAny(result.CompileException, "Failed to execute {0}", script);
+        }
+
+        private static void RethrowCompileExceptionIfAny(ScriptResult result, string script)
+        {
+            RethrowExceptionIfAny(result.CompileException, "Failed to compile {0}", script);
+        }
+
+        private static void RethrowExceptionIfAny(Exception exception, string logFormat, string script)
+        {
+            if (exception == null)
+            {
+                return;
+            }
+
+            log.ErrorFormat(logFormat, exception, script);
+
+            var dispatchInfo = ExceptionDispatchInfo.Capture(exception);
+            dispatchInfo.Throw();
         }
     }
 }
