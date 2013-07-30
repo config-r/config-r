@@ -5,16 +5,50 @@
 namespace ConfigR
 {
     using System;
-    using System.Collections.Generic;
     using System.Configuration;
     using System.Globalization;
+    using System.Linq;
     using Microsoft.CSharp.RuntimeBinder;
 
     public static class ConfiguratorExtensions
     {
         public static IConfigurator Add(this IConfigurator configurator, dynamic value)
-        {            
+        {
             return configurator.Add(Guid.NewGuid().ToString(), value);
+        }
+
+        public static T Get<T>(this IConfigurator configurator)
+        {
+            T value;
+            if (!configurator.TryGet<T>(out value))
+            {
+                throw new ConfigurationErrorsException("Type not found.");
+            }
+
+            return value;
+        }
+
+        public static T GetOrDefault<T>(this IConfigurator configurator)
+        {
+            T value;
+            return configurator.TryGet<T>(out value) ? value : default(T);
+        }
+
+        public static bool TryGet<T>(this IConfigurator configurator, out T value)
+        {
+            Guard.AgainstNullArgument("configurator", configurator);
+
+            value = default(T);
+            foreach (var candidate in configurator.Items.Select(pair => pair.Value).Where(candidate => candidate != null))
+            {
+                if (typeof(T).IsAssignableFrom(candidate.GetType()))
+                {
+                    value = candidate;
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         public static dynamic Get(this IConfigurator configurator, string key)
@@ -25,13 +59,6 @@ namespace ConfigR
         public static dynamic GetOrDefault(this IConfigurator configurator, string key)
         {
             return configurator.GetOrDefault<dynamic>(key);
-        }
-
-        public static T Get<T>(this IConfigurator configurator)
-        {
-            Guard.AgainstNullArgument("configurator", configurator);
-
-            return Get<T>(configurator.Items);
         }
 
         public static T Get<T>(this IConfigurator configurator, string key)
@@ -74,24 +101,6 @@ namespace ConfigR
             {
                 throw new InvalidOperationException(string.Format(CultureInfo.InvariantCulture, "Error getting '{0}'.", key), ex);
             }
-        }
-
-        private static T Get<T>(IEnumerable<KeyValuePair<string, dynamic>> items)
-        {
-            foreach (var item in items)
-            {
-                try
-                {
-                    return (T)item.Value;
-                }
-                catch
-                {
-                    // swallow
-                }
-            }
-            
-            // throw exception if no element with specified types was found
-            throw new ConfigurationErrorsException(string.Format(CultureInfo.InvariantCulture, "Item not found."));
         }
     }
 }
