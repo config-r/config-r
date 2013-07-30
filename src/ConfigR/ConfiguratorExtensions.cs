@@ -61,6 +61,11 @@ namespace ConfigR
             return configurator.GetOrDefault<dynamic>(key);
         }
 
+        public static bool TryGet(this IConfigurator configurator, string key, out dynamic value)
+        {
+            return configurator.TryGet<dynamic>(key, out value);
+        }
+
         public static T Get<T>(this IConfigurator configurator, string key)
         {
             Guard.AgainstNullArgument("configurator", configurator);
