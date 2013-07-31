@@ -56,7 +56,6 @@
     <Compile Include="BasicConfigurator.cs" />
     <Compile Include="WebConfigurator.cs" />
     <Compile Include="ScriptConfigurator.cs" />
-    <Compile Include="ExceptionExtensions.cs" />
     <Compile Include="Guard.cs" />
     <Compile Include="LocalConfigurator.cs" />
     <Compile Include="IConfigurator.cs" />
