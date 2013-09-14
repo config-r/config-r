@@ -4,15 +4,17 @@
 
 namespace ConfigR
 {
+    using System;
     using System.Globalization;
     using Common.Logging;
     using ScriptCs;
+    using ScriptCs.Contracts;
 
     public abstract class ScriptConfigurator : BasicConfigurator
     {
         private static readonly ILog log = LogManager.GetCurrentClassLogger();
 
-        private readonly IFileSystem fileSystem = new ConfigRFileSystem(new FileSystem());
+        private readonly IFileSystem fileSystem = new FileSystem { CurrentDirectory = AppDomain.CurrentDomain.SetupInformation.ApplicationBase };
 
         public override IConfigurator Load()
         {
@@ -21,7 +23,8 @@ namespace ConfigR
             log.DebugFormat(CultureInfo.InvariantCulture, "Executing '{0}'", this.fileSystem.GetFullPath(path));
             using (var executor = new ConfigRScriptExecutor(this.fileSystem))
             {
-                executor.Initialize(new string[0], new[] { new ConfigRScriptHack() });
+                executor.AddReferenceAndImportNamespaces(new[] { typeof(Configurator) });
+                executor.Initialize(new string[0], new IScriptPack[0]);
                 executor.Execute(path);
             }
 
