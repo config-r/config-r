@@ -2,7 +2,7 @@
 //  Copyright (c) ConfigR contributors. (configr.net@gmail.com)
 // </copyright>
 
-namespace ConfigR.Sample
+namespace ConfigR.ConsoleApplication
 {
     using System;
     using System.Diagnostics.CodeAnalysis;
@@ -10,6 +10,7 @@ namespace ConfigR.Sample
     using Common.Logging;
     using Common.Logging.Simple;
     using ConfigR;
+    using ServiceStack.Text;
 
     public static class Program
     {
@@ -55,6 +56,13 @@ namespace ConfigR.Sample
             // for completeness you can also use a file URI (or an FTP URI although that's not easily demonstrable)
             Configurator.Load(new Uri(Path.GetFullPath("Custom1.csx")));
             Console.WriteLine("FromCustom1File: {0}", Configurator.Get<bool>("FromCustom1File"));
+
+            // reset to original state for the samples below
+            Configurator.Unload();
+
+            // your configuration script can also use types declared in your application
+            Configurator.Load("Custom4.csx");
+            Console.WriteLine("Foo: {0}", Configurator.Get<Foo>().ToJsv());
 
             Console.WriteLine("Brutalize a key with your favourite finger to exit.");
             Console.ReadKey();
