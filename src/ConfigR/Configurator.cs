@@ -25,6 +25,14 @@ namespace ConfigR
         {
             return current.Add(value as object);
         }
+        
+        public static void Add(object initiator)
+        {
+            foreach (var prop in initiator.GetType().GetProperties())
+            {
+                dict[prop.Name] = prop.GetValue(initiator);
+            }
+        }
 
         public static IConfigurator Add(string key, dynamic value)
         {
