@@ -2,7 +2,7 @@ require 'albacore'
 require 'fileutils'
 
 version = IO.read("src/ConfigR/Properties/AssemblyInfo.cs").split(/AssemblyInformationalVersion\("/, 2)[1].split(/"/).first
-xunit_command = "src/packages/xunit.runners.1.9.1/tools/xunit.console.clr4.exe"
+xunit_command = "src/packages/xunit.runners.1.9.2/tools/xunit.console.clr4.exe"
 nuget_command = "src/.nuget/NuGet.exe"
 solution = "src/ConfigR.sln"
 output = "bin"
