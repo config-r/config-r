@@ -17,10 +17,10 @@ Fed up with XML soup? Frustrated that app settings can only be strings? Want to 
       <dependency id="Common.Logging" version="2.1.2" />
       <dependency id="Roslyn.Compilers.Common" version="1.2.20906.2" />
       <dependency id="Roslyn.Compilers.CSharp" version="1.2.20906.2" />
-      <dependency id="ScriptCs.Contracts" version="0.7.0" />
-      <dependency id="ScriptCs.Core" version="0.7.0" />
-      <dependency id="ScriptCs.Engine.Roslyn" version="0.7.0" />
-      <dependency id="ServiceStack.Text" version="3.9.59" />
+      <dependency id="ScriptCs.Contracts" version="0.8.0" />
+      <dependency id="ScriptCs.Core" version="0.8.0" />
+      <dependency id="ScriptCs.Engine.Roslyn" version="0.8.0" />
+      <dependency id="ServiceStack.Text" version="3.9.63" />
     </dependencies>
   </metadata>
   <files>
