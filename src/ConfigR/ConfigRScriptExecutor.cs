@@ -26,9 +26,9 @@ namespace ConfigR
         {
         }
 
-        public override void Initialize(IEnumerable<string> paths, IEnumerable<IScriptPack> scriptPacks)
+        public override void Initialize(IEnumerable<string> paths, IEnumerable<IScriptPack> scriptPacks, params string[] scriptArgs)
         {
-            base.Initialize(paths, scriptPacks);
+            base.Initialize(paths, scriptPacks, scriptArgs);
             this.ScriptEngine.BaseDirectory = this.FileSystem.CurrentDirectory; // NOTE (adamralph): set to bin subfolder in base.Initialize()!
         }
 
