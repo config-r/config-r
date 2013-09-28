@@ -10,7 +10,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Write your .NET configuration files in C#.
 Fed up with XML soup? Frustrated that app settings can only be strings? Want to do more in your configuration file than just define app settings? Then ConfigR is for you!</description>
-    <releaseNotes>TBD</releaseNotes>
+    <releaseNotes>New: Update to scriptcs 0.8.0 - https://github.com/config-r/config-r/issues/71/</releaseNotes>
     <copyright>Copyright (c) ConfigR contributors. (configr.net@gmail.com)</copyright>
     <tags>configuration</tags>
     <dependencies>
