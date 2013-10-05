@@ -73,7 +73,7 @@ namespace ConfigR
                 this.configurators.Add(this.currentAdditionConfigurator = new BasicConfigurator());
             }
 
-            this.configurators.Last().Add(key, value);
+            this.currentAdditionConfigurator.Add(key, value);
             return this;
         }
 
