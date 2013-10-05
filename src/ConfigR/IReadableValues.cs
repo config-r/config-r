@@ -5,9 +5,11 @@
 namespace ConfigR
 {
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
 
     public interface IReadableValues
     {
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "Necessary.")]
         IEnumerable<KeyValuePair<string, dynamic>> Items { get; }
 
         dynamic this[string key] { get; }

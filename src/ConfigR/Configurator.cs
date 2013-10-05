@@ -6,6 +6,7 @@ namespace ConfigR
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
 
     public static class Configurator
     {
@@ -20,6 +21,7 @@ namespace ConfigR
             }
         }
 
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "Necessary.")]
         public static IEnumerable<KeyValuePair<string, dynamic>> Items
         {
             get
@@ -88,6 +90,7 @@ namespace ConfigR
             return current.Load(uri);
         }
 
+        [SuppressMessage("Microsoft.Design", "CA1057:StringUriOverloadsCallSystemUriOverloads", Justification = "It's not a string URI, it's a path.")]
         public static ICascadingConfigurator Load(string path)
         {
             return current.Load(path);

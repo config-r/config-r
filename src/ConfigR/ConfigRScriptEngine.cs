@@ -6,6 +6,8 @@ namespace ConfigR
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
+    using System.Globalization;
     using System.Linq;
     using System.Runtime.ExceptionServices;
     using Common.Logging;
@@ -16,6 +18,7 @@ namespace ConfigR
 
     public class ConfigRScriptEngine : IScriptEngine
     {
+        [SuppressMessage("Microsoft.Performance", "CA1802:UseLiteralsWhereAppropriate", Justification = "http://stackoverflow.com/questions/8140142/")]
         private static readonly string SessionKey = "Session";
         private readonly IConfigurator configurator;
         private readonly ScriptEngine roslynScriptEngine;
@@ -63,13 +66,13 @@ namespace ConfigR
 
                 foreach (var reference in distinctReferences)
                 {
-                    this.log.DebugFormat("Adding reference to {0}", reference);
+                    this.log.DebugFormat(CultureInfo.InvariantCulture, "Adding reference to {0}", reference);
                     session.AddReference(reference);
                 }
 
                 foreach (var @namespace in namespaces.Union(scriptPackSession.Namespaces).Distinct())
                 {
-                    this.log.DebugFormat("Importing namespace {0}", @namespace);
+                    this.log.DebugFormat(CultureInfo.InvariantCulture, "Importing namespace {0}", @namespace);
                     session.ImportNamespace(@namespace);
                 }
 
@@ -88,7 +91,7 @@ namespace ConfigR
                 {
                     foreach (var reference in newReferences)
                     {
-                        this.log.DebugFormat("Adding reference to {0}", reference);
+                        this.log.DebugFormat(CultureInfo.InvariantCulture, "Adding reference to {0}", reference);
                         sessionState.Session.AddReference(reference);
                     }
 
@@ -102,7 +105,8 @@ namespace ConfigR
             return result;
         }
 
-        [CLSCompliant(false)]
+        [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "ScriptCS does it ;-).")]
+        [CLSCompliant(false),]
         protected virtual ScriptResult Execute(string code, Session session)
         {
             Guard.AgainstNullArgument("session", session);

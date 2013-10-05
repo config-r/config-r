@@ -5,6 +5,7 @@
 namespace ConfigR
 {
     using System;
+    using System.Diagnostics.CodeAnalysis;
 
     public static class CascadingConfiguratorExtensions
     {
@@ -15,6 +16,7 @@ namespace ConfigR
             return configurator.Load(new WebConfigurator(uri));
         }
 
+        [SuppressMessage("Microsoft.Design", "CA1057:StringUriOverloadsCallSystemUriOverloads", Justification = "It's not a string URI, it's a path.")]
         public static ICascadingConfigurator Load(this ICascadingConfigurator configurator, string path)
         {
             Guard.AgainstNullArgument("configurator", configurator);

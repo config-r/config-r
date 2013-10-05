@@ -6,6 +6,7 @@ namespace ConfigR
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using Common.Logging;
     using ScriptCs;
     using ScriptCs.Contracts;
@@ -15,6 +16,7 @@ namespace ConfigR
     {
         private static readonly ILog log = LogManager.GetCurrentClassLogger();
         private static readonly ILog scriptCsLog = LogManager.GetLogger("ScriptCs");
+        private bool isInitialized;
 
         public ConfigRScriptExecutor(IConfigurator configurator, IFileSystem fileSystem)
             : base(
@@ -29,6 +31,7 @@ namespace ConfigR
         {
             base.Initialize(paths, scriptPacks, scriptArgs);
             this.ScriptEngine.BaseDirectory = this.FileSystem.CurrentDirectory; // NOTE (adamralph): set to bin subfolder in base.Initialize()!
+            this.isInitialized = true;
         }
 
         public override ScriptResult ExecuteScript(string script, params string[] scriptArgs)
@@ -47,12 +50,10 @@ namespace ConfigR
 
         public void Dispose()
         {
-            try
+            if (this.isInitialized)
             {
                 this.Terminate();
-            }
-            catch (Exception)
-            {
+                this.isInitialized = false;
             }
         }
 
@@ -60,13 +61,13 @@ namespace ConfigR
         {
             if (result.CompileExceptionInfo != null)
             {
-                log.ErrorFormat("Failed to compile {0}", result.CompileExceptionInfo, script);
+                log.ErrorFormat(CultureInfo.InvariantCulture, "Failed to compile {0}", result.CompileExceptionInfo, script);
                 result.CompileExceptionInfo.Throw();
             }
 
             if (result.ExecuteExceptionInfo != null)
             {
-                log.ErrorFormat("Failed to execute {0}", result.ExecuteExceptionInfo, script);
+                log.ErrorFormat(CultureInfo.InvariantCulture, "Failed to execute {0}", result.ExecuteExceptionInfo, script);
                 result.ExecuteExceptionInfo.Throw();
             }
         }
