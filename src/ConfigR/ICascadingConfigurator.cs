@@ -7,7 +7,5 @@ namespace ConfigR
     public interface ICascadingConfigurator : IReadableValues
     {
         ICascadingConfigurator Load(IConfigurator configurator);
-
-        ICascadingConfigurator Add(string key, dynamic value);
     }
 }

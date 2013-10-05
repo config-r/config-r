@@ -29,18 +29,6 @@ namespace ConfigR
             }
         }
 
-        public static ICascadingConfigurator Add(dynamic value)
-        {
-            EnsureLoaded();
-            return current.Add(value as object);
-        }
-
-        public static ICascadingConfigurator Add(string key, dynamic value)
-        {
-            EnsureLoaded();
-            return current.Add(key, value);
-        }
-
         public static T Get<T>()
         {
             EnsureLoaded();

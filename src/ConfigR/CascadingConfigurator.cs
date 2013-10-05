@@ -13,7 +13,6 @@ namespace ConfigR
     {
         private static readonly Comparer<dynamic> comparer = new Comparer<dynamic>();
         private readonly List<IConfigurator> configurators = new List<IConfigurator>();
-        private BasicConfigurator currentAdditionConfigurator;
 
         public bool AnyConfigurators
         {
@@ -62,18 +61,6 @@ namespace ConfigR
                 throw;
             }
 
-            this.currentAdditionConfigurator = null;
-            return this;
-        }
-
-        public ICascadingConfigurator Add(string key, dynamic value)
-        {
-            if (this.currentAdditionConfigurator == null)
-            {
-                this.configurators.Add(this.currentAdditionConfigurator = new BasicConfigurator());
-            }
-
-            this.currentAdditionConfigurator.Add(key, value);
             return this;
         }
 

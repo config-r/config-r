@@ -28,12 +28,5 @@ namespace ConfigR
 
             return configurator.Load(new LocalConfigurator());
         }
-
-        public static ICascadingConfigurator Add(this ICascadingConfigurator configurator, dynamic value)
-        {
-            Guard.AgainstNullArgument("configurator", configurator);
-
-            return configurator.Add(Guid.NewGuid().ToString(), value);
-        }
     }
 }
