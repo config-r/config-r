@@ -11,5 +11,7 @@ namespace ConfigR
     public interface IConfigRScriptHost : IScriptHost, IReadableValues
     {
         IConfigRScriptHost Add(string key, dynamic value);
+
+        IConfigRScriptHost Add(dynamic value);
     }
 }

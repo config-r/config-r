@@ -45,5 +45,10 @@ namespace ConfigR
             this.configurator.Add(key, value);
             return this;
         }
+
+        public IConfigRScriptHost Add(dynamic value)
+        {
+            return this.Add(Guid.NewGuid().ToString(), value);
+        }
     }
 }

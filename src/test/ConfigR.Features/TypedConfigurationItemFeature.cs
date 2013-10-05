@@ -20,7 +20,7 @@ namespace ConfigR.Features
                 {
                     using (var writer = new StreamWriter("foo1.csx"))
                     {
-                        writer.WriteLine(@"Configurator.Add(""foo"", 123);");
+                        writer.WriteLine(@"Add(""foo"", 123);");
                         writer.Flush();
                     }
                 })
@@ -45,7 +45,7 @@ namespace ConfigR.Features
                 {
                     using (var writer = new StreamWriter("foo1.csx"))
                     {
-                        writer.WriteLine(@"Configurator.Add(""foo"", ""abc"");");
+                        writer.WriteLine(@"Add(""foo"", ""abc"");");
                         writer.Flush();
                     }
                 })

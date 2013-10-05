@@ -16,9 +16,9 @@ Powered by [scriptcs](https://github.com/scriptcs/scriptcs) and [Roslyn](http://
 * Add some configuration to the csx file e.g.
 
 ```C#
-Configurator
-    .Add("Count", 123)
-    .Add("Uri", new Uri("https://github.com/config-r/config-r")); // regular C#, no restrictions!
+// regular C#, no restrictions!
+Add("Count", 123);
+Add("Uri", new Uri("https://github.com/config-r/config-r"));
 ```
 
 * Add some code to your project which uses the configuration, e.g.:

@@ -21,7 +21,7 @@ namespace ConfigR.Features
                     {
                         writer.WriteLine(@"#r ""ConfigR.Features.dll""");
                         writer.WriteLine(@"using ConfigR.Features;");
-                        writer.WriteLine(@"Configurator.Add(""foo"", new FileConfigurationFeature.Foo { Bar = ""baz"" });");
+                        writer.WriteLine(@"Add(""foo"", new FileConfigurationFeature.Foo { Bar = ""baz"" });");
                         writer.Flush();
                     }
                 })
