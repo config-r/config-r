@@ -4,6 +4,7 @@
 
 namespace ConfigR
 {
+    using System.Globalization;
     using Common.Logging;
 
     public class FileConfigurator : ScriptConfigurator
@@ -22,15 +23,15 @@ namespace ConfigR
             get { return this.path; }
         }
 
-        public override IConfigurator Load()
+        protected override string ScriptPath
         {
-            log.InfoFormat("Loading '{0}'", this.path);
-            return base.Load();
+            get { return this.path; }
         }
 
-        protected override string GetScriptPath()
+        public override IConfigurator Load()
         {
-            return this.path;
+            log.InfoFormat(CultureInfo.InvariantCulture, "Loading '{0}'", this.path);
+            return base.Load();
         }
     }
 }
