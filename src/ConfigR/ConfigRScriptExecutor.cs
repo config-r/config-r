@@ -9,7 +9,6 @@ namespace ConfigR
     using Common.Logging;
     using ScriptCs;
     using ScriptCs.Contracts;
-    using ScriptCs.Engine.Roslyn;
 
     [CLSCompliant(false)]
     public sealed class ConfigRScriptExecutor : ScriptExecutor, IDisposable
@@ -17,12 +16,12 @@ namespace ConfigR
         private static readonly ILog log = LogManager.GetCurrentClassLogger();
         private static readonly ILog scriptCsLog = LogManager.GetLogger("ScriptCs");
 
-        public ConfigRScriptExecutor(IFileSystem fileSystem)
+        public ConfigRScriptExecutor(IConfigurator configurator, IFileSystem fileSystem)
             : base(
-            fileSystem,
-            new FilePreProcessor(fileSystem, scriptCsLog, new ILineProcessor[] { new LoadLineProcessor(fileSystem) }),
-            new RoslynScriptEngine(new ScriptHostFactory(), scriptCsLog),
-            scriptCsLog)
+                fileSystem,
+                new FilePreProcessor(fileSystem, scriptCsLog, new ILineProcessor[] { new LoadLineProcessor(fileSystem) }),
+                new ConfigRScriptEngine(configurator, new ConfigRScriptHostFactory(), scriptCsLog),
+                scriptCsLog)
         {
         }
 
@@ -48,7 +47,13 @@ namespace ConfigR
 
         public void Dispose()
         {
-            this.Terminate();
+            try
+            {
+                this.Terminate();
+            }
+            catch (Exception)
+            {
+            }
         }
 
         private static void RethrowExceptionIfAny(ScriptResult result, string script)
