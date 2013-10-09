@@ -1,1 +1,2 @@
-﻿Add("builtfor", "debugging");
+﻿Configurator
+    .Add("builtfor", "debugging");

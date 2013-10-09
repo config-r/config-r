@@ -9,30 +9,35 @@ namespace ConfigR
     using System.Globalization;
     using System.Linq;
 
-    public class CascadingConfigurator : ICascadingConfigurator
+    public class CascadingConfigurator : IConfigurator
     {
         private static readonly Comparer<dynamic> comparer = new Comparer<dynamic>();
         private readonly List<IConfigurator> configurators = new List<IConfigurator>();
-
-        public bool AnyConfigurators
-        {
-            get { return this.configurators.Any(); }
-        }
+        private Stack<IConfigurator> currentAdditionTargets = new Stack<IConfigurator>();
+        private IConfigurator[] configuratorsAwaitingLoad;
 
         public IEnumerable<KeyValuePair<string, dynamic>> Items
         {
             get
             {
-                return this.configurators.Aggregate(
-                    (IEnumerable<KeyValuePair<string, dynamic>>)new KeyValuePair<string, dynamic>[0],
-                    (current, configurator) => current.Union(configurator.Items, comparer));
+                this.EnsureLoaded();
+
+                IEnumerable<KeyValuePair<string, dynamic>> seed = new KeyValuePair<string, dynamic>[0];
+                return this.configurators.Aggregate(seed, (current, configurator) => current.Union(configurator.Items, comparer));
             }
+        }
+
+        private bool HasLocal
+        {
+            get { return this.configurators.Any(configurator => configurator is LocalConfigurator); }
         }
 
         public dynamic this[string key]
         {
             get
             {
+                this.EnsureLoaded();
+
                 foreach (var configurator in this.configurators)
                 {
                     dynamic value;
@@ -46,27 +51,103 @@ namespace ConfigR
             }
         }
 
-        public ICascadingConfigurator Load(IConfigurator configurator)
+        public IConfigurator Load()
         {
-            Guard.AgainstNullArgument("configurator", configurator);
-
-            this.configurators.Add(configurator);
-            try
+            if (this.EnsureLoaded())
             {
-                configurator.Load();
+                return this;
             }
-            catch
+
+            this.configuratorsAwaitingLoad = this.configuratorsAwaitingLoad ?? this.configurators.ToArray();
+            this.configurators.Clear();
+            foreach (var configurator in this.configuratorsAwaitingLoad)
             {
-                this.configurators.Remove(configurator);
-                throw;
+                this.Load(configurator);
+            }
+
+            this.configuratorsAwaitingLoad = null;
+            return this;
+        }
+
+        public CascadingConfigurator Load(Uri uri)
+        {
+            return this.Load(new WebConfigurator(uri));
+        }
+
+        public CascadingConfigurator Load(string path)
+        {
+            return this.Load(new FileConfigurator(path));
+        }
+
+        public CascadingConfigurator LoadLocal()
+        {
+            if (!this.HasLocal)
+            {
+                this.Load(new LocalConfigurator());
             }
 
             return this;
         }
 
+        public CascadingConfigurator Load(IConfigurator configurator)
+        {
+            Guard.AgainstNullArgument("configurator", configurator);
+
+            this.currentAdditionTargets.Push(configurator);
+            try
+            {
+                this.configurators.Add(configurator);
+                try
+                {
+                    configurator.Load();
+                }
+                catch
+                {
+                    this.configurators.Remove(configurator);
+                    throw;
+                }
+            }
+            finally
+            {
+                if (this.currentAdditionTargets.Count > 1)
+                {
+                    this.currentAdditionTargets.Pop();
+                }
+            }
+
+            return this;
+        }
+
+        public IConfigurator Add(string key, dynamic value)
+        {
+            this.EnsureLoaded();
+
+            this.currentAdditionTargets.Peek().Add(key, value);
+            return this;
+        }
+
         public bool TryGet(string key, out dynamic value)
         {
+            this.EnsureLoaded();
+
             return this.Items.ToDictionary(pair => pair.Key, pair => pair.Value).TryGetValue(key, out value);
+        }
+
+        public CascadingConfigurator Unload()
+        {
+            this.configurators.Clear();
+            return this;
+        }
+
+        private bool EnsureLoaded()
+        {
+            if (this.configurators.Count == 0)
+            {
+                this.LoadLocal();
+                return true;
+            }
+
+            return false;
         }
 
         private class Comparer<TValue> : IEqualityComparer<KeyValuePair<string, TValue>>

@@ -1,1 +1,2 @@
-﻿Add("builtfor", "releasing");
+﻿Configurator
+    .Add("builtfor", "releasing");

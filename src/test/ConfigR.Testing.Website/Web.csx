@@ -1,1 +1,2 @@
-﻿Add("greeting", "hello world");
+﻿Configurator
+    .Add("greeting", "hello world");

@@ -2,4 +2,5 @@
 
 using ConfigR.Testing.Service;
 
-Add("settings", new Settings { Greeting = "hello world", Valediction = "goodbye world" });
+Configurator
+    .Add("settings", new Settings { Greeting = "hello world", Valediction = "goodbye world" });

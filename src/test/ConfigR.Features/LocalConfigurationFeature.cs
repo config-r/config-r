@@ -20,7 +20,7 @@ namespace ConfigR.Features
                     {
                         writer.WriteLine(@"#r ""ConfigR.Features.dll""");
                         writer.WriteLine(@"using ConfigR.Features;");
-                        writer.WriteLine(@"Add(""foo"", new LocalConfigurationFeature.Foo { Bar = ""baz"" });");
+                        writer.WriteLine(@"Configurator.Add(""foo"", new LocalConfigurationFeature.Foo { Bar = ""baz"" });");
                         writer.Flush();
                     }
                 })

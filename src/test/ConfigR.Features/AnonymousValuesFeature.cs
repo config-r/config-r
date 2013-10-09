@@ -22,7 +22,7 @@ namespace ConfigR.Features
                     {
                         writer.WriteLine(@"#r ""ConfigR.Features.dll""");
                         writer.WriteLine(@"using ConfigR.Features;");
-                        writer.WriteLine(@"Add(new AnonymousValuesFeature.Foo { Bar = ""baz"" });");
+                        writer.WriteLine(@"Configurator.Add(new AnonymousValuesFeature.Foo { Bar = ""baz"" });");
                         writer.Flush();
                     }
                 })
@@ -46,7 +46,7 @@ namespace ConfigR.Features
                     {
                         writer.WriteLine(@"#r ""ConfigR.Features.dll""");
                         writer.WriteLine(@"using ConfigR.Features;");
-                        writer.WriteLine(@"Add(""foo"", new AnonymousValuesFeature.Foo { Bar = ""baz"" });");
+                        writer.WriteLine(@"Configurator.Add(""foo"", new AnonymousValuesFeature.Foo { Bar = ""baz"" });");
                         writer.Flush();
                     }
                 })
@@ -70,11 +70,11 @@ namespace ConfigR.Features
                     {
                         writer.WriteLine(@"#r ""ConfigR.Features.dll""");
                         writer.WriteLine(@"using ConfigR.Features;");
-                        writer.WriteLine(@"Add(""foo"", new AnonymousValuesFeature.Foo { Bar = ""baz"" });");
-                        writer.WriteLine(@"Add(""stringId"", ""34"");");
-                        writer.WriteLine(@"Add(""id"", 12);");
-                        writer.WriteLine(@"Add(""foo 2"", new AnonymousValuesFeature.Foo { Bar = ""baz 2"" });");
-                        writer.WriteLine(@"Add(""code"", 15);");
+                        writer.WriteLine(@"Configurator.Add(""foo"", new AnonymousValuesFeature.Foo { Bar = ""baz"" });");
+                        writer.WriteLine(@"Configurator.Add(""stringId"", ""34"");");
+                        writer.WriteLine(@"Configurator.Add(""id"", 12);");
+                        writer.WriteLine(@"Configurator.Add(""foo 2"", new AnonymousValuesFeature.Foo { Bar = ""baz 2"" });");
+                        writer.WriteLine(@"Configurator.Add(""code"", 15);");
                         writer.Flush();
                     }
                 })
@@ -98,7 +98,7 @@ namespace ConfigR.Features
                     {
                         writer.WriteLine(@"#r ""ConfigR.Features.dll""");
                         writer.WriteLine(@"using ConfigR.Features;");
-                        writer.WriteLine(@"Add(""foo"", new AnonymousValuesFeature.Foo { Bar = ""baz"" });");
+                        writer.WriteLine(@"Configurator.Add(""foo"", new AnonymousValuesFeature.Foo { Bar = ""baz"" });");
                         writer.Flush();
                     }
                 })
@@ -125,8 +125,8 @@ namespace ConfigR.Features
                     {
                         writer.WriteLine(@"#r ""ConfigR.Features.dll""");
                         writer.WriteLine(@"using ConfigR.Features;");
-                        writer.WriteLine(@"Add(""foo"", new AnonymousValuesFeature.Foo { Bar = ""baz"" });");
-                        writer.WriteLine(@"Add(""id"", 12);");
+                        writer.WriteLine(@"Configurator.Add(""foo"", new AnonymousValuesFeature.Foo { Bar = ""baz"" });");
+                        writer.WriteLine(@"Configurator.Add(""id"", 12);");
                         writer.Flush();
                     }
                 })
@@ -150,8 +150,8 @@ namespace ConfigR.Features
                     {
                         writer.WriteLine(@"#r ""ConfigR.Features.dll""");
                         writer.WriteLine(@"using ConfigR.Features;");
-                        writer.WriteLine(@"Add(""foo"", new AnonymousValuesFeature.Foo { Bar = ""baz"" });");
-                        writer.WriteLine(@"Add(""id"", 12);");
+                        writer.WriteLine(@"Configurator.Add(""foo"", new AnonymousValuesFeature.Foo { Bar = ""baz"" });");
+                        writer.WriteLine(@"Configurator.Add(""id"", 12);");
                         writer.Flush();
                     }
                 })
@@ -175,8 +175,8 @@ namespace ConfigR.Features
                     {
                         writer.WriteLine(@"#r ""ConfigR.Features.dll""");
                         writer.WriteLine(@"using ConfigR.Features;");
-                        writer.WriteLine(@"Add(""foo"", new AnonymousValuesFeature.Foo { Bar = ""baz"" });");
-                        writer.WriteLine(@"Add(""id"", 12);");
+                        writer.WriteLine(@"Configurator.Add(""foo"", new AnonymousValuesFeature.Foo { Bar = ""baz"" });");
+                        writer.WriteLine(@"Configurator.Add(""id"", 12);");
                         writer.Flush();
                     }
                 })

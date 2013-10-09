@@ -6,24 +6,23 @@ namespace ConfigR
 {
     using System;
     using System.Collections.Generic;
-    using System.Globalization;
     using Common.Logging;
     using ScriptCs;
     using ScriptCs.Contracts;
+    using ScriptCs.Engine.Roslyn;
 
     [CLSCompliant(false)]
     public sealed class ConfigRScriptExecutor : ScriptExecutor, IDisposable
     {
         private static readonly ILog log = LogManager.GetCurrentClassLogger();
         private static readonly ILog scriptCsLog = LogManager.GetLogger("ScriptCs");
-        private bool isInitialized;
 
-        public ConfigRScriptExecutor(IConfigurator configurator, IFileSystem fileSystem)
+        public ConfigRScriptExecutor(IFileSystem fileSystem)
             : base(
-                fileSystem,
-                new FilePreProcessor(fileSystem, scriptCsLog, new ILineProcessor[] { new LoadLineProcessor(fileSystem) }),
-                new ConfigRScriptEngine(configurator, new ConfigRScriptHostFactory(), scriptCsLog),
-                scriptCsLog)
+            fileSystem,
+            new FilePreProcessor(fileSystem, scriptCsLog, new ILineProcessor[] { new LoadLineProcessor(fileSystem) }),
+            new RoslynScriptEngine(new ScriptHostFactory(), scriptCsLog),
+            scriptCsLog)
         {
         }
 
@@ -31,7 +30,6 @@ namespace ConfigR
         {
             base.Initialize(paths, scriptPacks, scriptArgs);
             this.ScriptEngine.BaseDirectory = this.FileSystem.CurrentDirectory; // NOTE (adamralph): set to bin subfolder in base.Initialize()!
-            this.isInitialized = true;
         }
 
         public override ScriptResult ExecuteScript(string script, params string[] scriptArgs)
@@ -50,24 +48,20 @@ namespace ConfigR
 
         public void Dispose()
         {
-            if (this.isInitialized)
-            {
-                this.Terminate();
-                this.isInitialized = false;
-            }
+            this.Terminate();
         }
 
         private static void RethrowExceptionIfAny(ScriptResult result, string script)
         {
             if (result.CompileExceptionInfo != null)
             {
-                log.ErrorFormat(CultureInfo.InvariantCulture, "Failed to compile {0}", result.CompileExceptionInfo, script);
+                log.ErrorFormat("Failed to compile {0}", result.CompileExceptionInfo, script);
                 result.CompileExceptionInfo.Throw();
             }
 
             if (result.ExecuteExceptionInfo != null)
             {
-                log.ErrorFormat(CultureInfo.InvariantCulture, "Failed to execute {0}", result.ExecuteExceptionInfo, script);
+                log.ErrorFormat("Failed to execute {0}", result.ExecuteExceptionInfo, script);
                 result.ExecuteExceptionInfo.Throw();
             }
         }

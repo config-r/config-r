@@ -50,7 +50,7 @@ namespace ConfigR.ConsoleApplication
             Console.WriteLine("FromCustom3File: {0}", fromCustom3File); // this comes from the fourth file ("Custom3.csx")
 
             // you can even use config located on the web!
-            Configurator.Load(new Uri("https://gist.github.com/adamralph/6843899/raw/8cfdb09ad00655edb389cb0761aca44fb24f83fb/sample-config2.csx"));
+            Configurator.Load(new Uri("https://gist.github.com/adamralph/6040898/raw/758951f2045cbf064f63a01c58e874e0f4d1a22a/sample-config.csx"));
             Console.WriteLine("web-greeting: {0}", Configurator.Get<string>("web-greeting"));
 
             // for completeness you can also use a file URI (or an FTP URI although that's not easily demonstrable)

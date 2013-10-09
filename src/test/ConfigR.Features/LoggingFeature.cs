@@ -22,7 +22,7 @@ namespace ConfigR.Features
                     {
                         writer.WriteLine(@"#r ""ConfigR.Features.dll""");
                         writer.WriteLine(@"using ConfigR.Features;");
-                        writer.WriteLine(@"Add(""foo"", new LoggingFeature.Foo { Action = () => Console.WriteLine(""hello world"") });");
+                        writer.WriteLine(@"Configurator.Add(""foo"", new LoggingFeature.Foo { Action = () => Console.WriteLine(""hello world"") });");
                         writer.Flush();
                     }
                 })

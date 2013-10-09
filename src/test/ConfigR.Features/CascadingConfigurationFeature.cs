@@ -23,7 +23,7 @@ namespace ConfigR.Features
                     {
                         writer.WriteLine(@"#r ""ConfigR.Features.dll""");
                         writer.WriteLine(@"using ConfigR.Features;");
-                        writer.WriteLine(@"Add(""foo"", new CascadingConfigurationFeature.Foo { Bar = ""baz"" });");
+                        writer.WriteLine(@"Configurator.Add(""foo"", new CascadingConfigurationFeature.Foo { Bar = ""baz"" });");
                         writer.Flush();
                     }
                 })
@@ -36,7 +36,7 @@ namespace ConfigR.Features
                     {
                         writer.WriteLine(@"#r ""ConfigR.Features.dll""");
                         writer.WriteLine(@"using ConfigR.Features;");
-                        writer.WriteLine(@"Add(""foo"", new CascadingConfigurationFeature.Foo { Bar = ""bazzzzz"" });");
+                        writer.WriteLine(@"Configurator.Add(""foo"", new CascadingConfigurationFeature.Foo { Bar = ""bazzzzz"" });");
                         writer.Flush();
                     }
                 })
@@ -66,7 +66,7 @@ namespace ConfigR.Features
                     {
                         writer.WriteLine(@"#r ""ConfigR.Features.dll""");
                         writer.WriteLine(@"using ConfigR.Features;");
-                        writer.WriteLine(@"Add(""notfoo"", new CascadingConfigurationFeature.Foo { Bar = ""baz"" });");
+                        writer.WriteLine(@"Configurator.Add(""notfoo"", new CascadingConfigurationFeature.Foo { Bar = ""baz"" });");
                         writer.Flush();
                     }
                 })
@@ -79,7 +79,7 @@ namespace ConfigR.Features
                     {
                         writer.WriteLine(@"#r ""ConfigR.Features.dll""");
                         writer.WriteLine(@"using ConfigR.Features;");
-                        writer.WriteLine(@"Add(""foo"", new CascadingConfigurationFeature.Foo { Bar = ""bazzzzz"" });");
+                        writer.WriteLine(@"Configurator.Add(""foo"", new CascadingConfigurationFeature.Foo { Bar = ""bazzzzz"" });");
                         writer.Flush();
                     }
                 })
@@ -109,7 +109,7 @@ namespace ConfigR.Features
                     {
                         writer.WriteLine(@"#r ""ConfigR.Features.dll""");
                         writer.WriteLine(@"using ConfigR.Features;");
-                        writer.WriteLine(@"Add(""otherFileName"", ""foo2.csx"");");
+                        writer.WriteLine(@"Configurator.Add(""otherFileName"", ""foo2.csx"");");
                         writer.Flush();
                     }
                 })
@@ -122,7 +122,7 @@ namespace ConfigR.Features
                     {
                         writer.WriteLine(@"#r ""ConfigR.Features.dll""");
                         writer.WriteLine(@"using ConfigR.Features;");
-                        writer.WriteLine(@"Add(""foo"", new CascadingConfigurationFeature.Foo { Bar = ""bazzzzz"" });");
+                        writer.WriteLine(@"Configurator.Add(""foo"", new CascadingConfigurationFeature.Foo { Bar = ""bazzzzz"" });");
                         writer.Flush();
                     }
                 })
