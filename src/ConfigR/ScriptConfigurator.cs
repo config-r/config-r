@@ -23,9 +23,19 @@ namespace ConfigR
             log.DebugFormat(CultureInfo.InvariantCulture, "Executing '{0}'", this.fileSystem.GetFullPath(path));
             using (var executor = new ConfigRScriptExecutor(this.fileSystem))
             {
-                executor.AddReferenceAndImportNamespaces(new[] { typeof(Configurator) });
-                executor.Initialize(new string[0], new IScriptPack[0]);
-                executor.Execute(path);
+                try
+                {
+                    executor.AddReferenceAndImportNamespaces(new[] { typeof(Configurator) });
+                    executor.Initialize(new string[0], new IScriptPack[0]);
+                    executor.Execute(path);
+                }
+                catch (Roslyn.Compilers.CompilationErrorException ex)
+                {
+                    log.DebugFormat(CultureInfo.InvariantCulture, "Compilation exception caught - " + ex.ToString());
+                    var exception = new Exception("Compilation exception occurred", ex);
+                    exception.Data.Add("Error_Code", 111);
+                    throw exception;
+                }
             }
 
             return this;
