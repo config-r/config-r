@@ -41,7 +41,8 @@ namespace ConfigR.ConsoleApplication
             uri = Configurator.Get<Uri>("Uri");
             var fromCustom1File = Configurator.Get<bool>("FromCustom1File");
             var fromCustom2File = Configurator.Get<bool>("FromCustom2File");
-            var fromCustom3File = Configurator.Get<bool>("FromCustom3File");
+            bool fromCustom3File;
+            var success = Configurator.TryGet<bool>("FromCustom3File", out fromCustom3File);
 
             Console.WriteLine("Count: {0}", count);                     // this still comes from the first file (local "ConfigR.Sample.exe.csx")
             Console.WriteLine("Uri: {0}", uri);                         // this still comes from the first file (local "ConfigR.Sample.exe.csx")

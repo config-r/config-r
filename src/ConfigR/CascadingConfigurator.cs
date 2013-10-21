@@ -101,10 +101,11 @@ namespace ConfigR
                 {
                     configurator.Load();
                 }
-                catch
+                catch (Exception ex)
                 {
                     this.configurators.Remove(configurator);
-                    throw;
+                    if ((int)ex.Data["Error_Code"] != 111)
+                        throw;
                 }
             }
             finally
