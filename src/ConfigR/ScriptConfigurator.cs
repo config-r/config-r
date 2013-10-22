@@ -28,7 +28,7 @@ namespace ConfigR
                 {
                     executor.AddReferenceAndImportNamespaces(new[] { typeof(Configurator) });
                     executor.Initialize(new string[0], new IScriptPack[0]);
-                    executor.Execute(path);
+                    executor.Execute(this.ScriptPath);
                 }
                 catch (Roslyn.Compilers.CompilationErrorException ex)
                 {

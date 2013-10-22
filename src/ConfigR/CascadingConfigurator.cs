@@ -53,23 +53,13 @@ namespace ConfigR
             this.configurators.Add(configurator);
             try
             {
-                
-                this.configurators.Add(configurator);
-                try
-                {
-                    configurator.Load();
-                }
-                catch (Exception ex)
-                {
-                    this.configurators.Remove(configurator);
-                    if ((int)ex.Data["Error_Code"] != 111)
-                        throw;
-                }
+                configurator.Load();
             }
-            catch
+            catch (Exception ex)
             {
                 this.configurators.Remove(configurator);
-                throw;
+                if (ex.Data.Contains("Error_Code") && (int)ex.Data["Error_Code"] != 111)
+                    throw;
             }
 
             return this;
