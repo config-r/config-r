@@ -8,7 +8,7 @@ namespace ConfigR
     using ScriptCs;
 
     [CLSCompliant(false)]
-    public interface IConfigRScriptHost : IScriptHost, IReadableValues
+    public interface IConfigRScriptHost : IScriptHost, IConfiguration
     {
         IConfigRScriptHost Add(string key, dynamic value);
 

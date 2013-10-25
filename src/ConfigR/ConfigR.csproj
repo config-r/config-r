@@ -58,8 +58,8 @@
     <Compile Include="IConfigRScriptHostFactory.cs" />
     <Compile Include="IConfigRScriptHost.cs" />
     <Compile Include="CascadingConfiguratorExtensions.cs" />
-    <Compile Include="ReadableValuesExtensions.cs" />
-    <Compile Include="IReadableValues.cs" />
+    <Compile Include="ConfigurationExtensions.cs" />
+    <Compile Include="IConfiguration.cs" />
     <Compile Include="ICascadingConfigurator.cs" />
     <Compile Include="WebConfigurator.cs" />
     <Compile Include="ScriptConfigurator.cs" />
