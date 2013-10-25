@@ -34,6 +34,31 @@ namespace ConfigR.Features
                 .Then(() => result.Bar.Should().Be("baz"));
         }
 
+        [Scenario]
+        public static void PassingAValueFromAnAppToAConfigurationScript(string result)
+        {
+            "Given a local config file which sets foo using the value of bar"
+                .Given(() =>
+                {
+                    using (var writer = new StreamWriter(new LocalConfigurator().Path))
+                    {
+                        writer.WriteLine(@"Add(""foo"", Configurator.Get<string>(""bar""));");
+                        writer.Flush();
+                    }
+                })
+                .Teardown(() => File.Delete(new LocalConfigurator().Path));
+
+            "When I set bar to 'baz'"
+                .When(() => Configurator.Add("bar", "baz"));
+
+            "And I get foo"
+                .And(() => result = Configurator.Get<string>("foo"))
+                .Teardown(() => Configurator.Unload());
+
+            "Then foo is 'baz'"
+                .Then(() => result.Should().Be("baz"));
+        }
+
         public class Foo
         {
             public string Bar { get; set; }

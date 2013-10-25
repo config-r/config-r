@@ -31,6 +31,16 @@ namespace ConfigR
             }
         }
 
+        public static ICascadingConfigurator Add(string key, dynamic value)
+        {
+            return current.Add(key, value);
+        }
+
+        public static ICascadingConfigurator Add(dynamic value)
+        {
+            return current.Add(value as object);
+        }
+
         public static T Get<T>()
         {
             EnsureLoaded();
@@ -113,7 +123,7 @@ namespace ConfigR
 
         private static void EnsureLoaded()
         {
-            if (!current.AnyConfigurators)
+            if (!current.LoadAttempted)
             {
                 current.LoadLocal();
             }
