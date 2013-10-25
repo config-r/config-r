@@ -47,16 +47,16 @@
     <AssemblyOriginatorKeyFile>..\ConfigR.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="ConfigRScriptEngine.cs" />
-    <Compile Include="ConfigRScriptExecutor.cs" />
-    <Compile Include="ConfigRScriptHost.cs" />
+    <Compile Include="Scripting\ConfigRScriptEngine.cs" />
+    <Compile Include="Scripting\ConfigRScriptExecutor.cs" />
+    <Compile Include="Scripting\ConfigRScriptHost.cs" />
     <Compile Include="Configurator.cs" />
     <Compile Include="CascadingConfigurator.cs" />
     <Compile Include="ConfiguratorExtensions.cs" />
     <Compile Include="BasicConfigurator.cs" />
-    <Compile Include="ConfigRScriptHostFactory.cs" />
-    <Compile Include="IConfigRScriptHostFactory.cs" />
-    <Compile Include="IConfigRScriptHost.cs" />
+    <Compile Include="Scripting\ConfigRScriptHostFactory.cs" />
+    <Compile Include="Scripting\IConfigRScriptHostFactory.cs" />
+    <Compile Include="Scripting\IConfigRScriptHost.cs" />
     <Compile Include="CascadingConfiguratorExtensions.cs" />
     <Compile Include="ConfigurationExtensions.cs" />
     <Compile Include="IConfiguration.cs" />

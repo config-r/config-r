@@ -7,6 +7,7 @@ namespace ConfigR
     using System;
     using System.Globalization;
     using Common.Logging;
+    using ConfigR.Scripting;
     using ScriptCs;
     using ScriptCs.Contracts;
 
