@@ -4,7 +4,7 @@
 
 namespace ConfigR
 {
-    public interface IConfigurator : IReadableValues
+    public interface IConfigurator : IConfiguration
     {
         IConfigurator Load();
 

@@ -4,8 +4,10 @@
 
 namespace ConfigR
 {
-    public interface ICascadingConfigurator : IReadableValues
+    public interface ICascadingConfigurator : IConfiguration
     {
+        ICascadingConfigurator Add(string key, dynamic value);
+
         ICascadingConfigurator Load(IConfigurator configurator);
     }
 }

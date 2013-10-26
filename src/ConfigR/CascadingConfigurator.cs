@@ -13,11 +13,9 @@ namespace ConfigR
     {
         private static readonly Comparer<dynamic> comparer = new Comparer<dynamic>();
         private readonly List<IConfigurator> configurators = new List<IConfigurator>();
+        private BasicConfigurator additionConfigurator;
 
-        public bool AnyConfigurators
-        {
-            get { return this.configurators.Any(); }
-        }
+        public bool LoadAttempted { get; private set; }
 
         public IEnumerable<KeyValuePair<string, dynamic>> Items
         {
@@ -48,6 +46,8 @@ namespace ConfigR
 
         public ICascadingConfigurator Load(IConfigurator configurator)
         {
+            this.LoadAttempted = true;
+            
             Guard.AgainstNullArgument("configurator", configurator);
 
             this.configurators.Add(configurator);
@@ -61,6 +61,17 @@ namespace ConfigR
                 throw;
             }
 
+            return this;
+        }
+
+        public ICascadingConfigurator Add(string key, dynamic value)
+        {
+            if (!this.configurators.Any() || this.configurators.Last() != this.additionConfigurator)
+            {
+                this.configurators.Add(this.additionConfigurator = new BasicConfigurator());
+            }
+
+            this.additionConfigurator.Add(key, value);
             return this;
         }
 

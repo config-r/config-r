@@ -2,7 +2,7 @@
 //  Copyright (c) ConfigR contributors. (configr.net@gmail.com)
 // </copyright>
 
-namespace ConfigR
+namespace ConfigR.Scripting
 {
     using System;
     using ScriptCs.Contracts;
