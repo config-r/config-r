@@ -6,6 +6,7 @@ namespace ConfigR.Scripting
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using ScriptCs;
     using ScriptCs.Contracts;
 
@@ -49,6 +50,31 @@ namespace ConfigR.Scripting
         public IConfigRScriptHost Add(dynamic value)
         {
             return this.Add(Guid.NewGuid().ToString(), value);
+        }
+
+        public IConfigRScriptHost Load(Uri uri)
+        {
+            Configurator.Load(uri);
+            return this;
+        }
+
+        [SuppressMessage("Microsoft.Design", "CA1057:StringUriOverloadsCallSystemUriOverloads", Justification = "It's not a string URI, it's a path.")]
+        public IConfigRScriptHost Load(string path)
+        {
+            Configurator.Load(path);
+            return this;
+        }
+
+        public IConfigRScriptHost LoadLocal()
+        {
+            Configurator.LoadLocal();
+            return this;
+        }
+
+        public IConfigRScriptHost Load(IConfigurator nestedConfigurator)
+        {
+            Configurator.Load(nestedConfigurator);
+            return this;
         }
     }
 }

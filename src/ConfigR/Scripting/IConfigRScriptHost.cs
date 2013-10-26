@@ -13,5 +13,13 @@ namespace ConfigR.Scripting
         IConfigRScriptHost Add(string key, dynamic value);
 
         IConfigRScriptHost Add(dynamic value);
+
+        IConfigRScriptHost Load(Uri uri);
+
+        IConfigRScriptHost Load(string path);
+
+        IConfigRScriptHost LoadLocal();
+
+        IConfigRScriptHost Load(IConfigurator nestedConfigurator);
     }
 }
