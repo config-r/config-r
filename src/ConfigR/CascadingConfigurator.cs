@@ -47,9 +47,10 @@ namespace ConfigR
         public ICascadingConfigurator Load(IConfigurator configurator)
         {
             this.LoadAttempted = true;
-            
+
             Guard.AgainstNullArgument("configurator", configurator);
 
+            var index = this.configurators.Count;
             this.configurators.Add(configurator);
             try
             {
@@ -57,7 +58,7 @@ namespace ConfigR
             }
             catch
             {
-                this.configurators.Remove(configurator);
+                this.configurators.RemoveRange(index, this.configurators.Count - index);
                 throw;
             }
 
