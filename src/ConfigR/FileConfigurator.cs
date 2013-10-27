@@ -23,6 +23,11 @@ namespace ConfigR
             get { return this.path; }
         }
 
+        protected override string Source
+        {
+            get { return this.path; }
+        }
+
         protected override string ScriptPath
         {
             get { return this.path; }

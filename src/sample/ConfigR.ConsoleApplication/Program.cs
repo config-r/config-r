@@ -64,6 +64,15 @@ namespace ConfigR.ConsoleApplication
             Configurator.Load("Custom4.csx");
             Console.WriteLine("Foo: {0}", Configurator.Get<Foo>().ToJsv());
 
+            // reset to original state for the samples below
+            Configurator.Unload();
+
+            // you can pass values from your app to your config scripts
+            Configurator.Add("Foo", 123);
+            Configurator.Load("Custom5.csx");
+            Console.WriteLine("Foo: {0}", Configurator.Get<int>("Foo"));
+            Console.WriteLine("Bar: {0}", Configurator.Get<int>("Bar"));
+
             Console.WriteLine("Brutalize a key with your favourite finger to exit.");
             Console.ReadKey();
         }
