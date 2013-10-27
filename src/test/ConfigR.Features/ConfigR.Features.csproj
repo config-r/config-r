@@ -69,6 +69,7 @@
     <Compile Include="FileConfigurationFeature.cs" />
     <Compile Include="LocalConfigurationFeature.cs" />
     <Compile Include="LoggingFeature.cs" />
+    <Compile Include="NestedConfigurationFeature.cs" />
     <Compile Include="TypedConfigurationItemFeature.cs" />
   </ItemGroup>
   <ItemGroup>
