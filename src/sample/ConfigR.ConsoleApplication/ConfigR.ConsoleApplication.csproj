@@ -80,6 +80,9 @@
     <None Include="ConfigR.ConsoleApplication.exe.csx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="Custom5.csx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Custom4.csx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

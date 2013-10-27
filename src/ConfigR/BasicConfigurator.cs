@@ -22,6 +22,11 @@ namespace ConfigR
             get { return this.configuration.Select(item => item); }
         }
 
+        protected virtual string Source
+        {
+            get { return null; }
+        }
+
         public dynamic this[string key]
         {
             get { return this.configuration[key]; }
@@ -34,7 +39,8 @@ namespace ConfigR
 
         public IConfigurator Add(string key, dynamic value)
         {
-            log.DebugFormat(CultureInfo.InvariantCulture, "Adding '{0}': {1}", key, ToJsv(value));
+            var source = this.Source == null ? "an unknown source" : string.Concat("'", this.Source, "'");
+            log.DebugFormat(CultureInfo.InvariantCulture, "Adding '{0}' from {1}: {2}", key, source, ToJsv(value));
             this.configuration.Add(key, value);
             return this;
         }

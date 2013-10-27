@@ -28,6 +28,11 @@ namespace ConfigR
             get { return this.uri; }
         }
 
+        protected override string Source
+        {
+            get { return this.uri.ToString(); }
+        }
+
         protected override string ScriptPath
         {
             get { return this.scriptPath; }
