@@ -50,7 +50,7 @@ namespace ConfigR.ConsoleApplication
             Console.WriteLine("FromCustom3File: {0}", fromCustom3File); // this comes from the fourth file ("Custom3.csx")
 
             // you can even use config located on the web!
-            Configurator.Load(new Uri("https://gist.github.com/adamralph/6040898/raw/758951f2045cbf064f63a01c58e874e0f4d1a22a/sample-config.csx"));
+            Configurator.Load(new Uri("https://gist.github.com/adamralph/6843899/raw/8cfdb09ad00655edb389cb0761aca44fb24f83fb/sample-config2.csx"));
             Console.WriteLine("web-greeting: {0}", Configurator.Get<string>("web-greeting"));
 
             // for completeness you can also use a file URI (or an FTP URI although that's not easily demonstrable)
@@ -63,6 +63,15 @@ namespace ConfigR.ConsoleApplication
             // your configuration script can also use types declared in your application
             Configurator.Load("Custom4.csx");
             Console.WriteLine("Foo: {0}", Configurator.Get<Foo>().ToJsv());
+
+            // reset to original state for the samples below
+            Configurator.Unload();
+
+            // you can pass values from your app to your config scripts
+            Configurator.Add("Foo", 123);
+            Configurator.Load("Custom5.csx");
+            Console.WriteLine("Foo: {0}", Configurator.Get<int>("Foo"));
+            Console.WriteLine("Bar: {0}", Configurator.Get<int>("Bar"));
 
             Console.WriteLine("Brutalize a key with your favourite finger to exit.");
             Console.ReadKey();

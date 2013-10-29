@@ -64,10 +64,12 @@
   <ItemGroup>
     <Compile Include="CascadingConfigurationFeature.cs" />
     <Compile Include="AnonymousValuesFeature.cs" />
+    <Compile Include="IsolatedConfigurationFeature.cs" />
     <Compile Include="CustomConfigurationFeature.cs" />
     <Compile Include="FileConfigurationFeature.cs" />
     <Compile Include="LocalConfigurationFeature.cs" />
     <Compile Include="LoggingFeature.cs" />
+    <Compile Include="NestedConfigurationFeature.cs" />
     <Compile Include="TypedConfigurationItemFeature.cs" />
   </ItemGroup>
   <ItemGroup>

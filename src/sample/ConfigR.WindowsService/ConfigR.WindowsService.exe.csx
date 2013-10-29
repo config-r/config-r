@@ -1,3 +1,2 @@
-﻿Configurator
-    .Add("greeting", "hello world")
-    .Add("valediction", "goodbye world");
+﻿Add("greeting", "hello world");
+Add("valediction", "goodbye world");
