@@ -11,6 +11,13 @@ namespace ConfigR.Features
 
     public static class FileConfigurationFeature
     {
+        [Background]
+        public static void Background()
+        {
+            "Given no configuration is loaded"
+                .Given(() => Configurator.Unload());
+        }
+
         [Scenario]
         public static void RetreivingAnObject(Foo result)
         {
@@ -31,8 +38,7 @@ namespace ConfigR.Features
                 .When(() => Configurator.Load("foo.csx"));
 
             "And I get the Foo"
-                .And(() => result = Configurator.Get<Foo>("foo"))
-                .Teardown(() => Configurator.Unload());
+                .And(() => result = Configurator.Get<Foo>("foo"));
 
             "Then the Foo has a Bar of 'baz'"
                 .Then(() => result.Bar.Should().Be("baz"));
