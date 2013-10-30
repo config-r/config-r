@@ -17,7 +17,7 @@ features = [
 samples = [
 ]
 
-nuspec = "src/ConfigR.nuspec"
+nuspec = "src/ConfigR/ConfigR.csproj"
 
 Albacore.configure do |config|
   config.log_level = :verbose
@@ -61,7 +61,7 @@ desc "Create the nuget package"
 exec :pack => [:build] do |cmd|
   FileUtils.mkpath output
   cmd.command = nuget_command
-  cmd.parameters "pack " + nuspec + " -Version " + version + " -OutputDirectory " + output
+  cmd.parameters "pack " + nuspec + " -Version " + version + " -OutputDirectory " + output + " -Properties Configuration=Release"
 end
 
 desc "Execute samples"
