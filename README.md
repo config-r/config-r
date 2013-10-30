@@ -2,34 +2,13 @@
 
 Write your .NET configuration files in C# :sunglasses:.
 
+[Quickstart](https://github.com/config-r/config-r/wiki/Quickstart)
+
 Fed up with XML soup? Frustrated that app settings can only be strings? Want to do more in your configuration file than just define app settings? Then ConfigR is for you!
 
 Get it at [NuGet](https://nuget.org/packages/ConfigR/ "ConfigR on Nuget").
 
 Powered by [scriptcs](https://github.com/scriptcs/scriptcs) and [Roslyn](http://msdn.microsoft.com/en-gb/roslyn).
-
-## Quickstart
-
-* Create a console app in Visual Studio
-* Install ConfigR from [NuGet](https://nuget.org/packages/ConfigR/ "ConfigR on Nuget")
-* Add a new file named the same as your project output file with a `csx` extension, e.g. `ConsoleAppliction1.exe.csx` and in the file properties set `Copy to Output Directory` to `Copy always`
-* Add some configuration to the csx file e.g.
-
-```C#
-// regular C#, no restrictions!
-Add("Count", 123);
-Add("Uri", new Uri("https://github.com/config-r/config-r"));
-```
-
-* Add some code to your project which uses the configuration, e.g.:
-
-```C#
-void Main(string[] args)
-{ 
-    var count = Configurator.Get<int>("Count");     // it's a System.Int32!
-    var uri = Configurator.Get<Uri>("Uri");         // it's a System.Uri!
-}
-```
 
 Congratulations! You've freed yourself from the shackles of XML and strings! :trophy:
 
