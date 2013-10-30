@@ -26,7 +26,7 @@ end
 desc "Execute default tasks"
 task :default => [:spec, :feature, :pack]
 
-desc "Restore solution level NuGet packages"
+desc "Restore NuGet packages"
 exec :restore do |cmd|
   cmd.command = nuget_command
   cmd.parameters "restore #{solution}"
