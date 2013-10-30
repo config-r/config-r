@@ -12,6 +12,13 @@ namespace ConfigR.Features
 
     public static class TypedConfigurationItemFeature
     {
+        [Background]
+        public static void Background()
+        {
+            "Given no configuration is loaded"
+                .Given(() => Configurator.Unload());
+        }
+
         [Scenario]
         public static void GettingATypedConfigurationItem(int result)
         {
@@ -30,8 +37,7 @@ namespace ConfigR.Features
                 .When(() => Configurator.Load("foo1.csx"));
 
             "And I try to get an integer named 'foo'"
-                .f(() => result = Configurator.Get<int>("foo"))
-                .Teardown(() => Configurator.Unload());
+                .f(() => result = Configurator.Get<int>("foo"));
 
             "Then the result is 123"
                 .f(() => result.Should().Be(123));
@@ -55,8 +61,7 @@ namespace ConfigR.Features
                 .When(() => Configurator.Load("foo1.csx"));
 
             "And I try to get an integer named 'foo'"
-                .f(() => ex = Record.Exception(() => Configurator.Get<int>("foo")))
-                .Teardown(() => Configurator.Unload());
+                .f(() => ex = Record.Exception(() => Configurator.Get<int>("foo")));
 
             "Then an exception is thrown"
                 .f(() => ex.Should().NotBeNull());

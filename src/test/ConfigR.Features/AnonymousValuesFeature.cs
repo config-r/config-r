@@ -12,6 +12,13 @@ namespace ConfigR.Features
 
     public static class AnonymousValuesFeature
     {
+        [Background]
+        public static void Background()
+        {
+            "Given no configuration is loaded"
+                .Given(() => Configurator.Unload());
+        }
+
         [Scenario]
         public static void RetreivingAnAnonymousValue(Foo result)
         {
@@ -29,8 +36,7 @@ namespace ConfigR.Features
                 .Teardown(() => File.Delete(new LocalConfigurator().Path));
 
             "When I get the Foo"
-                .When(() => result = Configurator.Get<Foo>())
-                .Teardown(() => Configurator.Unload());
+                .When(() => result = Configurator.Get<Foo>());
 
             "Then the Foo has a Bar of 'baz'"
                 .Then(() => result.Bar.Should().Be("baz"));
@@ -53,8 +59,7 @@ namespace ConfigR.Features
                 .Teardown(() => File.Delete(new LocalConfigurator().Path));
 
             "When I get the Foo"
-                .When(() => result = Configurator.Get<Foo>())
-                .Teardown(() => Configurator.Unload());
+                .When(() => result = Configurator.Get<Foo>());
 
             "Then the Foo has a Bar of 'baz'"
                 .Then(() => result.Bar.Should().Be("baz"));
@@ -81,8 +86,7 @@ namespace ConfigR.Features
                 .Teardown(() => File.Delete(new LocalConfigurator().Path));
 
             "When I get int item"
-                .When(() => result = Configurator.Get<int>())
-                .Teardown(() => Configurator.Unload());
+                .When(() => result = Configurator.Get<int>());
 
             "Then it should be '12'"
                 .Then(() => result.Should().Be(12));
@@ -105,8 +109,7 @@ namespace ConfigR.Features
                 .Teardown(() => File.Delete(new LocalConfigurator().Path));
 
             "When I try to get a Foo"
-                .When(() => result = Configurator.TryGet<Foo>(out value))
-                .Teardown(() => Configurator.Unload());
+                .When(() => result = Configurator.TryGet<Foo>(out value));
 
             "Then the result is true"
                 .Then(() => result.Should().BeTrue());
@@ -133,8 +136,7 @@ namespace ConfigR.Features
                 .Teardown(() => File.Delete(new LocalConfigurator().Path));
 
             "When I try to get a string item"
-                .When(() => ex = Record.Exception(() => Configurator.Get<string>()))
-                .Teardown(() => Configurator.Unload());
+                .When(() => ex = Record.Exception(() => Configurator.Get<string>()));
 
             "Then an exception is thrown"
                 .Then(() => ex.Should().NotBeNull());
@@ -158,8 +160,7 @@ namespace ConfigR.Features
                 .Teardown(() => File.Delete(new LocalConfigurator().Path));
 
             "When I get a string item or default"
-                .When(() => result = Configurator.GetOrDefault<string>())
-                .Teardown(() => Configurator.Unload());
+                .When(() => result = Configurator.GetOrDefault<string>());
 
             "Then the result should be the default string"
                 .Then(() => result.Should().Be(default(string)));
@@ -183,8 +184,7 @@ namespace ConfigR.Features
                 .Teardown(() => File.Delete(new LocalConfigurator().Path));
 
             "When I try to get a string item"
-                .When(() => result = Configurator.TryGet<string>(out value))
-                .Teardown(() => Configurator.Unload());
+                .When(() => result = Configurator.TryGet<string>(out value));
 
             "Then the result should be false"
                 .Then(() => result.Should().BeFalse());
