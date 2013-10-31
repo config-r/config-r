@@ -1,1 +1,0 @@
-﻿Add("greeting", "hello world");
