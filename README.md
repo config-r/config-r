@@ -2,7 +2,8 @@
 
 Write your .NET configuration files in C# :sunglasses:.
 
-[Quickstart](https://github.com/config-r/config-r/wiki/Quickstart)
+- [Quickstart](https://github.com/config-r/config-r/wiki/Quickstart)
+- [Samples](https://github.com/config-r/config-r-samples)
 
 Fed up with XML soup? Frustrated that app settings can only be strings? Want to do more in your configuration file than just define app settings? Then ConfigR is for you!
 
@@ -10,11 +11,11 @@ Get it at [NuGet](https://nuget.org/packages/ConfigR/ "ConfigR on Nuget").
 
 Powered by [scriptcs](https://github.com/scriptcs/scriptcs) and [Roslyn](http://msdn.microsoft.com/en-gb/roslyn).
 
-Congratulations! You've freed yourself from the shackles of XML and strings! :trophy:
+## Features
 
-## Advanced Usage
+Checkout the [quickstart](https://github.com/config-r/config-r/wiki/Quickstart) to get an idea of the basics.
 
-ConfigR does plenty more! Features include the ability to specify the path of your configuration file(s), multiple cascading configuration files and custom configurators. [See the wiki for details](https://github.com/config-r/config-r/wiki).
+ConfigR does plenty more! Features include the ability to specify the path of your configuration file(s), multiple cascading configuration files and custom configurators. Checkout the [samples](https://github.com/config-r/config-r-samples) for more info.
 
 TIP: you can write **any C# you like** in your 'configuration file' :wink:. The scriptcs [#load](https://github.com/scriptcs/scriptcs/wiki/Writing-a-script#loading-referenced-scripts) and [#r](https://github.com/scriptcs/scriptcs/wiki/Writing-a-script#referencing-assemblies) features are both supported for loading scripts and referencing assemblies.
 
