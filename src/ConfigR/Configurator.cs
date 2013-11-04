@@ -71,12 +71,6 @@ namespace ConfigR
             return current.GetOrDefault(key);
         }
 
-        public static bool TryGet(string key, out dynamic value)
-        {
-            EnsureLoaded();
-            return current.TryGet(key, out value);
-        }
-
         public static T Get<T>(string key)
         {
             EnsureLoaded();

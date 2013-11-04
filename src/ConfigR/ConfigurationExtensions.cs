@@ -56,16 +56,11 @@ namespace ConfigR
             return values.GetOrDefault<dynamic>(key);
         }
 
-        public static bool TryGet(this IConfiguration values, string key, out dynamic value)
-        {
-            return values.TryGet<dynamic>(key, out value);
-        }
-
         public static T Get<T>(this IConfiguration values, string key)
         {
             Guard.AgainstNullArgument("configurator", values);
 
-            return Get<T>(key, values[key]);
+            return Cast<T>(values[key], key);
         }
 
         public static T GetOrDefault<T>(this IConfiguration values, string key)
@@ -73,7 +68,7 @@ namespace ConfigR
             Guard.AgainstNullArgument("configurator", values);
 
             dynamic value;
-            return values.TryGet(key, out value) ? Get<T>(key, value) : default(T);
+            return values.TryGet(key, out value) ? Cast<T>(value, key) : default(T);
         }
 
         public static bool TryGet<T>(this IConfiguration values, string key, out T value)
@@ -87,11 +82,11 @@ namespace ConfigR
                 return false;
             }
 
-            value = Get<T>(key, dynamicValue);
+            value = Cast<T>(dynamicValue, key);
             return true;
         }
 
-        private static T Get<T>(string key, dynamic value)
+        private static T Cast<T>(dynamic value, string key)
         {
             try
             {
