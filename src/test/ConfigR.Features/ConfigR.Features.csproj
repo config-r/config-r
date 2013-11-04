@@ -62,6 +62,7 @@
   <ItemGroup>
     <Compile Include="CascadingConfigurationFeature.cs" />
     <Compile Include="AnonymousValuesFeature.cs" />
+    <Compile Include="DynamicConfigurationItemFeature.cs" />
     <Compile Include="IsolatedConfigurationFeature.cs" />
     <Compile Include="CustomConfigurationFeature.cs" />
     <Compile Include="FileConfigurationFeature.cs" />
