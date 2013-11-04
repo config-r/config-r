@@ -89,6 +89,17 @@ namespace ConfigR
             return current.TryGet<T>(key, out value);
         }
 
+        public static T GetOrDefault<T>(string key, T defaultValue)
+        {
+            return current.GetOrDefault(key, defaultValue);
+        }
+
+        [SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters", MessageId = "1#", Justification = "'Advanced' feature.")]
+        public static bool TryGetOrDefault<T>(string key, out T value, T defaultValue)
+        {
+            return current.TryGetOrDefault(key, out value, defaultValue);
+        }
+
         public static ICascadingConfigurator Load(Uri uri)
         {
             return current.Load(uri);

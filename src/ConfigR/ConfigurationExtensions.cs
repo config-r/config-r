@@ -6,6 +6,7 @@ namespace ConfigR
 {
     using System;
     using System.Configuration;
+    using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
     using System.Linq;
     using Microsoft.CSharp.RuntimeBinder;
@@ -84,6 +85,28 @@ namespace ConfigR
 
             value = Cast<T>(dynamicValue, key);
             return true;
+        }
+
+        public static T GetOrDefault<T>(this IConfiguration values, string key, T defaultValue)
+        {
+            Guard.AgainstNullArgument("values", values);
+
+            dynamic value;
+            return values.TryGet(key, out value) ? Cast<T>(value, key) : defaultValue;
+        }
+
+        [SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters", MessageId = "2#", Justification = "'Advanced' feature.")]
+        public static bool TryGetOrDefault<T>(this IConfiguration values, string key, out T value, T defaultValue)
+        {
+            Guard.AgainstNullArgument("values", values);
+
+            if (values.TryGet(key, out value))
+            {
+                return true;
+            }
+
+            value = defaultValue;
+            return false;
         }
 
         private static T Cast<T>(dynamic value, string key)
