@@ -18,24 +18,24 @@ namespace ConfigR
             this.path = path;
         }
 
-        public string Path
+        public virtual string Path
         {
             get { return this.path; }
         }
 
         protected override string Source
         {
-            get { return this.path; }
+            get { return this.Path; }
         }
 
         protected override string ScriptPath
         {
-            get { return this.path; }
+            get { return this.Path; }
         }
 
         public override IConfigurator Load()
         {
-            log.InfoFormat(CultureInfo.InvariantCulture, "Loading '{0}'", this.path);
+            log.InfoFormat(CultureInfo.InvariantCulture, "Loading '{0}'", this.Path);
             return base.Load();
         }
     }

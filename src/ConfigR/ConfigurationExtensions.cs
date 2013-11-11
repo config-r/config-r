@@ -6,16 +6,17 @@ namespace ConfigR
 {
     using System;
     using System.Configuration;
+    using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
     using System.Linq;
     using Microsoft.CSharp.RuntimeBinder;
 
     public static class ConfigurationExtensions
     {
-        public static T Get<T>(this IConfiguration values)
+        public static T Get<T>(this IConfiguration configuration)
         {
             T value;
-            if (!values.TryGet<T>(out value))
+            if (!configuration.TryGet<T>(out value))
             {
                 throw new ConfigurationErrorsException("Type not found.");
             }
@@ -23,18 +24,18 @@ namespace ConfigR
             return value;
         }
 
-        public static T GetOrDefault<T>(this IConfiguration values)
+        public static T GetOrDefault<T>(this IConfiguration configuration)
         {
             T value;
-            return values.TryGet<T>(out value) ? value : default(T);
+            return configuration.TryGet<T>(out value) ? value : default(T);
         }
 
-        public static bool TryGet<T>(this IConfiguration values, out T value)
+        public static bool TryGet<T>(this IConfiguration configuration, out T value)
         {
-            Guard.AgainstNullArgument("configurator", values);
+            Guard.AgainstNullArgument("configuration", configuration);
 
             value = default(T);
-            foreach (var candidate in values.Items.Select(pair => pair.Value).Where(candidate => candidate != null))
+            foreach (var candidate in configuration.Items.Select(pair => pair.Value).Where(candidate => candidate != null))
             {
                 if (typeof(T).IsAssignableFrom(candidate.GetType()))
                 {
@@ -46,52 +47,69 @@ namespace ConfigR
             return false;
         }
 
-        public static dynamic Get(this IConfiguration values, string key)
+        public static dynamic Get(this IConfiguration configuration, string key)
         {
-            return values.Get<dynamic>(key);
+            return configuration.Get<dynamic>(key);
         }
 
-        public static dynamic GetOrDefault(this IConfiguration values, string key)
+        public static dynamic GetOrDefault(this IConfiguration configuration, string key)
         {
-            return values.GetOrDefault<dynamic>(key);
+            return configuration.GetOrDefault<dynamic>(key);
         }
 
-        public static bool TryGet(this IConfiguration values, string key, out dynamic value)
+        public static T Get<T>(this IConfiguration configuration, string key)
         {
-            return values.TryGet<dynamic>(key, out value);
+            Guard.AgainstNullArgument("configuration", configuration);
+
+            return Cast<T>(configuration[key], key);
         }
 
-        public static T Get<T>(this IConfiguration values, string key)
+        public static T GetOrDefault<T>(this IConfiguration configuration, string key)
         {
-            Guard.AgainstNullArgument("configurator", values);
-
-            return Get<T>(key, values[key]);
-        }
-
-        public static T GetOrDefault<T>(this IConfiguration values, string key)
-        {
-            Guard.AgainstNullArgument("configurator", values);
+            Guard.AgainstNullArgument("configuration", configuration);
 
             dynamic value;
-            return values.TryGet(key, out value) ? Get<T>(key, value) : default(T);
+            return configuration.TryGet(key, out value) ? Cast<T>(value, key) : default(T);
         }
 
-        public static bool TryGet<T>(this IConfiguration values, string key, out T value)
+        public static bool TryGet<T>(this IConfiguration configuration, string key, out T value)
         {
-            Guard.AgainstNullArgument("configurator", values);
+            Guard.AgainstNullArgument("configuration", configuration);
 
             value = default(T);
             dynamic dynamicValue;
-            if (!values.TryGet(key, out dynamicValue))
+            if (!configuration.TryGet(key, out dynamicValue))
             {
                 return false;
             }
 
-            value = Get<T>(key, dynamicValue);
+            value = Cast<T>(dynamicValue, key);
             return true;
         }
 
-        private static T Get<T>(string key, dynamic value)
+        public static T GetOrDefault<T>(this IConfiguration configuration, string key, T defaultValue)
+        {
+            Guard.AgainstNullArgument("configuration", configuration);
+
+            dynamic value;
+            return configuration.TryGet(key, out value) ? Cast<T>(value, key) : defaultValue;
+        }
+
+        [SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters", MessageId = "2#", Justification = "'Advanced' feature.")]
+        public static bool TryGetOrDefault<T>(this IConfiguration configuration, string key, out T value, T defaultValue)
+        {
+            Guard.AgainstNullArgument("configuration", configuration);
+
+            if (configuration.TryGet(key, out value))
+            {
+                return true;
+            }
+
+            value = defaultValue;
+            return false;
+        }
+
+        private static T Cast<T>(dynamic value, string key)
         {
             try
             {

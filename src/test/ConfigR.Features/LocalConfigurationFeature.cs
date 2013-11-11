@@ -10,6 +10,13 @@ namespace ConfigR.Features
 
     public static class LocalConfigurationFeature
     {
+        [Background]
+        public static void Background()
+        {
+            "Given no configuration is loaded"
+                .Given(() => Configurator.Unload());
+        }
+
         [Scenario]
         public static void RetreivingAnObject(Foo result)
         {
@@ -27,8 +34,7 @@ namespace ConfigR.Features
                 .Teardown(() => File.Delete(new LocalConfigurator().Path));
 
             "When I get the Foo"
-                .When(() => result = Configurator.Get<Foo>("foo"))
-                .Teardown(() => Configurator.Unload());
+                .When(() => result = Configurator.Get<Foo>("foo"));
 
             "Then the Foo has a Bar of 'baz'"
                 .Then(() => result.Bar.Should().Be("baz"));
@@ -52,8 +58,7 @@ namespace ConfigR.Features
                 .When(() => Configurator.Add("bar", "baz"));
 
             "And I get foo"
-                .And(() => result = Configurator.Get<string>("foo"))
-                .Teardown(() => Configurator.Unload());
+                .And(() => result = Configurator.Get<string>("foo"));
 
             "Then foo is 'baz'"
                 .Then(() => result.Should().Be("baz"));

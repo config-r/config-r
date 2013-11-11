@@ -10,6 +10,13 @@ namespace ConfigR.Features
 
     public static class NestedConfigurationFeature
     {
+        [Background]
+        public static void Background()
+        {
+            "Given no configuration is loaded"
+                .Given(() => Configurator.Unload());
+        }
+
         [Scenario]
         public static void RetreivingAnObjectFromANestedFile(Foo result)
         {
@@ -41,8 +48,7 @@ namespace ConfigR.Features
                 .When(() => Configurator.Load("bar.csx"));
 
             "And I get the Foo"
-                .And(() => result = Configurator.Get<Foo>("foo"))
-                .Teardown(() => Configurator.Unload());
+                .And(() => result = Configurator.Get<Foo>("foo"));
 
             "Then the Foo has a Bar of 'baz'"
                 .Then(() => result.Bar.Should().Be("baz"));

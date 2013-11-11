@@ -3,7 +3,7 @@ require 'fileutils'
 
 version = IO.read("src/ConfigR/Properties/AssemblyInfo.cs").split(/AssemblyInformationalVersion\("/, 2)[1].split(/"/).first
 xunit_command = "src/packages/xunit.runners.1.9.2/tools/xunit.console.clr4.exe"
-nuget_command = "src/.nuget/NuGet.exe"
+nuget_command = "src/packages/NuGet.CommandLine.2.7.1/tools/NuGet.exe"
 solution = "src/ConfigR.sln"
 output = "bin"
 
@@ -17,7 +17,7 @@ features = [
 samples = [
 ]
 
-nuspec = "src/ConfigR.nuspec"
+nuspec = "src/ConfigR/ConfigR.csproj"
 
 Albacore.configure do |config|
   config.log_level = :verbose
@@ -26,10 +26,10 @@ end
 desc "Execute default tasks"
 task :default => [:spec, :feature, :pack]
 
-desc "Restore solution level NuGet packages"
+desc "Restore NuGet packages"
 exec :restore do |cmd|
   cmd.command = nuget_command
-  cmd.parameters "install #{File.dirname(nuget_command)}/packages.config -output #{File.dirname(solution)}/packages"
+  cmd.parameters "restore #{solution}"
 end
 
 desc "Clean solution"
@@ -61,7 +61,7 @@ desc "Create the nuget package"
 exec :pack => [:build] do |cmd|
   FileUtils.mkpath output
   cmd.command = nuget_command
-  cmd.parameters "pack " + nuspec + " -Version " + version + " -OutputDirectory " + output
+  cmd.parameters "pack " + nuspec + " -Version " + version + " -OutputDirectory " + output + " -Properties Configuration=Release"
 end
 
 desc "Execute samples"

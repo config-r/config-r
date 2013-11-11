@@ -12,6 +12,13 @@ namespace ConfigR.Features
 
     public static class LoggingFeature
     {
+        [Background]
+        public static void Background()
+        {
+            "Given no configuration is loaded"
+                .Given(() => Configurator.Unload());
+        }
+
         [Scenario]
         public static void ConfigValueHasActionProperty(Exception exception)
         {
@@ -29,8 +36,7 @@ namespace ConfigR.Features
                 .Teardown(() => File.Delete(new LocalConfigurator().Path));
 
             "When I get the value"
-                .When(() => exception = Record.Exception(() => Configurator.Get<Foo>("foo")))
-                .Teardown(() => Configurator.Unload());
+                .When(() => exception = Record.Exception(() => Configurator.Get<Foo>("foo")));
 
             "Then no exception is thrown"
                 .Then(() => exception.Should().BeNull());

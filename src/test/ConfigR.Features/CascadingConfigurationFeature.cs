@@ -13,6 +13,13 @@ namespace ConfigR.Features
 
     public static class CascadingConfigurationFeature
     {
+        [Background]
+        public static void Background()
+        {
+            "Given no configuration is loaded"
+                .Given(() => Configurator.Unload());
+        }
+
         [Scenario]
         public static void RetreivingAnObjectDefinedInTwoFiles(Foo result)
         {
@@ -49,8 +56,7 @@ namespace ConfigR.Features
                 .And(() => Configurator.Load("foo2.csx"));
 
             "And I get the Foo"
-                .And(() => result = Configurator.Get<Foo>("foo"))
-                .Teardown(() => Configurator.Unload());
+                .And(() => result = Configurator.Get<Foo>("foo"));
 
             "Then the Foo has a Bar of 'baz'"
                 .Then(() => result.Bar.Should().Be("baz"));
@@ -92,8 +98,7 @@ namespace ConfigR.Features
                 .And(() => Configurator.Load("foo2.csx"));
 
             "And I get the Foo"
-                .And(() => result = Configurator.Get<Foo>("foo"))
-                .Teardown(() => Configurator.Unload());
+                .And(() => result = Configurator.Get<Foo>("foo"));
 
             "Then the Foo has a Bar of 'baz'"
                 .Then(() => result.Bar.Should().Be("bazzzzz"));
@@ -138,8 +143,7 @@ namespace ConfigR.Features
                 .And(() => Configurator.Load(otherFileName));
 
             "And I get the Foo"
-                .And(() => result = Configurator.Get<Foo>("foo"))
-                .Teardown(() => Configurator.Unload());
+                .And(() => result = Configurator.Get<Foo>("foo"));
 
             "Then the Foo has a Bar of 'baz'"
                 .Then(() => result.Bar.Should().Be("bazzzzz"));
@@ -162,8 +166,7 @@ namespace ConfigR.Features
                 .f(() => Configurator.Load("foo1.csx"));
 
             "And I try and get an object named 'foo'"
-                .f(() => ex = Record.Exception(() => Configurator.Get<Foo>("foo")))
-                .Teardown(() => Configurator.Unload());
+                .f(() => ex = Record.Exception(() => Configurator.Get<Foo>("foo")));
 
             "Then an exception is thrown"
                 .f(() => ex.Should().NotBeNull());

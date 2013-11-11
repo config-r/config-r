@@ -14,8 +14,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{B32D81B0-BCE2-48E7-9CCE-8CD79547A5DE}"
 	ProjectSection(SolutionItems) = preProject
 		.nuget\NuGet.Config = .nuget\NuGet.Config
-		.nuget\NuGet.exe = .nuget\NuGet.exe
-		.nuget\NuGet.targets = .nuget\NuGet.targets
 		.nuget\packages.config = .nuget\packages.config
 	EndProjectSection
 EndProject
@@ -26,6 +24,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConfigR.Testing.Service", "test\ConfigR.Testing.Service\ConfigR.Testing.Service.csproj", "{3ABA6C87-14D3-4CDE-ADEA-052381287C99}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConfigR.Testing.Website", "test\ConfigR.Testing.Website\ConfigR.Testing.Website.csproj", "{ED638DD5-E755-4B7A-940D-5C94AB425686}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConfigR.Testing.VSHostingProcess", "test\ConfigR.Testing.VSHostingProcess\ConfigR.Testing.VSHostingProcess.csproj", "{D3C09CAC-36C7-4E3C-A858-644862138250}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -49,6 +49,10 @@ Global
 		{ED638DD5-E755-4B7A-940D-5C94AB425686}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ED638DD5-E755-4B7A-940D-5C94AB425686}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ED638DD5-E755-4B7A-940D-5C94AB425686}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D3C09CAC-36C7-4E3C-A858-644862138250}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3C09CAC-36C7-4E3C-A858-644862138250}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3C09CAC-36C7-4E3C-A858-644862138250}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3C09CAC-36C7-4E3C-A858-644862138250}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -57,5 +61,6 @@ Global
 		{B80B228F-08E7-44F7-8209-6556DC4E68FB} = {BFAB0B22-0936-409D-AA3A-04E5C503F479}
 		{3ABA6C87-14D3-4CDE-ADEA-052381287C99} = {BFAB0B22-0936-409D-AA3A-04E5C503F479}
 		{ED638DD5-E755-4B7A-940D-5C94AB425686} = {BFAB0B22-0936-409D-AA3A-04E5C503F479}
+		{D3C09CAC-36C7-4E3C-A858-644862138250} = {BFAB0B22-0936-409D-AA3A-04E5C503F479}
 	EndGlobalSection
 EndGlobal

@@ -12,6 +12,13 @@ namespace ConfigR.Features
 
     public static class CustomConfigurationFeature
     {
+        [Background]
+        public static void Background()
+        {
+            "Given no configuration is loaded"
+                .Given(() => Configurator.Unload());
+        }
+
         [Scenario]
         public static void RetreivingAnObject(IConfigurator configurator, string result)
         {
@@ -22,8 +29,7 @@ namespace ConfigR.Features
                 .When(() => Configurator.Load(configurator));
 
             "And I get the Foo"
-                .And(() => result = Configurator.Get<string>("foo"))
-                .Teardown(() => Configurator.Unload());
+                .And(() => result = Configurator.Get<string>("foo"));
 
             "Then the result should be 'bar'"
                 .Then(() => result.Should().Be("bar"));
