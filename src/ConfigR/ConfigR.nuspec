@@ -10,13 +10,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Write your .NET configuration files in C#.
 Fed up with XML soup? Frustrated that app settings can only be strings? Want to do more in your configuration file than just define app settings? Then ConfigR is for you!</description>
-    <releaseNotes>New: Methods for specifying default values - https://github.com/config-r/config-r/issues/63/
-
-New: Support for the Visual Studio hosting process - https://github.com/config-r/config-r/issues/86/
-
-New: Upgrade to scriptcs 0.8.1 - https://github.com/config-r/config-r/issues/117/
-
-Fixed: Parameter names are wrong in null argument exceptions - https://github.com/config-r/config-r/issues/121/</releaseNotes>
+    <releaseNotes>TBD</releaseNotes>
     <copyright>Copyright (c) ConfigR contributors. (configr.net@gmail.com)</copyright>
     <tags>configuration</tags>
   </metadata>
