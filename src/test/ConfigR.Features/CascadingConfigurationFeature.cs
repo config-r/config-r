@@ -16,8 +16,8 @@ namespace ConfigR.Features
         [Background]
         public static void Background()
         {
-            "Given no configuration is loaded"
-                .Given(() => Configurator.Unload());
+            "Given no configuration has been loaded"
+                .Given(() => Config.Global.Reset());
         }
 
         [Scenario]
@@ -50,13 +50,13 @@ namespace ConfigR.Features
                 .Teardown(() => File.Delete("foo2.csx"));
 
             "When I load the first file"
-                .When(() => Configurator.Load("foo1.csx"));
+                .When(() => Config.Global.LoadScriptFile("foo1.csx"));
 
             "And I load the second file"
-                .And(() => Configurator.Load("foo2.csx"));
+                .And(() => Config.Global.LoadScriptFile("foo2.csx"));
 
             "And I get the Foo"
-                .And(() => result = Configurator.Get<Foo>("foo"));
+                .And(() => result = Config.Global.Get<Foo>("foo"));
 
             "Then the Foo has a Bar of 'baz'"
                 .Then(() => result.Bar.Should().Be("baz"));
@@ -92,13 +92,13 @@ namespace ConfigR.Features
                 .Teardown(() => File.Delete("foo2.csx"));
 
             "When I load the first file"
-                .When(() => Configurator.Load("foo1.csx"));
+                .When(() => Config.Global.LoadScriptFile("foo1.csx"));
 
             "And I load the second file"
-                .And(() => Configurator.Load("foo2.csx"));
+                .And(() => Config.Global.LoadScriptFile("foo2.csx"));
 
             "And I get the Foo"
-                .And(() => result = Configurator.Get<Foo>("foo"));
+                .And(() => result = Config.Global.Get<Foo>("foo"));
 
             "Then the Foo has a Bar of 'baz'"
                 .Then(() => result.Bar.Should().Be("bazzzzz"));
@@ -134,16 +134,16 @@ namespace ConfigR.Features
                 .Teardown(() => File.Delete("foo2.csx"));
 
             "When I load the first file"
-                .When(() => Configurator.Load("foo1.csx"));
+                .When(() => Config.Global.LoadScriptFile("foo1.csx"));
 
             "And I get the name of the other file"
-                .And(() => otherFileName = Configurator.Get<string>("otherFileName"));
+                .And(() => otherFileName = Config.Global.Get<string>("otherFileName"));
 
             "And I load the second file"
-                .And(() => Configurator.Load(otherFileName));
+                .And(() => Config.Global.LoadScriptFile(otherFileName));
 
             "And I get the Foo"
-                .And(() => result = Configurator.Get<Foo>("foo"));
+                .And(() => result = Config.Global.Get<Foo>("foo"));
 
             "Then the Foo has a Bar of 'baz'"
                 .Then(() => result.Bar.Should().Be("bazzzzz"));
@@ -163,10 +163,10 @@ namespace ConfigR.Features
                 .Teardown(() => File.Delete("foo1.csx"));
 
             "When I load the file"
-                .f(() => Configurator.Load("foo1.csx"));
+                .f(() => Config.Global.LoadScriptFile("foo1.csx"));
 
             "And I try and get an object named 'foo'"
-                .f(() => ex = Record.Exception(() => Configurator.Get<Foo>("foo")));
+                .f(() => ex = Record.Exception(() => Config.Global.Get<Foo>("foo")));
 
             "Then an exception is thrown"
                 .f(() => ex.Should().NotBeNull());

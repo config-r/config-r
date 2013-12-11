@@ -10,6 +10,6 @@ namespace ConfigR.Scripting
     [CLSCompliant(false)]
     public interface IConfigRScriptHostFactory
     {
-        IConfigRScriptHost CreateScriptHost(IConfigurator configurator, IScriptPackManager scriptPackManager, string[] scriptArgs);
+        IConfigRScriptHost CreateScriptHost(ISimpleConfig config, IScriptPackManager scriptPackManager, string[] scriptArgs);
     }
 }

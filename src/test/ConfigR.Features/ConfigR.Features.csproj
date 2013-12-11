@@ -62,10 +62,11 @@
   <ItemGroup>
     <Compile Include="CascadingConfigurationFeature.cs" />
     <Compile Include="AnonymousValuesFeature.cs" />
+    <Compile Include="AnonymousTypesFeature.cs" />
     <Compile Include="DefaultValuesFeature.cs" />
-    <Compile Include="DynamicConfigurationItemFeature.cs" />
+    <Compile Include="ObjectConfigurationItemFeature.cs" />
     <Compile Include="IsolatedConfigurationFeature.cs" />
-    <Compile Include="CustomConfigurationFeature.cs" />
+    <Compile Include="LoadFromConfiguratorFeature.cs" />
     <Compile Include="FileConfigurationFeature.cs" />
     <Compile Include="LocalConfigurationFeature.cs" />
     <Compile Include="LoggingFeature.cs" />

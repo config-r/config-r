@@ -1,4 +1,4 @@
-// <copyright file="DynamicConfigurationItemFeature.cs" company="ConfigR contributors">
+// <copyright file="ObjectConfigurationItemFeature.cs" company="ConfigR contributors">
 //  Copyright (c) ConfigR contributors. (configr.net@gmail.com)
 // </copyright>
 
@@ -8,21 +8,18 @@ namespace ConfigR.Features
     using FluentAssertions;
     using Xbehave;
 
-    public static class DynamicConfigurationItemFeature
+    public static class ObjectConfigurationItemFeature
     {
         [Background]
         public static void Background()
         {
-            "Given no configuration is loaded"
-                .Given(() => Configurator.Unload());
+            "Given no configuration has been loaded"
+                .Given(() => Config.Global.Reset());
         }
 
         [Scenario]
-        public static void TryingToGetADynamicConfigurationItem()
+        public static void TryingToGetAnObjectConfigurationItem(object result)
         {
-            // NOTE (adamralph): can't be a parameter - xunit runner borks
-            var result = default(dynamic);
-
             "Given a config file with an integer of 123 named 'foo'"
                 .f(() =>
                 {
@@ -35,13 +32,13 @@ namespace ConfigR.Features
                 .Teardown(() => File.Delete("foo1.csx"));
 
             "When I load the file"
-                .When(() => Configurator.Load("foo1.csx"));
+                .When(() => Config.Global.LoadScriptFile("foo1.csx"));
 
-            "And I try to get a dynamic named 'foo'"
-                .f(() => Configurator.TryGet("foo", out result));
+            "And I try to get an object named 'foo'"
+                .f(() => Config.Global.TryGetValue("foo", out result));
 
             "Then the result is 123"
-                .f(() => ((object)result).Should().Be(123));
+                .f(() => result.Should().Be(123));
         }
     }
 }

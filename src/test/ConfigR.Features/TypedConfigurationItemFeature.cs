@@ -15,8 +15,8 @@ namespace ConfigR.Features
         [Background]
         public static void Background()
         {
-            "Given no configuration is loaded"
-                .Given(() => Configurator.Unload());
+            "Given no configuration has been loaded"
+                .Given(() => Config.Global.Reset());
         }
 
         [Scenario]
@@ -34,10 +34,10 @@ namespace ConfigR.Features
                 .Teardown(() => File.Delete("foo1.csx"));
 
             "When I load the file"
-                .When(() => Configurator.Load("foo1.csx"));
+                .When(() => Config.Global.LoadScriptFile("foo1.csx"));
 
             "And I try to get an integer named 'foo'"
-                .f(() => result = Configurator.Get<int>("foo"));
+                .f(() => result = Config.Global.Get<int>("foo"));
 
             "Then the result is 123"
                 .f(() => result.Should().Be(123));
@@ -49,6 +49,7 @@ namespace ConfigR.Features
             "Given a config file with a string named 'foo'"
                 .f(() =>
                 {
+                    // TODO (Adam): add DSL - new TempFile(string path, string content).Using();
                     using (var writer = new StreamWriter("foo1.csx"))
                     {
                         writer.WriteLine(@"Add(""foo"", ""abc"");");
@@ -58,10 +59,10 @@ namespace ConfigR.Features
                 .Teardown(() => File.Delete("foo1.csx"));
 
             "When I load the file"
-                .When(() => Configurator.Load("foo1.csx"));
+                .When(() => Config.Global.LoadScriptFile("foo1.csx"));
 
             "And I try to get an integer named 'foo'"
-                .f(() => ex = Record.Exception(() => Configurator.Get<int>("foo")));
+                .f(() => ex = Record.Exception(() => Config.Global.Get<int>("foo")));
 
             "Then an exception is thrown"
                 .f(() => ex.Should().NotBeNull());
@@ -69,14 +70,11 @@ namespace ConfigR.Features
             "And the exception message contains 'foo'"
                 .f(() => ex.Message.Should().Contain("foo"));
 
-            "And the exception contains an inner exception"
-                .f(() => ex.InnerException.Should().NotBeNull());
+            "And the exception message contains the full type name of int"
+                .f(() => ex.Message.Should().Contain(typeof(int).FullName));
 
-            "And the inner exception message contains 'string'"
-                .f(() => ex.InnerException.Message.Should().Contain("string"));
-
-            "And the inner exception message contains 'int'"
-                .f(() => ex.InnerException.Message.Should().Contain("int"));
+            "And the exception message contains the full type name of string"
+                .f(() => ex.Message.Should().Contain(typeof(string).FullName));
         }
     }
 }

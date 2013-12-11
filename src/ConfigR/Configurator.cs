@@ -7,17 +7,19 @@ namespace ConfigR
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
+    using Common.Logging;
 
+    [Obsolete("Deprecated since version 0.9 and will soon be removed. Use Config.Global instead.")]
     public static class Configurator
     {
-        private static CascadingConfigurator current = new CascadingConfigurator();
+        private static readonly ILog log = LogManager.GetCurrentClassLogger();
 
-        public static ICascadingConfigurator Current
+        public static IConfig Current
         {
             get
             {
-                EnsureLoaded();
-                return current;
+                LogObsolete();
+                return Config.Global;
             }
         }
 
@@ -26,112 +28,114 @@ namespace ConfigR
         {
             get
             {
-                EnsureLoaded();
-                return current.Items;
+                LogObsolete();
+                return Config.Global;
             }
         }
 
-        public static ICascadingConfigurator Add(string key, dynamic value)
+        public static IConfig Add(string key, object value)
         {
-            return current.Add(key, value);
+            LogObsolete();
+            Config.SuppressGlobalLoad().Add(key, value);
+            return Config.Global;
         }
 
-        public static ICascadingConfigurator Add(dynamic value)
+        public static IConfig Add(object value)
         {
-            return current.Add(value as object);
+            LogObsolete();
+            Config.SuppressGlobalLoad().Add(value as object);
+            return Config.Global;
         }
 
         public static T Get<T>()
         {
-            EnsureLoaded();
-            return current.Get<T>();
+            LogObsolete();
+            return Config.Global.Get<T>();
         }
 
         public static T GetOrDefault<T>()
         {
-            EnsureLoaded();
-            return current.GetOrDefault<T>();
+            LogObsolete();
+            return Config.Global.GetOrDefault<T>();
         }
 
         public static bool TryGet<T>(out T value)
         {
-            EnsureLoaded();
-            return current.TryGet<T>(out value);
+            LogObsolete();
+            return Config.Global.TryGetValue<T>(out value);
         }
 
         public static dynamic Get(string key)
         {
-            EnsureLoaded();
-            return current[key];
+            LogObsolete();
+            return Config.Global[key];
         }
 
         public static dynamic GetOrDefault(string key)
         {
-            EnsureLoaded();
-            return current.GetOrDefault(key);
+            LogObsolete();
+            return Config.Global.GetOrDefault(key);
         }
 
         public static T Get<T>(string key)
         {
-            EnsureLoaded();
-            return current.Get<T>(key);
+            LogObsolete();
+            return Config.Global.Get<T>(key);
         }
 
         public static T GetOrDefault<T>(string key)
         {
-            EnsureLoaded();
-            return current.GetOrDefault<T>(key);
+            LogObsolete();
+            return Config.Global.GetOrDefault<T>(key);
         }
 
         public static bool TryGet<T>(string key, out T value)
         {
-            EnsureLoaded();
-            return current.TryGet<T>(key, out value);
+            LogObsolete();
+            return Config.Global.TryGetValue<T>(key, out value);
         }
 
         public static T GetOrDefault<T>(string key, T defaultValue)
         {
-            return current.GetOrDefault(key, defaultValue);
+            LogObsolete();
+            return Config.Global.GetOrDefault(key, defaultValue);
         }
 
         [SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters", MessageId = "1#", Justification = "'Advanced' feature.")]
         public static bool TryGetOrDefault<T>(string key, out T value, T defaultValue)
         {
-            return current.TryGetOrDefault(key, out value, defaultValue);
+            LogObsolete();
+            return Config.Global.TryGetValueOrDefault(key, out value, defaultValue);
         }
 
-        public static ICascadingConfigurator Load(Uri uri)
+        public static IConfig Load(Uri uri)
         {
-            return current.Load(uri);
+            LogObsolete();
+            return Config.SuppressGlobalLoad().LoadWebScript(uri);
         }
 
         [SuppressMessage("Microsoft.Design", "CA1057:StringUriOverloadsCallSystemUriOverloads", Justification = "It's not a string URI, it's a path.")]
-        public static ICascadingConfigurator Load(string path)
+        public static IConfig Load(string path)
         {
-            return current.Load(path);
+            LogObsolete();
+            return Config.SuppressGlobalLoad().LoadScriptFile(path);
         }
 
-        public static ICascadingConfigurator LoadLocal()
+        public static IConfig LoadLocal()
         {
-            return current.LoadLocal();
+            LogObsolete();
+            return Config.SuppressGlobalLoad().LoadLocalScriptFile();
         }
 
-        public static ICascadingConfigurator Load(IConfigurator configurator)
+        public static IConfig Load(ISimpleConfig config)
         {
-            return current.Load(configurator);
+            LogObsolete();
+            return Config.SuppressGlobalLoad().Load(config);
         }
 
-        public static ICascadingConfigurator Unload()
+        private static void LogObsolete()
         {
-            return current = new CascadingConfigurator();
-        }
-
-        private static void EnsureLoaded()
-        {
-            if (!current.LoadAttempted)
-            {
-                current.LoadLocal();
-            }
+            log.Warn("ConfigR.Configurator is deprecated since version 0.9 and will soon be removed. Use Config and Config.Global instead.");
         }
     }
 }

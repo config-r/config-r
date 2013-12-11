@@ -6,75 +6,88 @@ namespace ConfigR.Scripting
 {
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
+    using Common.Logging;
     using ScriptCs;
     using ScriptCs.Contracts;
 
     [CLSCompliant(false)]
-    public class ConfigRScriptHost : ScriptHost, IConfigRScriptHost
+    public partial class ConfigRScriptHost : ScriptHost, IConfigRScriptHost
     {
-        private readonly IConfigurator configurator;
+        private static readonly ILog log = LogManager.GetCurrentClassLogger();
 
-        public ConfigRScriptHost(IConfigurator configurator, IScriptPackManager scriptPackManager, string[] scriptArgs)
+        private readonly IDictionary<string, object> dictionary;
+
+        public ConfigRScriptHost(IDictionary<string, object> dictionary, IScriptPackManager scriptPackManager, string[] scriptArgs)
             : base(scriptPackManager, scriptArgs)
         {
-            if (configurator == null)
-            {
-                throw new ArgumentNullException("configurator");
-            }
+            Guard.AgainstNullArgument("dictionary", dictionary);
 
-            this.configurator = configurator;
+            this.dictionary = dictionary;
         }
 
-        public IEnumerable<KeyValuePair<string, dynamic>> Items
+        public IDictionary<string, object> Config
         {
-            get { return this.configurator.Items; }
+            get { return this.dictionary; }
         }
 
-        public dynamic this[string key]
+        public IConfig Global
         {
-            get { return this.configurator[key]; }
+            get { return ConfigR.Config.Global; }
         }
 
-        public bool TryGet(string key, out dynamic value)
+        public void Add(object value)
         {
-            return this.configurator.TryGet(key, out value);
+            this.dictionary.Add(value);
         }
 
-        public IConfigRScriptHost Add(string key, dynamic value)
+        public T Get<T>()
         {
-            this.configurator.Add(key, value);
+            return this.dictionary.Get<T>();
+        }
+
+        public IConfigRScriptHost LoadWebScript(Uri uri)
+        {
+            ConfigR.Config.Global.LoadWebScript(uri);
             return this;
         }
 
-        public IConfigRScriptHost Add(dynamic value)
+        public IConfigRScriptHost LoadScriptFile(string path)
         {
-            return this.Add(Guid.NewGuid().ToString(), value);
+            ConfigR.Config.Global.LoadScriptFile(path);
+            return this;
         }
 
+        public IConfigRScriptHost LoadLocalScriptFile()
+        {
+            ConfigR.Config.Global.LoadLocalScriptFile();
+            return this;
+        }
+
+        public IConfigRScriptHost Load(ISimpleConfig config)
+        {
+            ConfigR.Config.Global.Load(config);
+            return this;
+        }
+
+        [Obsolete("Deprecated since version 0.9 and will soon be removed. Use LoadWebScript(Uri) instead.")]
         public IConfigRScriptHost Load(Uri uri)
         {
-            Configurator.Load(uri);
-            return this;
+            log.Warn("Load(Uri) in scripts is deprecated since version 0.9 and will soon be removed. Use LoadWebScript(Uri) instead.");
+            return this.LoadWebScript(uri);
         }
 
-        [SuppressMessage("Microsoft.Design", "CA1057:StringUriOverloadsCallSystemUriOverloads", Justification = "It's not a string URI, it's a path.")]
+        [Obsolete("Deprecated since version 0.9 and will soon be removed. Use LoadScriptFile(string) instead.")]
         public IConfigRScriptHost Load(string path)
         {
-            Configurator.Load(path);
-            return this;
+            log.Warn("Load(string) in scripts is deprecated since version 0.9 and will soon be removed. Use LoadScriptFile(string) instead.");
+            return this.LoadScriptFile(path);
         }
 
+        [Obsolete("Deprecated since version 0.9 and will soon be removed. Use LoadLocalScriptFile() instead.")]
         public IConfigRScriptHost LoadLocal()
         {
-            Configurator.LoadLocal();
-            return this;
-        }
-
-        public IConfigRScriptHost Load(IConfigurator nestedConfigurator)
-        {
-            Configurator.Load(nestedConfigurator);
-            return this;
+            log.Warn("LoadLocal() in scripts is deprecated since version 0.9 and will soon be removed. Use LoadLocalScriptFile() instead.");
+            return this.LoadLocalScriptFile();
         }
     }
 }

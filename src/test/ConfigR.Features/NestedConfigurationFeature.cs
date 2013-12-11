@@ -13,8 +13,8 @@ namespace ConfigR.Features
         [Background]
         public static void Background()
         {
-            "Given no configuration is loaded"
-                .Given(() => Configurator.Unload());
+            "Given no configuration has been loaded"
+                .Given(() => Config.Global.Reset());
         }
 
         [Scenario]
@@ -38,17 +38,17 @@ namespace ConfigR.Features
                 {
                     using (var writer = new StreamWriter("bar.csx"))
                     {
-                        writer.WriteLine(@"Load(""foo.csx"");");
+                        writer.WriteLine(@"LoadScriptFile(""foo.csx"");");
                         writer.Flush();
                     }
                 })
                 .Teardown(() => File.Delete("bar.csx"));
 
             "When I load the second config file"
-                .When(() => Configurator.Load("bar.csx"));
+                .When(() => Config.Global.LoadScriptFile("bar.csx"));
 
             "And I get the Foo"
-                .And(() => result = Configurator.Get<Foo>("foo"));
+                .And(() => result = Config.Global.Get<Foo>("foo"));
 
             "Then the Foo has a Bar of 'baz'"
                 .Then(() => result.Bar.Should().Be("baz"));
@@ -75,7 +75,7 @@ namespace ConfigR.Features
                 {
                     using (var writer = new StreamWriter("bar.csx"))
                     {
-                        writer.WriteLine(@"Load(""foo.csx"");");
+                        writer.WriteLine(@"LoadScriptFile(""foo.csx"");");
                         writer.WriteLine(@"throw new Exception();");
                         writer.Flush();
                     }
@@ -87,7 +87,7 @@ namespace ConfigR.Features
                 {
                     try
                     {
-                        Configurator.Load("bar.csx");
+                        Config.Global.LoadScriptFile("bar.csx");
                     }
                     catch
                     {
@@ -95,7 +95,7 @@ namespace ConfigR.Features
                 });
 
             "Then the Foo is not available"
-                .Then(() => Configurator.Items.Should().NotContain(pair => pair.Key == "foo"));
+                .Then(() => Config.Global.Should().NotContainKey("foo"));
         }
 
         public class Foo

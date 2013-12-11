@@ -13,7 +13,7 @@ namespace ConfigR.Testing.Website
         {
             this.Get["/"] = parameters =>
             {
-                var model = new { Greeting = Configurator.Get<string>("greeting") };
+                var model = new { Greeting = Config.Global.Get<string>("greeting") };
                 return View["index", model];
             };
         }

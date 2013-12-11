@@ -32,10 +32,10 @@ namespace ConfigR.Features
                 }).Teardown(() => File.Delete("foo2.csx"));
 
             "When I get the foo from the first file"
-                .When(() => foo1 = new FileConfigurator("foo1.csx").Load().Get<string>("foo"));
+                .When(() => foo1 = new ScriptFileConfig("foo1.csx").Load().Get<string>("foo"));
 
             "And I get the foo from the second file"
-                .And(() => foo2 = new FileConfigurator("foo2.csx").Load().Get<string>("foo"));
+                .And(() => foo2 = new ScriptFileConfig("foo2.csx").Load().Get<string>("foo"));
 
             "Then the first Foo is 'baz'"
                 .Then(() => foo1.Should().Be("baz"));

@@ -20,18 +20,18 @@ namespace ConfigR.Scripting
     {
         [SuppressMessage("Microsoft.Performance", "CA1802:UseLiteralsWhereAppropriate", Justification = "http://stackoverflow.com/questions/8140142/")]
         private static readonly string SessionKey = "Session";
-        private readonly IConfigurator configurator;
+        private readonly ISimpleConfig config;
         private readonly ScriptEngine roslynScriptEngine;
         private readonly IConfigRScriptHostFactory scriptHostFactory;
         private readonly ILog log;
 
         [CLSCompliant(false)]
-        public ConfigRScriptEngine(IConfigurator configurator, IConfigRScriptHostFactory scriptHostFactory, ILog log)
+        public ConfigRScriptEngine(ISimpleConfig config, IConfigRScriptHostFactory scriptHostFactory, ILog log)
         {
             Guard.AgainstNullArgument("scriptHostFactory", scriptHostFactory);
             Guard.AgainstNullArgument("log", log);
 
-            this.configurator = configurator;
+            this.config = config;
             this.roslynScriptEngine = new ScriptEngine();
             this.roslynScriptEngine.AddReference(typeof(ScriptExecutor).Assembly);
             this.scriptHostFactory = scriptHostFactory;
@@ -60,7 +60,7 @@ namespace ConfigR.Scripting
 
             if (!scriptPackSession.State.ContainsKey(SessionKey))
             {
-                var host = this.scriptHostFactory.CreateScriptHost(this.configurator, new ScriptPackManager(scriptPackSession.Contexts), scriptArgs);
+                var host = this.scriptHostFactory.CreateScriptHost(this.config, new ScriptPackManager(scriptPackSession.Contexts), scriptArgs);
                 this.log.Debug("Creating session");
                 var session = this.roslynScriptEngine.CreateSession(host);
 

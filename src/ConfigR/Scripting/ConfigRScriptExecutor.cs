@@ -18,11 +18,11 @@ namespace ConfigR.Scripting
         private static readonly ILog scriptCsLog = LogManager.GetLogger("ScriptCs");
         private bool isInitialized;
 
-        public ConfigRScriptExecutor(IConfigurator configurator, IFileSystem fileSystem)
+        public ConfigRScriptExecutor(ISimpleConfig config, IFileSystem fileSystem)
             : base(
                 fileSystem,
                 new FilePreProcessor(fileSystem, scriptCsLog, new ILineProcessor[] { new LoadLineProcessor(fileSystem) }),
-                new ConfigRScriptEngine(configurator, new ConfigRScriptHostFactory(), scriptCsLog),
+                new ConfigRScriptEngine(config, new ConfigRScriptHostFactory(), scriptCsLog),
                 scriptCsLog)
         {
         }
