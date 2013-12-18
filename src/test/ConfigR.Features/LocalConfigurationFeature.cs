@@ -55,10 +55,10 @@ namespace ConfigR.Features
                 .Teardown(() => File.Delete(LocalScriptFileConfig.Path));
 
             "When I set bar to 'baz'"
-                .When(() => Config.SuppressGlobalLoad().Add("bar", "baz"));
+                .When(() => Config.DisableGlobalAutoLoading().Add("bar", "baz"));
 
             "And I get foo"
-                .And(() => result = Config.AllowGlobalLoad().Get<string>("foo"));
+                .And(() => result = Config.EnableGlobalAutoLoading().Get<string>("foo"));
 
             "Then foo is 'baz'"
                 .Then(() => result.Should().Be("baz"));

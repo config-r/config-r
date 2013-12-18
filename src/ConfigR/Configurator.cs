@@ -36,14 +36,14 @@ namespace ConfigR
         public static IConfig Add(string key, object value)
         {
             LogObsolete();
-            Config.SuppressGlobalLoad().Add(key, value);
+            Config.DisableGlobalAutoLoading().Add(key, value);
             return Config.Global;
         }
 
         public static IConfig Add(object value)
         {
             LogObsolete();
-            Config.SuppressGlobalLoad().Add(value as object);
+            Config.DisableGlobalAutoLoading().Add(value as object);
             return Config.Global;
         }
 
@@ -111,26 +111,26 @@ namespace ConfigR
         public static IConfig Load(Uri uri)
         {
             LogObsolete();
-            return Config.SuppressGlobalLoad().LoadWebScript(uri);
+            return Config.DisableGlobalAutoLoading().LoadWebScript(uri);
         }
 
         [SuppressMessage("Microsoft.Design", "CA1057:StringUriOverloadsCallSystemUriOverloads", Justification = "It's not a string URI, it's a path.")]
         public static IConfig Load(string path)
         {
             LogObsolete();
-            return Config.SuppressGlobalLoad().LoadScriptFile(path);
+            return Config.DisableGlobalAutoLoading().LoadScriptFile(path);
         }
 
         public static IConfig LoadLocal()
         {
             LogObsolete();
-            return Config.SuppressGlobalLoad().LoadLocalScriptFile();
+            return Config.DisableGlobalAutoLoading().LoadLocalScriptFile();
         }
 
         public static IConfig Load(ISimpleConfig config)
         {
             LogObsolete();
-            return Config.SuppressGlobalLoad().Load(config);
+            return Config.DisableGlobalAutoLoading().Load(config);
         }
 
         private static void LogObsolete()

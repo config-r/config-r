@@ -8,22 +8,22 @@ namespace ConfigR
     {
         private static readonly Config global = new Config();
 
-        private static bool suppressGlobalLoad;
+        public static bool GlobalAutoLoadingEnabled { get; set; }
 
         public static IConfig Global
         {
-            get { return suppressGlobalLoad ? global : global.EnsureLoaded(); }
+            get { return GlobalAutoLoadingEnabled ? global : global.EnsureLoaded(); }
         }
 
-        public static IConfig SuppressGlobalLoad()
+        public static IConfig DisableGlobalAutoLoading()
         {
-            suppressGlobalLoad = true;
+            GlobalAutoLoadingEnabled = true;
             return global;
         }
 
-        public static IConfig AllowGlobalLoad()
+        public static IConfig EnableGlobalAutoLoading()
         {
-            suppressGlobalLoad = false;
+            GlobalAutoLoadingEnabled = false;
             return Global;
         }
     }
