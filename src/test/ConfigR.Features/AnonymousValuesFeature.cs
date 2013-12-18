@@ -15,8 +15,8 @@ namespace ConfigR.Features
         [Background]
         public static void Background()
         {
-            "Given no configuration is loaded"
-                .Given(() => Configurator.Unload());
+            "Given no configuration has been loaded"
+                .Given(() => Config.Global.Reset());
         }
 
         [Scenario]
@@ -25,7 +25,7 @@ namespace ConfigR.Features
             "Given a local config file containing an anonymous Foo with a Bar of 'baz'"
                 .Given(() =>
                 {
-                    using (var writer = new StreamWriter(new LocalConfigurator().Path))
+                    using (var writer = new StreamWriter(LocalScriptFileConfig.Path))
                     {
                         writer.WriteLine(@"#r ""ConfigR.Features.dll""");
                         writer.WriteLine(@"using ConfigR.Features;");
@@ -33,10 +33,10 @@ namespace ConfigR.Features
                         writer.Flush();
                     }
                 })
-                .Teardown(() => File.Delete(new LocalConfigurator().Path));
+                .Teardown(() => File.Delete(LocalScriptFileConfig.Path));
 
             "When I get the Foo"
-                .When(() => result = Configurator.Get<Foo>());
+                .When(() => result = Config.Global.Get<Foo>());
 
             "Then the Foo has a Bar of 'baz'"
                 .Then(() => result.Bar.Should().Be("baz"));
@@ -48,7 +48,7 @@ namespace ConfigR.Features
             "Given a local config file containing a named Foo with a Bar of 'baz'"
                 .Given(() =>
                 {
-                    using (var writer = new StreamWriter(new LocalConfigurator().Path))
+                    using (var writer = new StreamWriter(LocalScriptFileConfig.Path))
                     {
                         writer.WriteLine(@"#r ""ConfigR.Features.dll""");
                         writer.WriteLine(@"using ConfigR.Features;");
@@ -56,10 +56,10 @@ namespace ConfigR.Features
                         writer.Flush();
                     }
                 })
-                .Teardown(() => File.Delete(new LocalConfigurator().Path));
+                .Teardown(() => File.Delete(LocalScriptFileConfig.Path));
 
             "When I get the Foo"
-                .When(() => result = Configurator.Get<Foo>());
+                .When(() => result = Config.Global.Get<Foo>());
 
             "Then the Foo has a Bar of 'baz'"
                 .Then(() => result.Bar.Should().Be("baz"));
@@ -71,7 +71,7 @@ namespace ConfigR.Features
             "Given a local config file containing multiple values"
                 .Given(() =>
                 {
-                    using (var writer = new StreamWriter(new LocalConfigurator().Path))
+                    using (var writer = new StreamWriter(LocalScriptFileConfig.Path))
                     {
                         writer.WriteLine(@"#r ""ConfigR.Features.dll""");
                         writer.WriteLine(@"using ConfigR.Features;");
@@ -83,10 +83,10 @@ namespace ConfigR.Features
                         writer.Flush();
                     }
                 })
-                .Teardown(() => File.Delete(new LocalConfigurator().Path));
+                .Teardown(() => File.Delete(LocalScriptFileConfig.Path));
 
             "When I get int item"
-                .When(() => result = Configurator.Get<int>());
+                .When(() => result = Config.Global.Get<int>());
 
             "Then it should be '12'"
                 .Then(() => result.Should().Be(12));
@@ -98,7 +98,7 @@ namespace ConfigR.Features
             "Given a local config file containing a named Foo with a Bar of 'baz'"
                 .Given(() =>
                 {
-                    using (var writer = new StreamWriter(new LocalConfigurator().Path))
+                    using (var writer = new StreamWriter(LocalScriptFileConfig.Path))
                     {
                         writer.WriteLine(@"#r ""ConfigR.Features.dll""");
                         writer.WriteLine(@"using ConfigR.Features;");
@@ -106,10 +106,10 @@ namespace ConfigR.Features
                         writer.Flush();
                     }
                 })
-                .Teardown(() => File.Delete(new LocalConfigurator().Path));
+                .Teardown(() => File.Delete(LocalScriptFileConfig.Path));
 
             "When I try to get a Foo"
-                .When(() => result = Configurator.TryGet<Foo>(out value));
+                .When(() => result = Config.Global.TryGetValue<Foo>(out value));
 
             "Then the result is true"
                 .Then(() => result.Should().BeTrue());
@@ -124,7 +124,7 @@ namespace ConfigR.Features
             "Given a local config file not containing any string item"
                 .Given(() =>
                 {
-                    using (var writer = new StreamWriter(new LocalConfigurator().Path))
+                    using (var writer = new StreamWriter(LocalScriptFileConfig.Path))
                     {
                         writer.WriteLine(@"#r ""ConfigR.Features.dll""");
                         writer.WriteLine(@"using ConfigR.Features;");
@@ -133,10 +133,10 @@ namespace ConfigR.Features
                         writer.Flush();
                     }
                 })
-                .Teardown(() => File.Delete(new LocalConfigurator().Path));
+                .Teardown(() => File.Delete(LocalScriptFileConfig.Path));
 
             "When I try to get a string item"
-                .When(() => ex = Record.Exception(() => Configurator.Get<string>()));
+                .When(() => ex = Record.Exception(() => Config.Global.Get<string>()));
 
             "Then an exception is thrown"
                 .Then(() => ex.Should().NotBeNull());
@@ -148,7 +148,7 @@ namespace ConfigR.Features
             "Given a local config file not containing any string item"
                 .Given(() =>
                 {
-                    using (var writer = new StreamWriter(new LocalConfigurator().Path))
+                    using (var writer = new StreamWriter(LocalScriptFileConfig.Path))
                     {
                         writer.WriteLine(@"#r ""ConfigR.Features.dll""");
                         writer.WriteLine(@"using ConfigR.Features;");
@@ -157,10 +157,10 @@ namespace ConfigR.Features
                         writer.Flush();
                     }
                 })
-                .Teardown(() => File.Delete(new LocalConfigurator().Path));
+                .Teardown(() => File.Delete(LocalScriptFileConfig.Path));
 
             "When I get a string item or default"
-                .When(() => result = Configurator.GetOrDefault<string>());
+                .When(() => result = Config.Global.GetOrDefault<string>());
 
             "Then the result should be the default string"
                 .Then(() => result.Should().Be(default(string)));
@@ -172,7 +172,7 @@ namespace ConfigR.Features
             "Given a local config file not containing any string item"
                 .Given(() =>
                 {
-                    using (var writer = new StreamWriter(new LocalConfigurator().Path))
+                    using (var writer = new StreamWriter(LocalScriptFileConfig.Path))
                     {
                         writer.WriteLine(@"#r ""ConfigR.Features.dll""");
                         writer.WriteLine(@"using ConfigR.Features;");
@@ -181,10 +181,10 @@ namespace ConfigR.Features
                         writer.Flush();
                     }
                 })
-                .Teardown(() => File.Delete(new LocalConfigurator().Path));
+                .Teardown(() => File.Delete(LocalScriptFileConfig.Path));
 
             "When I try to get a string item"
-                .When(() => result = Configurator.TryGet<string>(out value));
+                .When(() => result = Config.Global.TryGetValue<string>(out value));
 
             "Then the result should be false"
                 .Then(() => result.Should().BeFalse());

@@ -15,7 +15,7 @@ namespace ConfigR.Testing.VSHostingProcess
         {
             LogManager.Adapter = new ConsoleOutLoggerFactoryAdapter(LogLevel.Trace, false, true, true, null);
 
-            Console.WriteLine(Configurator.Get<string>("greeting"));
+            Console.WriteLine(Config.Global.Get<string>("greeting"));
 
             Console.WriteLine("Brutalize a key with your favourite finger to exit.");
             Console.ReadKey();

@@ -19,8 +19,8 @@ namespace ConfigR.Testing.Service
             HostFactory.Run(x => x.Service<string>(o =>
             {
                 o.ConstructUsing(n => n);
-                o.WhenStarted(n => log.Info(Configurator.Get<Settings>("settings").Greeting));
-                o.WhenStopped(n => log.Info(Configurator.Get<Settings>("settings").Valediction));
+                o.WhenStarted(n => log.Info(Config.Global.Get<Settings>("settings").Greeting));
+                o.WhenStopped(n => log.Info(Config.Global.Get<Settings>("settings").Valediction));
             }));
         }
     }
