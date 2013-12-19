@@ -12,6 +12,8 @@ namespace ConfigR.Scripting
     [CLSCompliant(false)]
     public interface IConfigRScriptHost : IScriptHost, IDictionary<string, object>
     {
+        IConfigRScriptHost This { get; }
+
         [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Global", Justification = "By design.")]
         IConfig Global { get; }
 

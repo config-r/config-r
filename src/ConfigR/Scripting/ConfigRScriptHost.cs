@@ -25,9 +25,9 @@ namespace ConfigR.Scripting
             this.dictionary = dictionary;
         }
 
-        public IDictionary<string, object> Config
+        public IConfigRScriptHost This
         {
-            get { return this.dictionary; }
+            get { return this; }
         }
 
         public IConfig Global
