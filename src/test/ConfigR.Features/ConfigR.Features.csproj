@@ -63,6 +63,8 @@
     <Compile Include="CascadingConfigurationFeature.cs" />
     <Compile Include="AnonymousValuesFeature.cs" />
     <Compile Include="AnonymousTypesFeature.cs" />
+    <Compile Include="ScriptIndexingFeature.cs" />
+    <Compile Include="ScriptIterationFeature.cs" />
     <Compile Include="DefaultValuesFeature.cs" />
     <Compile Include="ObjectConfigurationItemFeature.cs" />
     <Compile Include="IsolatedConfigurationFeature.cs" />
