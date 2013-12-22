@@ -21,7 +21,7 @@ namespace ConfigR.Scripting
         public ConfigRScriptExecutor(ISimpleConfig config, IFileSystem fileSystem)
             : base(
                 fileSystem,
-                new FilePreProcessor(fileSystem, scriptCsLog, new ILineProcessor[] { new LoadLineProcessor(fileSystem) }),
+                new FilePreProcessor(fileSystem, scriptCsLog, new ILineProcessor[] { new LoadLineProcessor(fileSystem), new ReferenceLineProcessor(fileSystem), new UsingLineProcessor() }),
                 new ConfigRScriptEngine(config, new ConfigRScriptHostFactory(), scriptCsLog),
                 scriptCsLog)
         {
