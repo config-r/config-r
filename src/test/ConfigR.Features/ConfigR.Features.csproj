@@ -63,6 +63,7 @@
     <Compile Include="CascadingConfigurationFeature.cs" />
     <Compile Include="AnonymousValuesFeature.cs" />
     <Compile Include="AnonymousTypesFeature.cs" />
+    <Compile Include="NestedScriptLoadingFeature.cs" />
     <Compile Include="ScriptIndexingFeature.cs" />
     <Compile Include="ScriptIterationFeature.cs" />
     <Compile Include="DefaultValuesFeature.cs" />
@@ -80,6 +81,9 @@
       <Project>{a294db75-7707-4c47-8bec-56f5ada25367}</Project>
       <Name>ConfigR</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
