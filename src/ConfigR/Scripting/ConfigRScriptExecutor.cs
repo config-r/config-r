@@ -21,7 +21,7 @@ namespace ConfigR.Scripting
             : base(
                 fileSystem,
                 new FilePreProcessor(fileSystem, scriptCsLog, new ILineProcessor[] { new LoadLineProcessor(fileSystem), new ReferenceLineProcessor(fileSystem), new UsingLineProcessor() }),
-                new ConfigRScriptEngine(config, new ConfigRScriptHostFactory(), scriptCsLog),
+                new Shims.RoslynScriptInMemoryEngine(new ConfigRScriptHostFactory(config), scriptCsLog),
                 scriptCsLog)
         {
         }
