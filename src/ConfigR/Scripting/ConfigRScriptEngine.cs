@@ -127,10 +127,7 @@ namespace ConfigR.Scripting
             catch (Exception ex)
             {
                 result.UpdateClosingExpectation(ex);
-                if (!result.IsPendingClosingChar)
-                {
-                    result.CompileExceptionInfo = ExceptionDispatchInfo.Capture(ex);
-                }
+                result.CompileExceptionInfo = ExceptionDispatchInfo.Capture(ex);
             }
 
             return result;
