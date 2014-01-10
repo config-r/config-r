@@ -1,15 +1,14 @@
-﻿// <copyright file="FileConfigurationFeature.cs" company="ConfigR contributors">
+﻿// <copyright file="NestedScriptLoadingFeature.cs" company="ConfigR contributors">
 //  Copyright (c) ConfigR contributors. (configr.net@gmail.com)
 // </copyright>
 
 namespace ConfigR.Features
 {
     using System.IO;
-    using System.Reflection;
     using FluentAssertions;
     using Xbehave;
 
-    public static class FileConfigurationFeature
+    public static class NestedScriptLoadingFeature
     {
         [Background]
         public static void Background()
@@ -19,7 +18,7 @@ namespace ConfigR.Features
         }
 
         [Scenario]
-        public static void RetreivingAnObject(Foo result)
+        public static void UsingStatementsFollowingLoadingOfAScriptContainingCode(Foo result)
         {
             "Given a config file containing a Foo with a Bar of 'baz'"
                 .Given(() =>
@@ -28,14 +27,27 @@ namespace ConfigR.Features
                     {
                         writer.WriteLine(@"#r ""ConfigR.Features.dll""");
                         writer.WriteLine(@"using ConfigR.Features;");
-                        writer.WriteLine(@"Add(""foo"", new FileConfigurationFeature.Foo { Bar = ""baz"" });");
+                        writer.WriteLine(@"Add(""foo"", new NestedScriptLoadingFeature.Foo { Bar = ""baz"" });");
                         writer.Flush();
                     }
                 })
                 .Teardown(() => File.Delete("foo.csx"));
 
-            "When I load the file"
-                .When(() => Config.Global.LoadScriptFile("foo.csx"));
+            "And another config file which loads the first config file as a script and then has using statements"
+                .And(() =>
+                {
+                    using (var writer = new StreamWriter("bar.csx"))
+                    {
+                        writer.WriteLine(@"#r ""ConfigR.Features.dll""");
+                        writer.WriteLine(@"#load ""foo.csx""");
+                        writer.WriteLine(@"using ConfigR.Features;");
+                        writer.Flush();
+                    }
+                })
+                .Teardown(() => File.Delete("bar.csx"));
+
+            "When I load the second config file"
+                .When(() => Config.Global.LoadScriptFile("bar.csx"));
 
             "And I get the Foo"
                 .And(() => result = Config.Global.Get<Foo>("foo"));

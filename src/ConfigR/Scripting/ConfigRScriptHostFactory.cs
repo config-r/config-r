@@ -5,14 +5,22 @@
 namespace ConfigR.Scripting
 {
     using System;
+    using ScriptCs;
     using ScriptCs.Contracts;
 
-    public class ConfigRScriptHostFactory : IConfigRScriptHostFactory
+    public class ConfigRScriptHostFactory : IScriptHostFactory
     {
-        [CLSCompliant(false)]
-        public IConfigRScriptHost CreateScriptHost(IConfigurator configurator, IScriptPackManager scriptPackManager, string[] scriptArgs)
+        private readonly ISimpleConfig config;
+
+        public ConfigRScriptHostFactory(ISimpleConfig config)
         {
-            return new ConfigRScriptHost(configurator, scriptPackManager, scriptArgs);
+            this.config = config;
+        }
+
+        [CLSCompliant(false)]
+        public IScriptHost CreateScriptHost(IScriptPackManager scriptPackManager, string[] scriptArgs)
+        {
+            return new ConfigRScriptHost(this.config, scriptPackManager, scriptArgs);
         }
     }
 }

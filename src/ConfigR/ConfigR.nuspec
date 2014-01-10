@@ -10,13 +10,13 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Write your .NET configuration files in C#.
 Fed up with XML soup? Frustrated that app settings can only be strings? Want to do more in your configuration file than just define app settings? Then ConfigR is for you!</description>
-    <releaseNotes>New: Methods for specifying default values - https://github.com/config-r/config-r/issues/63/
+    <releaseNotes>New: Configs inherit from IDictionary - https://github.com/config-r/config-r/issues/132/
+Fixed: Config missing when script is missing a closing bracket - https://github.com/config-r/config-r/issues/148/
+Fixed: Script compilation fails when #load is followed by a using statement - https://github.com/config-r/config-r/issues/144/
 
-New: Support for the Visual Studio hosting process - https://github.com/config-r/config-r/issues/86/
-
-New: Upgrade to scriptcs 0.8.1 - https://github.com/config-r/config-r/issues/117/
-
-Fixed: Parameter names are wrong in null argument exceptions - https://github.com/config-r/config-r/issues/121/</releaseNotes>
+With special thanks for contributions to this release from:
+Prabir Shrestha - https://github.com/prabirshrestha/
+Kevin Pilch-Bisson - https://github.com/Pilchie/</releaseNotes>
     <copyright>Copyright (c) ConfigR contributors. (configr.net@gmail.com)</copyright>
     <tags>configuration</tags>
   </metadata>

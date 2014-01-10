@@ -13,8 +13,8 @@ namespace ConfigR.Features
         [Background]
         public static void Background()
         {
-            "Given no configuration is loaded"
-                .Given(() => Configurator.Unload());
+            "Given no configuration has been loaded"
+                .Given(() => Config.Global.Reset());
         }
 
         [Scenario]
@@ -32,10 +32,10 @@ namespace ConfigR.Features
                 .Teardown(() => File.Delete("foo1.csx"));
 
             "When I load the file"
-                .When(() => Configurator.Load("foo1.csx"));
+                .When(() => Config.Global.LoadScriptFile("foo1.csx"));
 
             "And I get an int named 'foo' with a default of 456"
-                .f(() => result = Configurator.GetOrDefault("foo", 456));
+                .f(() => result = Config.Global.GetOrDefault("foo", 456));
 
             "Then the result is 123"
                 .f(() => result.Should().Be(123));
@@ -56,10 +56,10 @@ namespace ConfigR.Features
                 .Teardown(() => File.Delete("foo1.csx"));
 
             "When I load the file"
-                .When(() => Configurator.Load("foo1.csx"));
+                .When(() => Config.Global.LoadScriptFile("foo1.csx"));
 
             "And I try to get an int named 'foo' with a default of 456"
-                .f(() => success = Configurator.TryGetOrDefault("foo", out result, 456));
+                .f(() => success = Config.Global.TryGetValueOrDefault("foo", out result, 456));
 
             "Then the attempt succeeds"
                 .f(() => success.Should().BeTrue());
@@ -83,10 +83,10 @@ namespace ConfigR.Features
                 .Teardown(() => File.Delete("foo1.csx"));
 
             "When I load the file"
-                .When(() => Configurator.Load("foo1.csx"));
+                .When(() => Config.Global.LoadScriptFile("foo1.csx"));
 
             "And I get an int named 'bar' with a default of 456"
-                .f(() => result = Configurator.GetOrDefault("bar", 456));
+                .f(() => result = Config.Global.GetOrDefault("bar", 456));
 
             "Then the result is 456"
                 .f(() => result.Should().Be(456));
@@ -107,10 +107,10 @@ namespace ConfigR.Features
                 .Teardown(() => File.Delete("foo1.csx"));
 
             "When I load the file"
-                .When(() => Configurator.Load("foo1.csx"));
+                .When(() => Config.Global.LoadScriptFile("foo1.csx"));
 
             "And I try to get an int named 'bar' with a default of 456"
-                .f(() => success = Configurator.TryGetOrDefault("bar", out result, 456));
+                .f(() => success = Config.Global.TryGetValueOrDefault("bar", out result, 456));
 
             "Then the attempt fails"
                 .f(() => success.Should().BeFalse());
