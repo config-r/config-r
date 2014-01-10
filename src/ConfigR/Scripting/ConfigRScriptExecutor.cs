@@ -6,7 +6,6 @@ namespace ConfigR.Scripting
 {
     using System;
     using System.Collections.Generic;
-    using System.Globalization;
     using Common.Logging;
     using ScriptCs;
     using ScriptCs.Contracts;
@@ -34,41 +33,12 @@ namespace ConfigR.Scripting
             this.isInitialized = true;
         }
 
-        public override ScriptResult ExecuteScript(string script, params string[] scriptArgs)
-        {
-            var result = base.ExecuteScript(script, scriptArgs);
-            RethrowExceptionIfAny(result, script);
-            return result;
-        }
-
-        public override ScriptResult Execute(string script, string[] scriptArgs)
-        {
-            var result = base.Execute(script, scriptArgs);
-            RethrowExceptionIfAny(result, script);
-            return result;
-        }
-
         public void Dispose()
         {
             if (this.isInitialized)
             {
                 this.Terminate();
                 this.isInitialized = false;
-            }
-        }
-
-        private static void RethrowExceptionIfAny(ScriptResult result, string script)
-        {
-            if (result.CompileExceptionInfo != null)
-            {
-                log.ErrorFormat(CultureInfo.InvariantCulture, "Failed to compile {0}", result.CompileExceptionInfo, script);
-                result.CompileExceptionInfo.Throw();
-            }
-
-            if (result.ExecuteExceptionInfo != null)
-            {
-                log.ErrorFormat(CultureInfo.InvariantCulture, "Failed to execute {0}", result.ExecuteExceptionInfo, script);
-                result.ExecuteExceptionInfo.Throw();
             }
         }
     }
