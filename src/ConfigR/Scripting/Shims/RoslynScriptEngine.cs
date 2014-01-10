@@ -40,12 +40,6 @@ namespace ConfigR.Scripting.Shims
         {
             Guard.AgainstNullArgument("scriptPackSession", scriptPackSession);
 
-            if (string.IsNullOrWhiteSpace(code))
-            {
-                Logger.Debug("Code is empty, bypassing execution.");
-                return new ScriptResult();
-            }
-
             Logger.Debug("Starting to create execution components");
             Logger.Debug("Creating script host");
             

@@ -77,8 +77,17 @@ namespace ConfigR.Scripting.Shims
                     catch (Exception executeException)
                     {
                         var ex = executeException.InnerException ?? executeException;
-                        scriptResult.ExecuteExceptionInfo = ExceptionDispatchInfo.Capture(ex);
-                        this.Logger.Error("An error occurred when executing the scripts.");
+
+                        // HACK: waiting on https://github.com/scriptcs/scriptcs/issues/545
+                        if (!ex.StackTrace.Trim().StartsWith("at Submission#"))
+                        {
+                            Logger.Warn("Roslyn failed to execute the scripts. Any configuration in this script will not be available", ex);
+                        }
+                        else
+                        {
+                            scriptResult.ExecuteExceptionInfo = ExceptionDispatchInfo.Capture(ex);
+                            this.Logger.Error("An error occurred when executing the scripts.");
+                        }
                     }
                 }
             }
