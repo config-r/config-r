@@ -1,10 +1,14 @@
-﻿using System;
-using System.Reflection;
-using Common.Logging;
-using ScriptCs;
+﻿// <copyright file="RoslynScriptInMemoryEngine.cs" company="ConfigR contributors">
+//  Copyright (c) ConfigR contributors. (configr.net@gmail.com)
+// </copyright>
 
 namespace ConfigR.Scripting.Shims
 {
+    using System;
+    using System.Reflection;
+    using Common.Logging;
+    using ScriptCs;
+
     [CLSCompliant(false)]
     public class RoslynScriptInMemoryEngine : RoslynScriptCompilerEngine
     {
@@ -12,7 +16,7 @@ namespace ConfigR.Scripting.Shims
             : base(scriptHostFactory, logger)
         {
         }
-        
+
         protected override Assembly LoadAssembly(byte[] exeBytes, byte[] pdbBytes)
         {
             this.Logger.Debug("Loading assembly from memory.");

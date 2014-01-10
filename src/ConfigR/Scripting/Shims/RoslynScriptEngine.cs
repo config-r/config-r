@@ -1,66 +1,69 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Common.Logging;
-using Roslyn.Scripting;
-using Roslyn.Scripting.CSharp;
-using ScriptCs.Contracts;
+﻿// <copyright file="RoslynScriptEngine.cs" company="ConfigR contributors">
+//  Copyright (c) ConfigR contributors. (configr.net@gmail.com)
+// </copyright>
 
 namespace ConfigR.Scripting.Shims
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Runtime.ExceptionServices;
+    using Common.Logging;
+    using Roslyn.Scripting;
+    using Roslyn.Scripting.CSharp;
     using ScriptCs;
+    using ScriptCs.Contracts;
 
     [CLSCompliant(false)]
     public class RoslynScriptEngine : IScriptEngine
     {
-        protected readonly ScriptEngine ScriptEngine;
-        private readonly IScriptHostFactory _scriptHostFactory;
         public const string SessionKey = "Session";
+        protected readonly ScriptEngine ScriptEngine;
+        private readonly IScriptHostFactory scriptHostFactory;
 
         public RoslynScriptEngine(IScriptHostFactory scriptHostFactory, ILog logger)
         {
-            ScriptEngine = new ScriptEngine();
-            ScriptEngine.AddReference(typeof(ScriptExecutor).Assembly);
-            _scriptHostFactory = scriptHostFactory;
-            Logger = logger;
+            this.ScriptEngine = new ScriptEngine();
+            this.ScriptEngine.AddReference(typeof(ScriptExecutor).Assembly);
+            this.scriptHostFactory = scriptHostFactory;
+            this.Logger = logger;
         }
 
-        protected ILog Logger { get; private set; }
-        
         public string BaseDirectory
         {
-            get { return ScriptEngine.BaseDirectory;  }
-            set { ScriptEngine.BaseDirectory = value; }
+            get { return this.ScriptEngine.BaseDirectory; }
+            set { this.ScriptEngine.BaseDirectory = value; }
         }
 
         public string FileName { get; set; }
+
+        protected ILog Logger { get; private set; }
 
         public ScriptResult Execute(string code, string[] scriptArgs, IEnumerable<string> references, IEnumerable<string> namespaces, ScriptPackSession scriptPackSession)
         {
             Guard.AgainstNullArgument("scriptPackSession", scriptPackSession);
 
-            Logger.Debug("Starting to create execution components");
-            Logger.Debug("Creating script host");
-            
+            this.Logger.Debug("Starting to create execution components");
+            this.Logger.Debug("Creating script host");
+
             var distinctReferences = references.Union(scriptPackSession.References).Distinct().ToList();
             SessionState<Session> sessionState;
 
             if (!scriptPackSession.State.ContainsKey(SessionKey))
             {
-                var host = _scriptHostFactory.CreateScriptHost(new ScriptPackManager(scriptPackSession.Contexts), scriptArgs);
-                Logger.Debug("Creating session");
-                var session = ScriptEngine.CreateSession(host, host.GetType());
+                var host = this.scriptHostFactory.CreateScriptHost(new ScriptPackManager(scriptPackSession.Contexts), scriptArgs);
+                this.Logger.Debug("Creating session");
+                var session = this.ScriptEngine.CreateSession(host, host.GetType());
 
                 foreach (var reference in distinctReferences)
                 {
-                    Logger.DebugFormat("Adding reference to {0}", reference);
+                    this.Logger.DebugFormat("Adding reference to {0}", reference);
                     session.AddReference(reference);
                 }
 
                 foreach (var @namespace in namespaces.Union(scriptPackSession.Namespaces).Distinct())
                 {
-                    Logger.DebugFormat("Importing namespace {0}", @namespace);
+                    this.Logger.DebugFormat("Importing namespace {0}", @namespace);
                     session.ImportNamespace(@namespace);
                 }
 
@@ -69,7 +72,7 @@ namespace ConfigR.Scripting.Shims
             }
             else
             {
-                Logger.Debug("Reusing existing session");
+                this.Logger.Debug("Reusing existing session");
                 sessionState = (SessionState<Session>)scriptPackSession.State[SessionKey];
 
                 var newReferences = sessionState.References == null || !sessionState.References.Any() ? distinctReferences : distinctReferences.Except(sessionState.References);
@@ -77,7 +80,7 @@ namespace ConfigR.Scripting.Shims
                 {
                     foreach (var reference in newReferences)
                     {
-                        Logger.DebugFormat("Adding reference to {0}", reference);
+                        this.Logger.DebugFormat("Adding reference to {0}", reference);
                         sessionState.Session.AddReference(reference);
                     }
 
@@ -85,9 +88,9 @@ namespace ConfigR.Scripting.Shims
                 }
             }
 
-            Logger.Debug("Starting execution");
-            var result = Execute(code, sessionState.Session);
-            Logger.Debug("Finished execution");
+            this.Logger.Debug("Starting execution");
+            var result = this.Execute(code, sessionState.Session);
+            this.Logger.Debug("Finished execution");
             return result;
         }
 
@@ -110,7 +113,7 @@ namespace ConfigR.Scripting.Shims
             }
             catch (Exception ex)
             {
-                 result.UpdateClosingExpectation(ex);
+                result.UpdateClosingExpectation(ex);
                 if (!result.IsPendingClosingChar)
                 {
                     result.CompileExceptionInfo = ExceptionDispatchInfo.Capture(ex);

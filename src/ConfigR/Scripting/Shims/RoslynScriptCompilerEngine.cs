@@ -1,23 +1,26 @@
-﻿using System;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Runtime.ExceptionServices;
-using Common.Logging;
-using Roslyn.Compilers;
-using Roslyn.Scripting;
-using ScriptCs;
-using ScriptCs.Contracts;
-using ScriptCs.Exceptions;
+﻿// <copyright file="RoslynScriptCompilerEngine.cs" company="ConfigR contributors">
+//  Copyright (c) ConfigR contributors. (configr.net@gmail.com)
+// </copyright>
 
 namespace ConfigR.Scripting.Shims
 {
+    using System;
+    using System.IO;
+    using System.Linq;
+    using System.Reflection;
+    using System.Runtime.ExceptionServices;
+    using Common.Logging;
+    using Roslyn.Scripting;
+    using ScriptCs;
+    using ScriptCs.Contracts;
+    using ScriptCs.Exceptions;
+
     [CLSCompliant(false)]
     public abstract class RoslynScriptCompilerEngine : RoslynScriptEngine
     {
         protected const string CompiledScriptClass = "Submission#0";
         protected const string CompiledScriptMethod = "<Factory>";
-        
+
         protected RoslynScriptCompilerEngine(IScriptHostFactory scriptHostFactory, ILog logger)
             : base(scriptHostFactory, logger)
         {
@@ -53,7 +56,7 @@ namespace ConfigR.Scripting.Shims
                     }
                     else
                     {
-                        var errors = String.Join(Environment.NewLine, result.Diagnostics.Select(x => x.ToString()));
+                        var errors = string.Join(Environment.NewLine, result.Diagnostics.Select(x => x.ToString()));
                         this.Logger.ErrorFormat("Error occurred when compiling: {0})", errors);
                     }
                 }
@@ -72,7 +75,7 @@ namespace ConfigR.Scripting.Shims
                     try
                     {
                         this.Logger.Debug("Invoking method.");
-                        scriptResult.ReturnValue = method.Invoke(null, new[] {session});
+                        scriptResult.ReturnValue = method.Invoke(null, new[] { session });
                     }
                     catch (Exception executeException)
                     {
@@ -93,7 +96,7 @@ namespace ConfigR.Scripting.Shims
             }
             catch (Exception compileException)
             {
-                //we catch Exception rather than CompilationErrorException because there might be issues with assembly loading too
+                // we catch Exception rather than CompilationErrorException because there might be issues with assembly loading too
                 scriptResult.CompileExceptionInfo = ExceptionDispatchInfo.Capture(new ScriptCompilationException(compileException.Message, compileException));
             }
 
