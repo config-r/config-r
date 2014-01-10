@@ -58,6 +58,7 @@
     </Compile>
     <Compile Include="Configurator.cs" />
     <Compile Include="ConfigExtensions.cs" />
+    <Compile Include="Scripting\IConfigRScriptHost.cs" />
     <Compile Include="Scripting\ScriptConfigLoader.cs" />
     <Compile Include="DictionaryExtensions.cs" />
     <Compile Include="ScriptFileConfig.cs" />
@@ -73,8 +74,6 @@
       <DependentUpon>ConfigRScriptHost.cs</DependentUpon>
     </Compile>
     <Compile Include="Scripting\ConfigRScriptHostFactory.cs" />
-    <Compile Include="Scripting\IConfigRScriptHost.cs" />
-    <Compile Include="Scripting\IConfigRScriptHostFactory.cs" />
     <Compile Include="Scripting\Shims\RoslynScriptCompilerEngine.cs" />
     <Compile Include="Scripting\Shims\RoslynScriptEngine.cs" />
     <Compile Include="Scripting\Shims\RoslynScriptInMemoryEngine.cs" />
@@ -122,7 +121,6 @@
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Configuration" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <StyleCopMSBuildTargetsFile>..\packages\StyleCop.MSBuild.4.7.46.0\tools\StyleCop.targets</StyleCopMSBuildTargetsFile>
