@@ -13,7 +13,6 @@ namespace ConfigR.Scripting
     [CLSCompliant(false)]
     public sealed class ConfigRScriptExecutor : ScriptExecutor, IDisposable
     {
-        private static readonly ILog log = LogManager.GetCurrentClassLogger();
         private static readonly ILog scriptCsLog = LogManager.GetLogger("ScriptCs");
         private bool isInitialized;
 

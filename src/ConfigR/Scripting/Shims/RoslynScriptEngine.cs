@@ -6,6 +6,7 @@ namespace ConfigR.Scripting.Shims
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Runtime.ExceptionServices;
     using Common.Logging;
@@ -18,6 +19,9 @@ namespace ConfigR.Scripting.Shims
     public class RoslynScriptEngine : IScriptEngine
     {
         public const string SessionKey = "Session";
+
+        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Shim")]
+        [SuppressMessage("Microsoft.Design", "CA1051:DoNotDeclareVisibleInstanceFields", Justification = "Shim")]
         protected readonly ScriptEngine ScriptEngine;
         private readonly IScriptHostFactory scriptHostFactory;
 
@@ -39,6 +43,7 @@ namespace ConfigR.Scripting.Shims
 
         protected ILog Logger { get; private set; }
 
+        [SuppressMessage("Microsoft.Globalization", "CA1305:SpecifyIFormatProvider", MessageId = "Common.Logging.ILog.DebugFormat(System.String,System.Object[])", Justification = "Shim")]
         public ScriptResult Execute(string code, string[] scriptArgs, IEnumerable<string> references, IEnumerable<string> namespaces, ScriptPackSession scriptPackSession)
         {
             Guard.AgainstNullArgument("scriptPackSession", scriptPackSession);
@@ -94,6 +99,7 @@ namespace ConfigR.Scripting.Shims
             return result;
         }
 
+        [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Shim")]
         protected virtual ScriptResult Execute(string code, Session session)
         {
             Guard.AgainstNullArgument("session", session);

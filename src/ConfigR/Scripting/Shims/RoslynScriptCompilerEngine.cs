@@ -5,6 +5,7 @@
 namespace ConfigR.Scripting.Shims
 {
     using System;
+    using System.Diagnostics.CodeAnalysis;
     using System.IO;
     using System.Linq;
     using System.Reflection;
@@ -26,6 +27,9 @@ namespace ConfigR.Scripting.Shims
         {
         }
 
+        [SuppressMessage("Microsoft.Globalization", "CA1307:SpecifyStringComparison", MessageId = "System.String.StartsWith(System.String)", Justification = "Shim")]
+        [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Shim")]
+        [SuppressMessage("Microsoft.Globalization", "CA1305:SpecifyIFormatProvider", MessageId = "Common.Logging.ILog.ErrorFormat(System.String,System.Object[])", Justification = "Shim")]
         protected override ScriptResult Execute(string code, Session session)
         {
             Guard.AgainstNullArgument("session", session);
@@ -103,6 +107,7 @@ namespace ConfigR.Scripting.Shims
             return scriptResult;
         }
 
+        [SuppressMessage("Microsoft.Naming", "CA1720:IdentifiersShouldNotContainTypeNames", MessageId = "bytes", Justification = "Shim")]
         protected abstract Assembly LoadAssembly(byte[] exeBytes, byte[] pdbBytes);
     }
 }
