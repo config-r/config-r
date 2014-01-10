@@ -40,6 +40,12 @@ namespace ConfigR.Scripting.Shims
         {
             Guard.AgainstNullArgument("scriptPackSession", scriptPackSession);
 
+            if (string.IsNullOrWhiteSpace(code))
+            {
+                Logger.Debug("Code is empty, bypassing execution.");
+                return new ScriptResult();
+            }
+
             Logger.Debug("Starting to create execution components");
             Logger.Debug("Creating script host");
             
@@ -50,7 +56,7 @@ namespace ConfigR.Scripting.Shims
             {
                 var host = _scriptHostFactory.CreateScriptHost(new ScriptPackManager(scriptPackSession.Contexts), scriptArgs);
                 Logger.Debug("Creating session");
-                var session = ScriptEngine.CreateSession(host);
+                var session = ScriptEngine.CreateSession(host, host.GetType());
 
                 foreach (var reference in distinctReferences)
                 {
