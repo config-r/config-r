@@ -7,6 +7,7 @@ namespace ConfigR.Features
     using System.IO;
     using FluentAssertions;
     using Xbehave;
+    using Xunit;
 
     public static class LocalConfigurationFeature
     {
@@ -62,6 +63,27 @@ namespace ConfigR.Features
 
             "Then foo is 'baz'"
                 .Then(() => result.Should().Be("baz"));
+        }
+
+        [Scenario]
+        public static void ScriptIsMissingAClosingParenthesis(object exception)
+        {
+            "Given a local config file which is missing a closing bracket"
+                .Given(() =>
+                {
+                    using (var writer = new StreamWriter(LocalScriptFileConfig.Path))
+                    {
+                        writer.WriteLine(@"Add(""foo"", 123;");
+                        writer.Flush();
+                    }
+                })
+                .Teardown(() => File.Delete(LocalScriptFileConfig.Path));
+
+            "When I load the config file"
+                .When(() => exception = Record.Exception(() => Config.Global));
+
+            "Then an exception is thrown"
+                .Then(() => exception.Should().NotBeNull());
         }
 
         public class Foo

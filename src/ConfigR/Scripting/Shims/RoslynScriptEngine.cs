@@ -1,13 +1,12 @@
-﻿// <copyright file="ConfigRScriptEngine.cs" company="ConfigR contributors">
+﻿// <copyright file="RoslynScriptEngine.cs" company="ConfigR contributors">
 //  Copyright (c) ConfigR contributors. (configr.net@gmail.com)
 // </copyright>
 
-namespace ConfigR.Scripting
+namespace ConfigR.Scripting.Shims
 {
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
-    using System.Globalization;
     using System.Linq;
     using System.Runtime.ExceptionServices;
     using Common.Logging;
@@ -16,63 +15,60 @@ namespace ConfigR.Scripting
     using ScriptCs;
     using ScriptCs.Contracts;
 
-    public class ConfigRScriptEngine : IScriptEngine
+    [CLSCompliant(false)]
+    public class RoslynScriptEngine : IScriptEngine
     {
-        [SuppressMessage("Microsoft.Performance", "CA1802:UseLiteralsWhereAppropriate", Justification = "http://stackoverflow.com/questions/8140142/")]
-        private static readonly string SessionKey = "Session";
-        private readonly ISimpleConfig config;
-        private readonly ScriptEngine roslynScriptEngine;
-        private readonly IConfigRScriptHostFactory scriptHostFactory;
-        private readonly ILog log;
+        public const string SessionKey = "Session";
 
-        [CLSCompliant(false)]
-        public ConfigRScriptEngine(ISimpleConfig config, IConfigRScriptHostFactory scriptHostFactory, ILog log)
+        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "Shim")]
+        [SuppressMessage("Microsoft.Design", "CA1051:DoNotDeclareVisibleInstanceFields", Justification = "Shim")]
+        protected readonly ScriptEngine ScriptEngine;
+        private readonly IScriptHostFactory scriptHostFactory;
+
+        public RoslynScriptEngine(IScriptHostFactory scriptHostFactory, ILog logger)
         {
-            Guard.AgainstNullArgument("scriptHostFactory", scriptHostFactory);
-            Guard.AgainstNullArgument("log", log);
-
-            this.config = config;
-            this.roslynScriptEngine = new ScriptEngine();
-            this.roslynScriptEngine.AddReference(typeof(ScriptExecutor).Assembly);
+            this.ScriptEngine = new ScriptEngine();
+            this.ScriptEngine.AddReference(typeof(ScriptExecutor).Assembly);
             this.scriptHostFactory = scriptHostFactory;
-            this.log = log;
+            this.Logger = logger;
         }
 
         public string BaseDirectory
         {
-            get { return this.roslynScriptEngine.BaseDirectory; }
-            set { this.roslynScriptEngine.BaseDirectory = value; }
+            get { return this.ScriptEngine.BaseDirectory; }
+            set { this.ScriptEngine.BaseDirectory = value; }
         }
 
         public string FileName { get; set; }
 
-        [CLSCompliant(false)]
-        public ScriptResult Execute(
-            string code, string[] scriptArgs, IEnumerable<string> references, IEnumerable<string> namespaces, ScriptPackSession scriptPackSession)
+        protected ILog Logger { get; private set; }
+
+        [SuppressMessage("Microsoft.Globalization", "CA1305:SpecifyIFormatProvider", MessageId = "Common.Logging.ILog.DebugFormat(System.String,System.Object[])", Justification = "Shim")]
+        public ScriptResult Execute(string code, string[] scriptArgs, IEnumerable<string> references, IEnumerable<string> namespaces, ScriptPackSession scriptPackSession)
         {
             Guard.AgainstNullArgument("scriptPackSession", scriptPackSession);
 
-            this.log.Debug("Starting to create execution components");
-            this.log.Debug("Creating script host");
+            this.Logger.Debug("Starting to create execution components");
+            this.Logger.Debug("Creating script host");
 
             var distinctReferences = references.Union(scriptPackSession.References).Distinct().ToList();
             SessionState<Session> sessionState;
 
             if (!scriptPackSession.State.ContainsKey(SessionKey))
             {
-                var host = this.scriptHostFactory.CreateScriptHost(this.config, new ScriptPackManager(scriptPackSession.Contexts), scriptArgs);
-                this.log.Debug("Creating session");
-                var session = this.roslynScriptEngine.CreateSession(host);
+                var host = this.scriptHostFactory.CreateScriptHost(new ScriptPackManager(scriptPackSession.Contexts), scriptArgs);
+                this.Logger.Debug("Creating session");
+                var session = this.ScriptEngine.CreateSession(host, host.GetType());
 
                 foreach (var reference in distinctReferences)
                 {
-                    this.log.DebugFormat(CultureInfo.InvariantCulture, "Adding reference to {0}", reference);
+                    this.Logger.DebugFormat("Adding reference to {0}", reference);
                     session.AddReference(reference);
                 }
 
                 foreach (var @namespace in namespaces.Union(scriptPackSession.Namespaces).Distinct())
                 {
-                    this.log.DebugFormat(CultureInfo.InvariantCulture, "Importing namespace {0}", @namespace);
+                    this.Logger.DebugFormat("Importing namespace {0}", @namespace);
                     session.ImportNamespace(@namespace);
                 }
 
@@ -81,17 +77,15 @@ namespace ConfigR.Scripting
             }
             else
             {
-                this.log.Debug("Reusing existing session");
+                this.Logger.Debug("Reusing existing session");
                 sessionState = (SessionState<Session>)scriptPackSession.State[SessionKey];
 
-                var newReferences = sessionState.References == null ||
-                    !sessionState.References.Any() ? distinctReferences : distinctReferences.Except(sessionState.References);
-
+                var newReferences = sessionState.References == null || !sessionState.References.Any() ? distinctReferences : distinctReferences.Except(sessionState.References);
                 if (newReferences.Any())
                 {
                     foreach (var reference in newReferences)
                     {
-                        this.log.DebugFormat(CultureInfo.InvariantCulture, "Adding reference to {0}", reference);
+                        this.Logger.DebugFormat("Adding reference to {0}", reference);
                         sessionState.Session.AddReference(reference);
                     }
 
@@ -99,14 +93,13 @@ namespace ConfigR.Scripting
                 }
             }
 
-            this.log.Debug("Starting execution");
+            this.Logger.Debug("Starting execution");
             var result = this.Execute(code, sessionState.Session);
-            this.log.Debug("Finished execution");
+            this.Logger.Debug("Finished execution");
             return result;
         }
 
-        [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "ScriptCS does it ;-).")]
-        [CLSCompliant(false),]
+        [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Shim")]
         protected virtual ScriptResult Execute(string code, Session session)
         {
             Guard.AgainstNullArgument("session", session);

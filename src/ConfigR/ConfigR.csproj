@@ -58,6 +58,7 @@
     </Compile>
     <Compile Include="Configurator.cs" />
     <Compile Include="ConfigExtensions.cs" />
+    <Compile Include="Scripting\IConfigRScriptHost.cs" />
     <Compile Include="Scripting\ScriptConfigLoader.cs" />
     <Compile Include="DictionaryExtensions.cs" />
     <Compile Include="ScriptFileConfig.cs" />
@@ -67,15 +68,15 @@
     <Compile Include="LocalScriptFileConfig.cs" />
     <Compile Include="ObjectExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Scripting\ConfigRScriptEngine.cs" />
     <Compile Include="Scripting\ConfigRScriptExecutor.cs" />
     <Compile Include="Scripting\ConfigRScriptHost.cs" />
     <Compile Include="Scripting\ConfigRScriptHost.Dictionary.cs">
       <DependentUpon>ConfigRScriptHost.cs</DependentUpon>
     </Compile>
     <Compile Include="Scripting\ConfigRScriptHostFactory.cs" />
-    <Compile Include="Scripting\IConfigRScriptHost.cs" />
-    <Compile Include="Scripting\IConfigRScriptHostFactory.cs" />
+    <Compile Include="Scripting\Shims\RoslynScriptCompilerEngine.cs" />
+    <Compile Include="Scripting\Shims\RoslynScriptEngine.cs" />
+    <Compile Include="Scripting\Shims\RoslynScriptInMemoryEngine.cs" />
     <Compile Include="WebScriptConfig.cs" />
   </ItemGroup>
   <ItemGroup>
