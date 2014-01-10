@@ -63,6 +63,7 @@
     <Compile Include="CascadingConfigurationFeature.cs" />
     <Compile Include="AnonymousValuesFeature.cs" />
     <Compile Include="AnonymousTypesFeature.cs" />
+    <Compile Include="EmptyConfigFeature.cs" />
     <Compile Include="NestedScriptLoadingFeature.cs" />
     <Compile Include="ScriptIndexingFeature.cs" />
     <Compile Include="ScriptIterationFeature.cs" />
