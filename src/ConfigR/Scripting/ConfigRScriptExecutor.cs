@@ -9,6 +9,7 @@ namespace ConfigR.Scripting
     using Common.Logging;
     using ScriptCs;
     using ScriptCs.Contracts;
+    using ScriptCs.Engine.Roslyn;
 
     [CLSCompliant(false)]
     public sealed class ConfigRScriptExecutor : ScriptExecutor, IDisposable
@@ -20,7 +21,7 @@ namespace ConfigR.Scripting
             : base(
                 fileSystem,
                 new FilePreProcessor(fileSystem, scriptCsLog, new ILineProcessor[] { new LoadLineProcessor(fileSystem), new ReferenceLineProcessor(fileSystem), new UsingLineProcessor() }),
-                new Shims.RoslynScriptInMemoryEngine(new ConfigRScriptHostFactory(config), scriptCsLog),
+                new RoslynScriptInMemoryEngine(new ConfigRScriptHostFactory(config), scriptCsLog),
                 scriptCsLog)
         {
         }

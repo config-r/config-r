@@ -8,6 +8,7 @@ namespace ConfigR.Scripting
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using ScriptCs;
+    using ScriptCs.Contracts;
 
     [CLSCompliant(false)]
     public interface IConfigRScriptHost : IScriptHost, IDictionary<string, object>

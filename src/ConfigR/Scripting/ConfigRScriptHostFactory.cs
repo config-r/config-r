@@ -20,7 +20,7 @@ namespace ConfigR.Scripting
         [CLSCompliant(false)]
         public IScriptHost CreateScriptHost(IScriptPackManager scriptPackManager, string[] scriptArgs)
         {
-            return new ConfigRScriptHost(this.config, scriptPackManager, scriptArgs);
+            return new ConfigRScriptHost(this.config, scriptPackManager, new ScriptEnvironment(scriptArgs));
         }
     }
 }

@@ -25,7 +25,7 @@ namespace ConfigR.Scripting
             ScriptResult result;
             using (var executor = new ConfigRScriptExecutor(config, this.fileSystem))
             {
-                executor.AddReferenceAndImportNamespaces(new[] { typeof(Config) });
+                executor.AddReferenceAndImportNamespaces(new[] { typeof(Config), typeof(IScriptHost) });
                 executor.Initialize(new string[0], new IScriptPack[0]);
                 result = executor.Execute(path);
             }
@@ -44,8 +44,18 @@ namespace ConfigR.Scripting
 
             if (result.ExecuteExceptionInfo != null)
             {
-                log.ErrorFormat(CultureInfo.InvariantCulture, "Failed to execute {0}", result.ExecuteExceptionInfo, scriptPath);
-                result.ExecuteExceptionInfo.Throw();
+                // HACK: waiting on https://github.com/scriptcs/scriptcs/issues/545
+                if (!result.ExecuteExceptionInfo.SourceException.StackTrace.Trim().StartsWith("at Submission#"))
+                {
+                    log.Warn(
+                        "Roslyn failed to execute the scripts. Any configuration in this script will not be available",
+                        result.ExecuteExceptionInfo.SourceException);
+                }
+                else
+                {
+                    log.ErrorFormat(CultureInfo.InvariantCulture, "Failed to execute {0}", result.ExecuteExceptionInfo, scriptPath);
+                    result.ExecuteExceptionInfo.Throw();
+                }
             }
         }
     }
