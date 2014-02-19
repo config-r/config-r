@@ -8,22 +8,29 @@ namespace ConfigR
     using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
     using Common.Logging;
+    using Newtonsoft.Json;
 
     internal static class ObjectExtensions
     {
         private static readonly ILog log = LogManager.GetCurrentClassLogger();
+        private static readonly JsonSerializerSettings jsonSettings = new JsonSerializerSettings
+        {
+            PreserveReferencesHandling = PreserveReferencesHandling.Objects,
+            ReferenceLoopHandling = ReferenceLoopHandling.Serialize,
+            MaxDepth = 4
+        };
 
         [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Safe in this case.")]
         public static string TryToJsv(this object value)
         {
             try
             {
-                return ServiceStack.Text.StringExtensions.ToJsv(value);
+                return JsonConvert.SerializeObject(value, Formatting.Indented, jsonSettings);
             }
             catch (Exception ex)
             {
                 log.TraceFormat(CultureInfo.InvariantCulture, "Error converting '{0}' to JSV.", ex, value);
-                return ServiceStack.Text.StringExtensions.ToJsv(value.GetType());
+                return JsonConvert.SerializeObject(value.GetType(), Formatting.Indented, jsonSettings);
             }
         }
 

@@ -58,6 +58,7 @@
     </Compile>
     <Compile Include="Configurator.cs" />
     <Compile Include="ConfigExtensions.cs" />
+    <Compile Include="Scripting\ConfigRScriptExecutor.cs" />
     <Compile Include="Scripting\IConfigRScriptHost.cs" />
     <Compile Include="Scripting\ScriptConfigLoader.cs" />
     <Compile Include="DictionaryExtensions.cs" />
@@ -68,15 +69,11 @@
     <Compile Include="LocalScriptFileConfig.cs" />
     <Compile Include="ObjectExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Scripting\ConfigRScriptExecutor.cs" />
     <Compile Include="Scripting\ConfigRScriptHost.cs" />
     <Compile Include="Scripting\ConfigRScriptHost.Dictionary.cs">
       <DependentUpon>ConfigRScriptHost.cs</DependentUpon>
     </Compile>
     <Compile Include="Scripting\ConfigRScriptHostFactory.cs" />
-    <Compile Include="Scripting\Shims\RoslynScriptCompilerEngine.cs" />
-    <Compile Include="Scripting\Shims\RoslynScriptEngine.cs" />
-    <Compile Include="Scripting\Shims\RoslynScriptInMemoryEngine.cs" />
     <Compile Include="WebScriptConfig.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -93,6 +90,10 @@
       <HintPath>..\packages\Common.Logging.2.1.2\lib\net40\Common.Logging.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="Roslyn.Compilers, Version=1.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\Roslyn.Compilers.Common.1.2.20906.2\lib\net45\Roslyn.Compilers.dll</HintPath>
@@ -101,21 +102,14 @@
       <Private>True</Private>
       <HintPath>..\packages\Roslyn.Compilers.CSharp.1.2.20906.2\lib\net45\Roslyn.Compilers.CSharp.dll</HintPath>
     </Reference>
-    <Reference Include="ScriptCs.Contracts, Version=0.8.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\ScriptCs.Contracts.0.8.1\lib\net45\ScriptCs.Contracts.dll</HintPath>
+    <Reference Include="ScriptCs.Contracts">
+      <HintPath>..\packages\ScriptCs.Contracts.0.9.0\lib\net45\ScriptCs.Contracts.dll</HintPath>
     </Reference>
-    <Reference Include="ScriptCs.Core, Version=0.8.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\ScriptCs.Core.0.8.1\lib\net45\ScriptCs.Core.dll</HintPath>
+    <Reference Include="ScriptCs.Core">
+      <HintPath>..\packages\ScriptCs.Core.0.9.0\lib\net45\ScriptCs.Core.dll</HintPath>
     </Reference>
-    <Reference Include="ScriptCs.Engine.Roslyn, Version=0.8.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\ScriptCs.Engine.Roslyn.0.8.1\lib\net45\ScriptCs.Engine.Roslyn.dll</HintPath>
-    </Reference>
-    <Reference Include="ServiceStack.Text, Version=3.9.69.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\ServiceStack.Text.3.9.69\lib\net35\ServiceStack.Text.dll</HintPath>
+    <Reference Include="ScriptCs.Engine.Roslyn">
+      <HintPath>..\packages\ScriptCs.Engine.Roslyn.0.9.0\lib\net45\ScriptCs.Engine.Roslyn.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />

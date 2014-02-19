@@ -17,8 +17,9 @@ namespace ConfigR.Scripting
 
         private readonly IDictionary<string, object> dictionary;
 
-        public ConfigRScriptHost(IDictionary<string, object> dictionary, IScriptPackManager scriptPackManager, string[] scriptArgs)
-            : base(scriptPackManager, scriptArgs)
+        public ConfigRScriptHost(
+            IDictionary<string, object> dictionary, IScriptPackManager scriptPackManager, ScriptEnvironment environment)
+            : base(scriptPackManager, environment)
         {
             Guard.AgainstNullArgument("dictionary", dictionary);
 
