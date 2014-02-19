@@ -21,7 +21,7 @@ namespace ConfigR
         };
 
         [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Safe in this case.")]
-        public static string TryToJsv(this object value)
+        public static string ToJson(this object value)
         {
             try
             {
@@ -29,7 +29,7 @@ namespace ConfigR
             }
             catch (Exception ex)
             {
-                log.TraceFormat(CultureInfo.InvariantCulture, "Error converting '{0}' to JSV.", ex, value);
+                log.TraceFormat(CultureInfo.InvariantCulture, "Error converting '{0}' to JSON.", ex, value);
                 return JsonConvert.SerializeObject(value.GetType(), Formatting.None, jsonSettings);
             }
         }
