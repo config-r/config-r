@@ -25,12 +25,12 @@ namespace ConfigR
         {
             try
             {
-                return JsonConvert.SerializeObject(value, Formatting.Indented, jsonSettings);
+                return JsonConvert.SerializeObject(value, Formatting.None, jsonSettings);
             }
             catch (Exception ex)
             {
                 log.TraceFormat(CultureInfo.InvariantCulture, "Error converting '{0}' to JSV.", ex, value);
-                return JsonConvert.SerializeObject(value.GetType(), Formatting.Indented, jsonSettings);
+                return JsonConvert.SerializeObject(value.GetType(), Formatting.None, jsonSettings);
             }
         }
 
