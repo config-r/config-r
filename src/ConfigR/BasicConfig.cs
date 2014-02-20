@@ -27,7 +27,7 @@ namespace ConfigR
         private void LogMutating(string action, string key, object value)
         {
             log.TraceFormat(
-                CultureInfo.InvariantCulture, "{0} '{1}' from {2}: {3}", action, key, this.GetSource(), value.TryToJsv());
+                CultureInfo.InvariantCulture, "{0} '{1}' from {2}: {3}", action, key, this.GetSource(), value.ToJson());
         }
 
         private string GetSource()

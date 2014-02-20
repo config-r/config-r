@@ -37,6 +37,11 @@ namespace ConfigR
             get { return Coerce(standardPath).Path; }
         }
 
+        protected override string Source
+        {
+            get { return Path; }
+        }
+
         public override ISimpleConfig Load()
         {
             var coercion = Coerce(standardPath);

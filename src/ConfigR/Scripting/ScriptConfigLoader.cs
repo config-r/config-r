@@ -9,25 +9,40 @@ namespace ConfigR.Scripting
     using Common.Logging;
     using ScriptCs;
     using ScriptCs.Contracts;
+    using ScriptCs.Engine.Roslyn;
 
     public class ScriptConfigLoader
     {
         private static readonly ILog log = LogManager.GetCurrentClassLogger();
 
-        private readonly IFileSystem fileSystem =
-            new FileSystem { CurrentDirectory = AppDomain.CurrentDomain.SetupInformation.ApplicationBase };
-
         public object LoadFromFile(ISimpleConfig config, string path)
         {
-            log.InfoFormat(CultureInfo.InvariantCulture, "Executing '{0}'", this.fileSystem.GetFullPath(path));
-            log.DebugFormat(CultureInfo.InvariantCulture, "The current directory is {0}", this.fileSystem.CurrentDirectory);
+            var fileSystem = new FileSystem { CurrentDirectory = AppDomain.CurrentDomain.SetupInformation.ApplicationBase };
+            log.InfoFormat(CultureInfo.InvariantCulture, "Executing '{0}'", fileSystem.GetFullPath(path));
+            log.DebugFormat(CultureInfo.InvariantCulture, "The current directory is {0}", fileSystem.CurrentDirectory);
+
+            var scriptCsLog = LogManager.GetLogger("ScriptCs");
+            var lineProcessors = new ILineProcessor[]
+            {
+                new LoadLineProcessor(fileSystem),
+                new ReferenceLineProcessor(fileSystem),
+                new UsingLineProcessor(),
+            };
+
+            var filePreProcessor = new FilePreProcessor(fileSystem, scriptCsLog, lineProcessors);
+            var engine = new RoslynScriptInMemoryEngine(new ConfigRScriptHostFactory(config), scriptCsLog);
+            var executor = new ConfigRScriptExecutor(fileSystem, filePreProcessor, engine, scriptCsLog);
+            executor.AddReferenceAndImportNamespaces(new[] { typeof(Config), typeof(IScriptHost) });
 
             ScriptResult result;
-            using (var executor = new ConfigRScriptExecutor(config, this.fileSystem))
+            executor.Initialize(new string[0], new IScriptPack[0]);
+            try
             {
-                executor.AddReferenceAndImportNamespaces(new[] { typeof(Config) });
-                executor.Initialize(new string[0], new IScriptPack[0]);
                 result = executor.Execute(path);
+            }
+            finally
+            {
+                executor.Terminate();
             }
 
             RethrowExceptionIfAny(result, path);
@@ -44,8 +59,19 @@ namespace ConfigR.Scripting
 
             if (result.ExecuteExceptionInfo != null)
             {
-                log.ErrorFormat(CultureInfo.InvariantCulture, "Failed to execute {0}", result.ExecuteExceptionInfo, scriptPath);
-                result.ExecuteExceptionInfo.Throw();
+                // HACK: waiting on https://github.com/scriptcs/scriptcs/issues/545
+                if (!result.ExecuteExceptionInfo.SourceException.StackTrace.Trim()
+                    .StartsWith("at Submission#", StringComparison.OrdinalIgnoreCase))
+                {
+                    log.Warn(
+                        "Roslyn failed to execute the scripts. Any configuration in this script will not be available",
+                        result.ExecuteExceptionInfo.SourceException);
+                }
+                else
+                {
+                    log.ErrorFormat(CultureInfo.InvariantCulture, "Failed to execute {0}", result.ExecuteExceptionInfo, scriptPath);
+                    result.ExecuteExceptionInfo.Throw();
+                }
             }
         }
     }
