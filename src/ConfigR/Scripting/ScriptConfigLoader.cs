@@ -28,7 +28,7 @@ namespace ConfigR.Scripting
                 new ReferenceLineProcessor(fileSystem),
                 new UsingLineProcessor(),
             };
-            
+
             var filePreProcessor = new FilePreProcessor(fileSystem, scriptCsLog, lineProcessors);
             var engine = new RoslynScriptInMemoryEngine(new ConfigRScriptHostFactory(config), scriptCsLog);
             var executor = new ConfigRScriptExecutor(fileSystem, filePreProcessor, engine, scriptCsLog);
@@ -60,7 +60,8 @@ namespace ConfigR.Scripting
             if (result.ExecuteExceptionInfo != null)
             {
                 // HACK: waiting on https://github.com/scriptcs/scriptcs/issues/545
-                if (!result.ExecuteExceptionInfo.SourceException.StackTrace.Trim().StartsWith("at Submission#"))
+                if (!result.ExecuteExceptionInfo.SourceException.StackTrace.Trim()
+                    .StartsWith("at Submission#", StringComparison.OrdinalIgnoreCase))
                 {
                     log.Warn(
                         "Roslyn failed to execute the scripts. Any configuration in this script will not be available",
