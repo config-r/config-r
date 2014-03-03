@@ -36,8 +36,8 @@ namespace ConfigR
         public override ISimpleConfig Load()
         {
             var path = Path.GetTempFileName();
-            log.DebugFormat(CultureInfo.InvariantCulture, "Downloading '{0}' to '{1}'.", this.uri.ToString(), path);
-            
+            log.InfoFormat(CultureInfo.InvariantCulture, "Downloading '{0}' to '{1}'.", this.uri.ToString(), path);
+
             var request = WebRequest.Create(this.uri);
             using (var response = request.GetResponse())
             using (var responseStream = response.GetResponseStream())
