@@ -39,7 +39,7 @@ namespace ConfigR.Features
                 .f(() => reference = Assembly.LoadFile(Path.GetFullPath("ConfigR.Testing.External.dll")));
 
             "And I load the config using the assembly as a reference"
-                .f(() => result = Config.Global.Load(new ScriptFileConfig("foo.csx", reference)));
+                .f(() => result = Config.Global.LoadScriptFile("foo.csx", reference));
 
             "And I get the value"
                 .f(() => result = Config.Global.Get());
@@ -71,7 +71,7 @@ namespace ConfigR.Features
                 .Teardown(() => Config.EnableGlobalAutoLoading());
 
             "And I load the config using the assembly as a reference"
-                .f(() => result = Config.Global.Load(new LocalScriptFileConfig(reference)));
+                .f(() => result = Config.Global.LoadLocalScriptFile(reference));
 
             "And I get the value"
                 .f(() => result = Config.Global.Get());
