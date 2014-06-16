@@ -7,6 +7,7 @@ namespace ConfigR
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Reflection;
 
     public partial class Config : IConfig
     {
@@ -51,7 +52,7 @@ namespace ConfigR
             return this;
         }
 
-        public IConfig EnsureLoaded()
+        public IConfig EnsureLoaded(params Assembly[] references)
         {
             if (this.loadInvoked)
             {
@@ -59,7 +60,7 @@ namespace ConfigR
             }
 
             this.loadInvoked = true;
-            return this.Load(new LocalScriptFileConfig(true));
+            return this.Load(new LocalScriptFileConfig(true, references));
         }
 
         private IDictionary<string, object> Cascade()

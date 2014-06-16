@@ -11,7 +11,7 @@ namespace ConfigR.Features
     public static class IsolatedConfigurationFeature
     {
         [Scenario]
-        public static void RetreivingTheSameValueFromTwoFiles(string foo1, string foo2)
+        public static void RetrievingTheSameValueFromTwoFiles(string foo1, string foo2)
         {
             "Given a config file containing a Foo of 'baz'"
                 .Given(() =>

@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RuleSet Name="ConfigR Test Rules" Description="ConfigR Test Rules" ToolsVersion="12.0">
+  <Include Path="allrules.ruleset" Action="Error" />
+  <Rules AnalyzerId="Microsoft.Analyzers.ManagedCodeAnalysis" RuleNamespace="Microsoft.Rules.Managed">
+    <Rule Id="CA1014" Action="None" />
+    <Rule Id="CA1016" Action="None" />
+    <Rule Id="CA1017" Action="None" />
+    <Rule Id="CA1303" Action="None" />
+    <Rule Id="CA2204" Action="None" />
+    <Rule Id="CA2210" Action="None" />
+  </Rules>
+</RuleSet>

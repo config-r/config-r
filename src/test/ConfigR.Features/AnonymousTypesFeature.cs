@@ -20,7 +20,7 @@ namespace ConfigR.Features
         }
 
         [Scenario]
-        public static void RetreivingAnAnonymousType()
+        public static void RetrievingAnAnonymousType()
         {
             dynamic result = null;
 
@@ -38,7 +38,7 @@ namespace ConfigR.Features
                 .Teardown(() => File.Delete(LocalScriptFileConfig.Path));
 
             "When I get the anonymous type"
-                .When(() => result = Config.Global.Get<dynamic>("Foo"));
+                .When(() => { result = Config.Global.Get<dynamic>("Foo"); });
 
             "Then the anonymous type has a Bar of 'baz'"
                 .Then(() => ((string)result.Bar).Should().Be("baz"));

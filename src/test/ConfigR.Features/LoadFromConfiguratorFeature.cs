@@ -17,7 +17,7 @@ namespace ConfigR.Features
         }
 
         [Scenario]
-        public static void RetreivingAnObject(ISimpleConfig configurator, string result)
+        public static void RetrievingAnObject(ISimpleConfig configurator, string result)
         {
             "Given a configurator containing a string of 'bar' keyed by 'foo'"
                 .Given(() => (configurator = new BasicConfig()).Add("foo", "bar"));

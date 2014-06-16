@@ -5,15 +5,6 @@ obj
 *.user
 
 /src/packages/*
-
-!/src/packages/StyleCop.MSBuild.*
-/src/packages/StyleCop.MSBuild.*/*
-/src/packages/StyleCop.MSBuild.*/*.*
-!/src/packages/StyleCop.MSBuild.*/tools
-/src/packages/StyleCop.MSBuild.*/tools/*
-/src/packages/StyleCop.MSBuild.*/tools/*.*
-!/src/packages/StyleCop.MSBuild.*/tools/StyleCop.Targets
-
 !/src/packages/NuGet.CommandLine.*
 /src/packages/NuGet.CommandLine.*/*
 /src/packages/NuGet.CommandLine.*/*.*

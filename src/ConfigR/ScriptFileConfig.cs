@@ -4,13 +4,15 @@
 
 namespace ConfigR
 {
+    using System.Reflection;
     using ConfigR.Scripting;
 
-    public class ScriptFileConfig : BasicConfig
+    public class ScriptFileConfig : ScriptConfig
     {
         private readonly string path;
 
-        public ScriptFileConfig(string path)
+        public ScriptFileConfig(string path, params Assembly[] references)
+            : base(references)
         {
             this.path = path;
         }
@@ -25,10 +27,9 @@ namespace ConfigR
             get { return this.Path; }
         }
 
-        public override ISimpleConfig Load()
+        protected override string GetScriptPath()
         {
-            new ScriptConfigLoader().LoadFromFile(this, this.Path);
-            return this;
+            return this.path;
         }
     }
 }

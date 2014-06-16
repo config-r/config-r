@@ -13,8 +13,8 @@ namespace ConfigR.Scripting
     [CLSCompliant(false)]
     public class ConfigRScriptExecutor : ScriptExecutor
     {
-        public ConfigRScriptExecutor(IFileSystem fileSystem, IFilePreProcessor filePreProcessor, IScriptEngine scriptEngine, ILog logger)
-            : base(fileSystem, filePreProcessor, scriptEngine, logger)
+        public ConfigRScriptExecutor(IFileSystem fileSystem, IFilePreProcessor filePreprocessor, IScriptEngine scriptEngine, ILog logger)
+            : base(fileSystem, filePreprocessor, scriptEngine, logger)
         {
         }
 
