@@ -11,7 +11,7 @@ namespace ConfigR.Testing.VSHostingProcess
 
     public static class Program
     {
-        public static void Main(string[] args)
+        public static void Main()
         {
             LogManager.Adapter = new ConsoleOutLoggerFactoryAdapter(LogLevel.Trace, false, true, true, null);
 

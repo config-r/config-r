@@ -4,6 +4,7 @@
 
 namespace ConfigR.Features
 {
+    using System;
     using System.IO;
     using FluentAssertions;
     using Xbehave;
@@ -18,7 +19,7 @@ namespace ConfigR.Features
         }
 
         [Scenario]
-        public static void RetreivingAnObjectFromANestedFile(Foo result)
+        public static void RetrievingAnObjectFromANestedFile(Foo result)
         {
             "Given a config file containing a Foo with a Bar of 'baz'"
                 .Given(() =>
@@ -27,7 +28,7 @@ namespace ConfigR.Features
                     {
                         writer.WriteLine(@"#r ""ConfigR.Features.dll""");
                         writer.WriteLine(@"using ConfigR.Features;");
-                        writer.WriteLine(@"Add(""foo"", new NestedConfigurationFeature.Foo { Bar = ""baz"" });");
+                        writer.WriteLine(@"Add(""foo"", new Foo { Bar = ""baz"" });");
                         writer.Flush();
                     }
                 })
@@ -64,7 +65,7 @@ namespace ConfigR.Features
                     {
                         writer.WriteLine(@"#r ""ConfigR.Features.dll""");
                         writer.WriteLine(@"using ConfigR.Features;");
-                        writer.WriteLine(@"Add(""foo"", new NestedConfigurationFeature.Foo { Bar = ""baz"" });");
+                        writer.WriteLine(@"Add(""foo"", new Foo { Bar = ""baz"" });");
                         writer.Flush();
                     }
                 })
@@ -76,7 +77,7 @@ namespace ConfigR.Features
                     using (var writer = new StreamWriter("bar.csx"))
                     {
                         writer.WriteLine(@"LoadScriptFile(""foo.csx"");");
-                        writer.WriteLine(@"throw new Exception();");
+                        writer.WriteLine(@"throw new InvalidOperationException();");
                         writer.Flush();
                     }
                 })
@@ -89,18 +90,13 @@ namespace ConfigR.Features
                     {
                         Config.Global.LoadScriptFile("bar.csx");
                     }
-                    catch
+                    catch (InvalidOperationException)
                     {
                     }
                 });
 
             "Then the Foo is not available"
                 .Then(() => Config.Global.Should().NotContainKey("foo"));
-        }
-
-        public class Foo
-        {
-            public string Bar { get; set; }
         }
     }
 }
