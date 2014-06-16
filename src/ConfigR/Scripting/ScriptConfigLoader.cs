@@ -6,6 +6,8 @@ namespace ConfigR.Scripting
 {
     using System;
     using System.Globalization;
+    using System.Linq;
+    using System.Reflection;
     using Common.Logging;
     using ScriptCs;
     using ScriptCs.Contracts;
@@ -14,6 +16,12 @@ namespace ConfigR.Scripting
     public class ScriptConfigLoader
     {
         private static readonly ILog log = LogManager.GetCurrentClassLogger();
+        private readonly Assembly[] references;
+
+        public ScriptConfigLoader(params Assembly[] references)
+        {
+            this.references = (references ?? Enumerable.Empty<Assembly>()).ToArray();
+        }
 
         public object LoadFromFile(ISimpleConfig config, string path)
         {
@@ -33,6 +41,7 @@ namespace ConfigR.Scripting
             var engine = new RoslynScriptInMemoryEngine(new ConfigRScriptHostFactory(config), scriptCsLog);
             var executor = new ConfigRScriptExecutor(fileSystem, filePreProcessor, engine, scriptCsLog);
             executor.AddReferenceAndImportNamespaces(new[] { typeof(Config), typeof(IScriptHost) });
+            executor.AddReferences(this.references);
 
             ScriptResult result;
             executor.Initialize(new string[0], new IScriptPack[0]);

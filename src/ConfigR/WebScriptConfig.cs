@@ -8,15 +8,16 @@ namespace ConfigR
     using System.Globalization;
     using System.IO;
     using System.Net;
+    using System.Reflection;
     using Common.Logging;
-    using ConfigR.Scripting;
 
-    public class WebScriptConfig : BasicConfig
+    public class WebScriptConfig : ScriptConfig
     {
         private static readonly ILog log = LogManager.GetCurrentClassLogger();
         private readonly Uri uri;
 
-        public WebScriptConfig(Uri uri)
+        public WebScriptConfig(Uri uri, params Assembly[] references)
+            : base(references)
         {
             Guard.AgainstNullArgument("uri", uri);
 
@@ -33,7 +34,7 @@ namespace ConfigR
             get { return this.uri.ToString(); }
         }
 
-        public override ISimpleConfig Load()
+        protected override string GetScriptPath()
         {
             var path = Path.GetTempFileName();
             log.InfoFormat(CultureInfo.InvariantCulture, "Downloading '{0}' to '{1}'.", this.uri.ToString(), path);
@@ -46,8 +47,7 @@ namespace ConfigR
                 responseStream.CopyTo(fileStream);
             }
 
-            new ScriptConfigLoader().LoadFromFile(this, path);
-            return this;
+            return path;
         }
     }
 }

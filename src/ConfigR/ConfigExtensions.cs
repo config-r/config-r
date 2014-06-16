@@ -6,31 +6,32 @@ namespace ConfigR
 {
     using System;
     using System.Diagnostics.CodeAnalysis;
+    using System.Reflection;
     using Common.Logging;
 
     public static class ConfigExtensions
     {
         private static readonly ILog log = LogManager.GetCurrentClassLogger();
 
-        public static IConfig LoadWebScript(this IConfig config, Uri uri)
+        public static IConfig LoadWebScript(this IConfig config, Uri uri, params Assembly[] references)
         {
             Guard.AgainstNullArgument("config", config);
 
-            return config.Load(new WebScriptConfig(uri));
+            return config.Load(new WebScriptConfig(uri, references));
         }
 
-        public static IConfig LoadScriptFile(this IConfig config, string path)
+        public static IConfig LoadScriptFile(this IConfig config, string path, params Assembly[] references)
         {
             Guard.AgainstNullArgument("config", config);
 
-            return config.Load(new ScriptFileConfig(path));
+            return config.Load(new ScriptFileConfig(path, references));
         }
 
-        public static IConfig LoadLocalScriptFile(this IConfig config)
+        public static IConfig LoadLocalScriptFile(this IConfig config, params Assembly[] references)
         {
             Guard.AgainstNullArgument("config", config);
 
-            return config.Load(new LocalScriptFileConfig());
+            return config.Load(new LocalScriptFileConfig(references));
         }
 
         [Obsolete("Deprecated since version 0.9 and will soon be removed. Use LoadWebScript(Uri) instead.")]

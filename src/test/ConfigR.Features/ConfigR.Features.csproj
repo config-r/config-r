@@ -22,14 +22,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <StyleCopTreatErrorsAsWarnings>false</StyleCopTreatErrorsAsWarnings>
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
@@ -64,6 +62,7 @@
     <Compile Include="AnonymousValuesFeature.cs" />
     <Compile Include="AnonymousTypesFeature.cs" />
     <Compile Include="EmptyConfigFeature.cs" />
+    <Compile Include="DynamicReferencesFeature.cs" />
     <Compile Include="NestedScriptLoadingFeature.cs" />
     <Compile Include="ScriptIndexingFeature.cs" />
     <Compile Include="ScriptIterationFeature.cs" />
@@ -93,5 +92,8 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\..\packages\StyleCop.MSBuild.4.7.48.2\build\StyleCop.MSBuild.Targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\StyleCop.MSBuild.4.7.48.2\build\StyleCop.MSBuild.Targets'))" />
+  </Target>
+  <Target Name="AfterBuild">
+    <Copy SourceFiles="..\ConfigR.Testing.External\bin\$(Configuration)\ConfigR.Testing.External.dll" DestinationFolder="$(OutputPath)" />
   </Target>
 </Project>
