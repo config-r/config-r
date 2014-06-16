@@ -27,7 +27,7 @@ namespace ConfigR.Features
                     {
                         writer.WriteLine(@"#r ""ConfigR.Features.dll""");
                         writer.WriteLine(@"using ConfigR.Features;");
-                        writer.WriteLine(@"Add(""foo"", new NestedScriptLoadingFeature.Foo { Bar = ""baz"" });");
+                        writer.WriteLine(@"Add(""foo"", new Foo { Bar = ""baz"" });");
                         writer.Flush();
                     }
                 })
@@ -54,11 +54,6 @@ namespace ConfigR.Features
 
             "Then the Foo has a Bar of 'baz'"
                 .Then(() => result.Bar.Should().Be("baz"));
-        }
-
-        public class Foo
-        {
-            public string Bar { get; set; }
         }
     }
 }

@@ -69,7 +69,7 @@ namespace ConfigR.Features
         }
 
         [Scenario]
-        public static void GettingANonExistingItem(int result)
+        public static void GettingANonexistentItem(int result)
         {
             "Given a config file with an integer of 123 named 'foo'"
                 .f(() =>
@@ -93,7 +93,7 @@ namespace ConfigR.Features
         }
 
         [Scenario]
-        public static void TryingToGetANonExistingItem(bool success, int result)
+        public static void TryingToGetANonexistentItem(bool success, int result)
         {
             "Given a config file with an integer of 123 named 'foo'"
                 .f(() =>

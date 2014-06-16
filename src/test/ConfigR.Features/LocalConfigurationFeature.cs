@@ -19,7 +19,7 @@ namespace ConfigR.Features
         }
 
         [Scenario]
-        public static void RetreivingAnObject(Foo result)
+        public static void RetrievingAnObject(Foo result)
         {
             "Given a local config file containing a Foo with a Bar of 'baz'"
                 .Given(() =>
@@ -28,7 +28,7 @@ namespace ConfigR.Features
                     {
                         writer.WriteLine(@"#r ""ConfigR.Features.dll""");
                         writer.WriteLine(@"using ConfigR.Features;");
-                        writer.WriteLine(@"Add(""foo"", new LocalConfigurationFeature.Foo { Bar = ""baz"" });");
+                        writer.WriteLine(@"Add(""foo"", new Foo { Bar = ""baz"" });");
                         writer.Flush();
                     }
                 })
@@ -84,11 +84,6 @@ namespace ConfigR.Features
 
             "Then an exception is thrown"
                 .Then(() => exception.Should().NotBeNull());
-        }
-
-        public class Foo
-        {
-            public string Bar { get; set; }
         }
     }
 }

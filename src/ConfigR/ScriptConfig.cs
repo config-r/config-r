@@ -4,6 +4,7 @@
 
 namespace ConfigR
 {
+    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Reflection;
     using ConfigR.Scripting;
@@ -12,7 +13,7 @@ namespace ConfigR
     {
         private readonly Assembly[] references;
 
-        public ScriptConfig(params Assembly[] references)
+        protected ScriptConfig(params Assembly[] references)
         {
             this.references = (references ?? Enumerable.Empty<Assembly>()).ToArray();
         }
@@ -28,6 +29,7 @@ namespace ConfigR
             new ScriptConfigLoader(this.references.ToArray()).LoadFromFile(this, scriptPath);
         }
 
+        [SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate", Justification = "Not appropriate.")]
         protected abstract string GetScriptPath();
     }
 }

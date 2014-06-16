@@ -8,6 +8,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionFiles", "SolutionFi
 		ConfigR.Dictionary = ConfigR.Dictionary
 		ConfigR.nuspec = ConfigR.nuspec
 		ConfigR.ruleset = ConfigR.ruleset
+		ConfigR.Test.ruleset = ConfigR.Test.ruleset
 		Settings.StyleCop = Settings.StyleCop
 	EndProjectSection
 EndProject

@@ -4,12 +4,10 @@
 
 namespace ConfigR.Features
 {
-    using System;
     using System.IO;
     using System.Reflection;
     using FluentAssertions;
     using Xbehave;
-    using Xunit;
 
     public static class DynamicReferencesFeature
     {
@@ -21,7 +19,7 @@ namespace ConfigR.Features
         }
 
         [Scenario]
-        public static void AddingADynamicReferenceToAnExplcitFile(Assembly reference, object result)
+        public static void AddingADynamicReferenceToAnExplicitFile(Assembly reference, object result)
         {
             "Given a config file adds a Foo from a dynamically loaded assembly with a Bar of 'baz'"
                 .f(() =>
@@ -36,7 +34,7 @@ namespace ConfigR.Features
                 .Teardown(() => File.Delete("foo.csx"));
 
             "When I load the assembly"
-                .f(() => reference = Assembly.LoadFile(Path.GetFullPath("ConfigR.Testing.External.dll")));
+                .f(() => reference = Assembly.Load("ConfigR.Testing.External"));
 
             "And I load the config using the assembly as a reference"
                 .f(() => result = Config.Global.LoadScriptFile("foo.csx", reference));
@@ -64,7 +62,7 @@ namespace ConfigR.Features
                 .Teardown(() => File.Delete(LocalScriptFileConfig.Path));
 
             "When I load the assembly"
-                .f(() => reference = Assembly.LoadFile(Path.GetFullPath("ConfigR.Testing.External.dll")));
+                .f(() => reference = Assembly.Load("ConfigR.Testing.External"));
 
             "When I disable global auto loading"
                 .f(() => Config.DisableGlobalAutoLoading())
@@ -96,7 +94,7 @@ namespace ConfigR.Features
                 .Teardown(() => File.Delete(LocalScriptFileConfig.Path));
 
             "When I load the assembly"
-                .f(() => reference = Assembly.LoadFile(Path.GetFullPath("ConfigR.Testing.External.dll")));
+                .f(() => reference = Assembly.Load("ConfigR.Testing.External"));
 
             "And I add the reference to global autoloading"
                 .f(() => Config.GlobalAutoLoadingReferences.Add(reference));

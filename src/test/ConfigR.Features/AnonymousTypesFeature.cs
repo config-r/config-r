@@ -20,7 +20,7 @@ namespace ConfigR.Features
         }
 
         [Scenario]
-        public static void RetreivingAnAnonymousType()
+        public static void RetrievingAnAnonymousType()
         {
             dynamic result = null;
 

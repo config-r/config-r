@@ -20,7 +20,7 @@ namespace ConfigR.Features
         }
 
         [Scenario]
-        public static void RetreivingAnAnonymousValue(Foo result)
+        public static void RetrievingAnAnonymousValue(Foo result)
         {
             "Given a local config file containing an anonymous Foo with a Bar of 'baz'"
                 .Given(() =>
@@ -29,7 +29,7 @@ namespace ConfigR.Features
                     {
                         writer.WriteLine(@"#r ""ConfigR.Features.dll""");
                         writer.WriteLine(@"using ConfigR.Features;");
-                        writer.WriteLine(@"Add(new AnonymousValuesFeature.Foo { Bar = ""baz"" });");
+                        writer.WriteLine(@"Add(new Foo { Bar = ""baz"" });");
                         writer.Flush();
                     }
                 })
@@ -43,7 +43,7 @@ namespace ConfigR.Features
         }
 
         [Scenario]
-        public static void RetreivingANamedValueAnonymously(Foo result)
+        public static void RetrievingANamedValueAnonymously(Foo result)
         {
             "Given a local config file containing a named Foo with a Bar of 'baz'"
                 .Given(() =>
@@ -52,7 +52,7 @@ namespace ConfigR.Features
                     {
                         writer.WriteLine(@"#r ""ConfigR.Features.dll""");
                         writer.WriteLine(@"using ConfigR.Features;");
-                        writer.WriteLine(@"Add(""foo"", new AnonymousValuesFeature.Foo { Bar = ""baz"" });");
+                        writer.WriteLine(@"Add(""foo"", new Foo { Bar = ""baz"" });");
                         writer.Flush();
                     }
                 })
@@ -66,7 +66,7 @@ namespace ConfigR.Features
         }
 
         [Scenario]
-        public static void RetreivingAnAnonymousValueFromMultipleValues(int result)
+        public static void RetrievingAnAnonymousValueFromMultipleValues(int result)
         {
             "Given a local config file containing multiple values"
                 .Given(() =>
@@ -75,10 +75,10 @@ namespace ConfigR.Features
                     {
                         writer.WriteLine(@"#r ""ConfigR.Features.dll""");
                         writer.WriteLine(@"using ConfigR.Features;");
-                        writer.WriteLine(@"Add(""foo"", new AnonymousValuesFeature.Foo { Bar = ""baz"" });");
+                        writer.WriteLine(@"Add(""foo"", new Foo { Bar = ""baz"" });");
                         writer.WriteLine(@"Add(""stringId"", ""34"");");
                         writer.WriteLine(@"Add(""id"", 12);");
-                        writer.WriteLine(@"Add(""foo 2"", new AnonymousValuesFeature.Foo { Bar = ""baz 2"" });");
+                        writer.WriteLine(@"Add(""foo 2"", new Foo { Bar = ""baz 2"" });");
                         writer.WriteLine(@"Add(""code"", 15);");
                         writer.Flush();
                     }
@@ -93,7 +93,7 @@ namespace ConfigR.Features
         }
 
         [Scenario]
-        public static void TryingToRetreiveAnAnonymousValue(Foo value, bool result)
+        public static void TryingToRetrieveAnAnonymousValue(Foo value, bool result)
         {
             "Given a local config file containing a named Foo with a Bar of 'baz'"
                 .Given(() =>
@@ -102,7 +102,7 @@ namespace ConfigR.Features
                     {
                         writer.WriteLine(@"#r ""ConfigR.Features.dll""");
                         writer.WriteLine(@"using ConfigR.Features;");
-                        writer.WriteLine(@"Add(""foo"", new AnonymousValuesFeature.Foo { Bar = ""baz"" });");
+                        writer.WriteLine(@"Add(""foo"", new Foo { Bar = ""baz"" });");
                         writer.Flush();
                     }
                 })
@@ -119,7 +119,7 @@ namespace ConfigR.Features
         }
 
         [Scenario]
-        public static void RetreivingANonExistentAnonymousValue(Exception ex)
+        public static void RetrievingANonexistentAnonymousValue(Exception ex)
         {
             "Given a local config file not containing any string item"
                 .Given(() =>
@@ -128,7 +128,7 @@ namespace ConfigR.Features
                     {
                         writer.WriteLine(@"#r ""ConfigR.Features.dll""");
                         writer.WriteLine(@"using ConfigR.Features;");
-                        writer.WriteLine(@"Add(""foo"", new AnonymousValuesFeature.Foo { Bar = ""baz"" });");
+                        writer.WriteLine(@"Add(""foo"", new Foo { Bar = ""baz"" });");
                         writer.WriteLine(@"Add(""id"", 12);");
                         writer.Flush();
                     }
@@ -143,7 +143,7 @@ namespace ConfigR.Features
         }
 
         [Scenario]
-        public static void RetreivingANonExistentAnonymousValueOrDefault(string result)
+        public static void RetrievingANonexistentAnonymousValueOrDefault(string result)
         {
             "Given a local config file not containing any string item"
                 .Given(() =>
@@ -152,7 +152,7 @@ namespace ConfigR.Features
                     {
                         writer.WriteLine(@"#r ""ConfigR.Features.dll""");
                         writer.WriteLine(@"using ConfigR.Features;");
-                        writer.WriteLine(@"Add(""foo"", new AnonymousValuesFeature.Foo { Bar = ""baz"" });");
+                        writer.WriteLine(@"Add(""foo"", new Foo { Bar = ""baz"" });");
                         writer.WriteLine(@"Add(""id"", 12);");
                         writer.Flush();
                     }
@@ -167,7 +167,7 @@ namespace ConfigR.Features
         }
 
         [Scenario]
-        public static void TryingToRetreiveANonExistentAnonymousValue(string value, bool result)
+        public static void TryingToRetrieveANonexistentAnonymousValue(string value, bool result)
         {
             "Given a local config file not containing any string item"
                 .Given(() =>
@@ -176,7 +176,7 @@ namespace ConfigR.Features
                     {
                         writer.WriteLine(@"#r ""ConfigR.Features.dll""");
                         writer.WriteLine(@"using ConfigR.Features;");
-                        writer.WriteLine(@"Add(""foo"", new AnonymousValuesFeature.Foo { Bar = ""baz"" });");
+                        writer.WriteLine(@"Add(""foo"", new Foo { Bar = ""baz"" });");
                         writer.WriteLine(@"Add(""id"", 12);");
                         writer.Flush();
                     }
@@ -188,11 +188,6 @@ namespace ConfigR.Features
 
             "Then the result should be false"
                 .Then(() => result.Should().BeFalse());
-        }
-
-        public class Foo
-        {
-            public string Bar { get; set; }
         }
     }
 }

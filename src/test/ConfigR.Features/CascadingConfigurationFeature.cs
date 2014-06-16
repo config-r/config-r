@@ -21,7 +21,7 @@ namespace ConfigR.Features
         }
 
         [Scenario]
-        public static void RetreivingAnObjectDefinedInTwoFiles(Foo result)
+        public static void RetrievingAnObjectDefinedInTwoFiles(Foo result)
         {
             "Given a config file containing a Foo with a Bar of 'baz'"
                 .Given(() =>
@@ -30,7 +30,7 @@ namespace ConfigR.Features
                     {
                         writer.WriteLine(@"#r ""ConfigR.Features.dll""");
                         writer.WriteLine(@"using ConfigR.Features;");
-                        writer.WriteLine(@"Add(""foo"", new CascadingConfigurationFeature.Foo { Bar = ""baz"" });");
+                        writer.WriteLine(@"Add(""foo"", new Foo { Bar = ""baz"" });");
                         writer.Flush();
                     }
                 })
@@ -43,7 +43,7 @@ namespace ConfigR.Features
                     {
                         writer.WriteLine(@"#r ""ConfigR.Features.dll""");
                         writer.WriteLine(@"using ConfigR.Features;");
-                        writer.WriteLine(@"Add(""foo"", new CascadingConfigurationFeature.Foo { Bar = ""bazzzzz"" });");
+                        writer.WriteLine(@"Add(""foo"", new Foo { Bar = ""bazzzzz"" });");
                         writer.Flush();
                     }
                 })
@@ -63,7 +63,7 @@ namespace ConfigR.Features
         }
 
         [Scenario]
-        public static void RetreivingAnObjectDefinedInTheSecondOfTwoFiles(Foo result)
+        public static void RetrievingAnObjectDefinedInTheSecondOfTwoFiles(Foo result)
         {
             "Given a config file not containing a Foo"
                 .Given(() =>
@@ -72,7 +72,7 @@ namespace ConfigR.Features
                     {
                         writer.WriteLine(@"#r ""ConfigR.Features.dll""");
                         writer.WriteLine(@"using ConfigR.Features;");
-                        writer.WriteLine(@"Add(""notfoo"", new CascadingConfigurationFeature.Foo { Bar = ""baz"" });");
+                        writer.WriteLine(@"Add(""notfoo"", new Foo { Bar = ""baz"" });");
                         writer.Flush();
                     }
                 })
@@ -85,7 +85,7 @@ namespace ConfigR.Features
                     {
                         writer.WriteLine(@"#r ""ConfigR.Features.dll""");
                         writer.WriteLine(@"using ConfigR.Features;");
-                        writer.WriteLine(@"Add(""foo"", new CascadingConfigurationFeature.Foo { Bar = ""bazzzzz"" });");
+                        writer.WriteLine(@"Add(""foo"", new Foo { Bar = ""bazzzzz"" });");
                         writer.Flush();
                     }
                 })
@@ -105,7 +105,7 @@ namespace ConfigR.Features
         }
 
         [Scenario]
-        public static void RetreivingAnObjectDefinedInAFileWhoseNameIsDefinedInAnotherFile(string otherFileName, Foo result)
+        public static void RetrievingAnObjectDefinedInAFileWhoseNameIsDefinedInAnotherFile(string otherFileName, Foo result)
         {
             "Given a config file containing the name of another config file"
                 .Given(() =>
@@ -127,7 +127,7 @@ namespace ConfigR.Features
                     {
                         writer.WriteLine(@"#r ""ConfigR.Features.dll""");
                         writer.WriteLine(@"using ConfigR.Features;");
-                        writer.WriteLine(@"Add(""foo"", new CascadingConfigurationFeature.Foo { Bar = ""bazzzzz"" });");
+                        writer.WriteLine(@"Add(""foo"", new Foo { Bar = ""bazzzzz"" });");
                         writer.Flush();
                     }
                 })
@@ -150,7 +150,7 @@ namespace ConfigR.Features
         }
 
         [Scenario]
-        public static void TryingToRetreiveANonExistentObject(Exception ex)
+        public static void TryingToRetrieveANonexistentObject(Exception ex)
         {
             "Given an empty config file"
                 .f(() =>
@@ -173,11 +173,6 @@ namespace ConfigR.Features
 
             "And the exception message contains 'foo'"
                 .f(() => ex.Message.Should().Contain("foo"));
-        }
-
-        public class Foo
-        {
-            public string Bar { get; set; }
         }
     }
 }

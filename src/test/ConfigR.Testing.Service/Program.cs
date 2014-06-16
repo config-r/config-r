@@ -11,9 +11,9 @@ namespace ConfigR.Testing.Service
 
     public static class Program
     {
-        private static ILog log = LogManager.GetCurrentClassLogger();
+        private static readonly ILog log = LogManager.GetCurrentClassLogger();
 
-        public static void Main(string[] args)
+        public static void Main()
         {
             AppDomain.CurrentDomain.UnhandledException += (sender, e) => log.Fatal((Exception)e.ExceptionObject);
             HostFactory.Run(x => x.Service<string>(o =>
