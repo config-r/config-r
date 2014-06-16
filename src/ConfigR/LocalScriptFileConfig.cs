@@ -23,7 +23,8 @@ namespace ConfigR
 
         private readonly bool tolerateFileNotFound;
 
-        public LocalScriptFileConfig(bool tolerateFileNotFound)
+        public LocalScriptFileConfig(bool tolerateFileNotFound, params Assembly[] references)
+            : this(references)
         {
             this.tolerateFileNotFound = tolerateFileNotFound;
         }

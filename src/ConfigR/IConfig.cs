@@ -5,6 +5,7 @@
 namespace ConfigR
 {
     using System.Collections.Generic;
+    using System.Reflection;
 
     public interface IConfig : IDictionary<string, object>
     {
@@ -14,6 +15,6 @@ namespace ConfigR
 
         IConfig Reset();
 
-        IConfig EnsureLoaded();
+        IConfig EnsureLoaded(params Assembly[] references);
     }
 }
