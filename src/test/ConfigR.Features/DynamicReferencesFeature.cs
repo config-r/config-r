@@ -42,7 +42,7 @@ namespace ConfigR.Features
                 .f(() => result = Config.Global.LoadScriptFile("foo.csx", reference));
 
             "And I get the value"
-                .f(() => result = Config.Global.Get());
+                .f(() => result = Config.Global.Get<object>("foo"));
 
             "Then the Foo Bar should be 'baz'"
                 .f(() => ((string)((dynamic)result).Bar).Should().Be("baz"));
@@ -74,7 +74,7 @@ namespace ConfigR.Features
                 .f(() => result = Config.Global.LoadLocalScriptFile(reference));
 
             "And I get the value"
-                .f(() => result = Config.Global.Get());
+                .f(() => result = Config.Global.Get<object>("foo"));
 
             "Then the Foo Bar should be 'baz'"
                 .f(() => ((string)((dynamic)result).Bar).Should().Be("baz"));
@@ -102,7 +102,7 @@ namespace ConfigR.Features
                 .f(() => Config.GlobalAutoLoadingReferences.Add(reference));
 
             "And I get the value"
-                .f(() => result = Config.Global.Get());
+                .f(() => result = Config.Global.Get<object>("foo"));
 
             "Then the Foo Bar should be 'baz'"
                 .f(() => ((string)((dynamic)result).Bar).Should().Be("baz"));
