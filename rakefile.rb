@@ -3,7 +3,7 @@ require 'fileutils'
 
 version = IO.read("src/ConfigR/Properties/AssemblyInfo.cs").split(/AssemblyInformationalVersion\("/, 2)[1].split(/"/).first
 xunit_command = "src/packages/xunit.runners.1.9.2/tools/xunit.console.clr4.exe"
-nuget_command = "src/packages/NuGet.CommandLine.2.8.0/tools/NuGet.exe"
+nuget_command = "src/packages/NuGet.CommandLine.2.8.2/tools/NuGet.exe"
 solution = "src/ConfigR.sln"
 output = "bin"
 
