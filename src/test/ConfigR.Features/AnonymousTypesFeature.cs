@@ -8,7 +8,6 @@ namespace ConfigR.Features
     using System.IO;
     using FluentAssertions;
     using Xbehave;
-    using Xunit;
 
     public static class AnonymousTypesFeature
     {

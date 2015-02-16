@@ -5,7 +5,6 @@
 namespace ConfigR.Features
 {
     using System.IO;
-    using System.Reflection;
     using FluentAssertions;
     using Xbehave;
 
