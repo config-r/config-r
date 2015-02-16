@@ -27,6 +27,7 @@ namespace ConfigR.Features
             "Given a local config file containing an anonymous type with a Bar of 'baz'"
                 .Given(() =>
                 {
+                    AppDomain.CurrentDomain.SetData("APP_CONFIG_FILE", "Test.config");
                     using (var writer = new StreamWriter(LocalScriptFileConfig.Path))
                     {
                         writer.WriteLine(@"#r ""ConfigR.Features.dll""");
