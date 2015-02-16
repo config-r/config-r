@@ -15,8 +15,6 @@ namespace ConfigR
     public class LocalScriptFileConfig : ScriptConfig
     {
         private static readonly ILog log = LogManager.GetCurrentClassLogger();
-        private static readonly string path =
-            IOPath.ChangeExtension(AppDomain.CurrentDomain.SetupInformation.ConfigurationFile, "csx");
 
         private static readonly string visualStudioHostSuffix = ".vshost";
         private static readonly int visualStudioHostSuffixLength = ".vshost".Length;
@@ -38,6 +36,7 @@ namespace ConfigR
         {
             get
             {
+                var path = IOPath.ChangeExtension(AppDomain.CurrentDomain.SetupInformation.ConfigurationFile, "csx");
                 if (!File.Exists(path))
                 {
                     var fileNameWithoutScriptExtension = IOPath.GetFileNameWithoutExtension(path);
@@ -79,6 +78,7 @@ namespace ConfigR
                 return;
             }
 
+            var path = Path;
             if (scriptPath != path)
             {
                 log.WarnFormat(

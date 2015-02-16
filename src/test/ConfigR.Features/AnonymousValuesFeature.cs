@@ -25,6 +25,7 @@ namespace ConfigR.Features
             "Given a local config file containing an anonymous Foo with a Bar of 'baz'"
                 .Given(() =>
                 {
+                    AppDomain.CurrentDomain.SetData("APP_CONFIG_FILE", "Test.config");
                     using (var writer = new StreamWriter(LocalScriptFileConfig.Path))
                     {
                         writer.WriteLine(@"#r ""ConfigR.Features.dll""");
@@ -48,6 +49,7 @@ namespace ConfigR.Features
             "Given a local config file containing a named Foo with a Bar of 'baz'"
                 .Given(() =>
                 {
+                    AppDomain.CurrentDomain.SetData("APP_CONFIG_FILE", "Test.config");
                     using (var writer = new StreamWriter(LocalScriptFileConfig.Path))
                     {
                         writer.WriteLine(@"#r ""ConfigR.Features.dll""");
@@ -71,6 +73,7 @@ namespace ConfigR.Features
             "Given a local config file containing multiple values"
                 .Given(() =>
                 {
+                    AppDomain.CurrentDomain.SetData("APP_CONFIG_FILE", "Test.config");
                     using (var writer = new StreamWriter(LocalScriptFileConfig.Path))
                     {
                         writer.WriteLine(@"#r ""ConfigR.Features.dll""");
@@ -98,6 +101,7 @@ namespace ConfigR.Features
             "Given a local config file containing a named Foo with a Bar of 'baz'"
                 .Given(() =>
                 {
+                    AppDomain.CurrentDomain.SetData("APP_CONFIG_FILE", "Test.config");
                     using (var writer = new StreamWriter(LocalScriptFileConfig.Path))
                     {
                         writer.WriteLine(@"#r ""ConfigR.Features.dll""");
@@ -124,6 +128,7 @@ namespace ConfigR.Features
             "Given a local config file not containing any string item"
                 .Given(() =>
                 {
+                    AppDomain.CurrentDomain.SetData("APP_CONFIG_FILE", "Test.config");
                     using (var writer = new StreamWriter(LocalScriptFileConfig.Path))
                     {
                         writer.WriteLine(@"#r ""ConfigR.Features.dll""");
@@ -148,6 +153,7 @@ namespace ConfigR.Features
             "Given a local config file not containing any string item"
                 .Given(() =>
                 {
+                    AppDomain.CurrentDomain.SetData("APP_CONFIG_FILE", "Test.config");
                     using (var writer = new StreamWriter(LocalScriptFileConfig.Path))
                     {
                         writer.WriteLine(@"#r ""ConfigR.Features.dll""");
@@ -172,6 +178,7 @@ namespace ConfigR.Features
             "Given a local config file not containing any string item"
                 .Given(() =>
                 {
+                    AppDomain.CurrentDomain.SetData("APP_CONFIG_FILE", "Test.config");
                     using (var writer = new StreamWriter(LocalScriptFileConfig.Path))
                     {
                         writer.WriteLine(@"#r ""ConfigR.Features.dll""");
