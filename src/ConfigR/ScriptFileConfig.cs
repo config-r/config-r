@@ -5,7 +5,6 @@
 namespace ConfigR
 {
     using System.Reflection;
-    using ConfigR.Scripting;
 
     public class ScriptFileConfig : ScriptConfig
     {

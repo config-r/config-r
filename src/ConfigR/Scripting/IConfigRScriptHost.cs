@@ -7,7 +7,6 @@ namespace ConfigR.Scripting
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
-    using ScriptCs;
     using ScriptCs.Contracts;
 
     [CLSCompliant(false)]

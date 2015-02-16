@@ -33,7 +33,7 @@ namespace ConfigR.Scripting
 
         public IConfig Global
         {
-            get { return ConfigR.Config.Global; }
+            get { return Config.Global; }
         }
 
         public void Add(object value)
@@ -48,25 +48,25 @@ namespace ConfigR.Scripting
 
         public IConfigRScriptHost LoadWebScript(Uri uri)
         {
-            ConfigR.Config.Global.LoadWebScript(uri);
+            Config.Global.LoadWebScript(uri);
             return this;
         }
 
         public IConfigRScriptHost LoadScriptFile(string path)
         {
-            ConfigR.Config.Global.LoadScriptFile(path);
+            Config.Global.LoadScriptFile(path);
             return this;
         }
 
         public IConfigRScriptHost LoadLocalScriptFile()
         {
-            ConfigR.Config.Global.LoadLocalScriptFile();
+            Config.Global.LoadLocalScriptFile();
             return this;
         }
 
         public IConfigRScriptHost Load(ISimpleConfig config)
         {
-            ConfigR.Config.Global.Load(config);
+            Config.Global.Load(config);
             return this;
         }
 
