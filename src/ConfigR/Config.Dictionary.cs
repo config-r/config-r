@@ -8,7 +8,7 @@ namespace ConfigR
     using System.Collections.Generic;
     using System.Linq;
 
-    public partial class Config : IConfig
+    public partial class Config
     {
         public ICollection<string> Keys
         {

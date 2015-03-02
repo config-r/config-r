@@ -43,7 +43,7 @@ namespace ConfigR
         public static IConfig Add(object value)
         {
             LogObsolete();
-            Config.DisableGlobalAutoLoading().Add(value as object);
+            Config.DisableGlobalAutoLoading().Add(value);
             return Config.Global;
         }
 
@@ -62,7 +62,7 @@ namespace ConfigR
         public static bool TryGet<T>(out T value)
         {
             LogObsolete();
-            return Config.Global.TryGetValue<T>(out value);
+            return Config.Global.TryGetValue(out value);
         }
 
         public static dynamic Get(string key)
@@ -92,7 +92,7 @@ namespace ConfigR
         public static bool TryGet<T>(string key, out T value)
         {
             LogObsolete();
-            return Config.Global.TryGetValue<T>(key, out value);
+            return Config.Global.TryGetValue(key, out value);
         }
 
         public static T GetOrDefault<T>(string key, T defaultValue)

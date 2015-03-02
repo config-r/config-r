@@ -9,7 +9,6 @@ namespace ConfigR
     using System.IO;
     using System.Reflection;
     using Common.Logging;
-    using ConfigR.Scripting;
     using IOPath = System.IO.Path;
 
     public class LocalScriptFileConfig : ScriptConfig
@@ -41,7 +40,8 @@ namespace ConfigR
                 {
                     var fileNameWithoutScriptExtension = IOPath.GetFileNameWithoutExtension(path);
                     var fileNameWithoutAssemblyExtension = IOPath.GetFileNameWithoutExtension(fileNameWithoutScriptExtension);
-                    if (fileNameWithoutAssemblyExtension.EndsWith(visualStudioHostSuffix, StringComparison.OrdinalIgnoreCase))
+                    if (fileNameWithoutAssemblyExtension != null &&
+                        fileNameWithoutAssemblyExtension.EndsWith(visualStudioHostSuffix, StringComparison.OrdinalIgnoreCase))
                     {
                         var fileNameWithoutHostSuffix = string.Concat(
                             fileNameWithoutAssemblyExtension.Substring(
@@ -49,7 +49,11 @@ namespace ConfigR
                             IOPath.GetExtension(fileNameWithoutScriptExtension),
                             IOPath.GetExtension(path));
 
-                        var pathWithoutHostSuffix = IOPath.Combine(IOPath.GetDirectoryName(path), fileNameWithoutHostSuffix);
+                        var directoryName = IOPath.GetDirectoryName(path);
+                        var pathWithoutHostSuffix = directoryName == null
+                            ? fileNameWithoutHostSuffix
+                            : IOPath.Combine(directoryName, fileNameWithoutHostSuffix);
+                        
                         if (File.Exists(pathWithoutHostSuffix))
                         {
                             return pathWithoutHostSuffix;

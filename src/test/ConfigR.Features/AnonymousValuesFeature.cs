@@ -113,7 +113,7 @@ namespace ConfigR.Features
                 .Teardown(() => File.Delete(LocalScriptFileConfig.Path));
 
             "When I try to get a Foo"
-                .When(() => result = Config.Global.TryGetValue<Foo>(out value));
+                .When(() => result = Config.Global.TryGetValue(out value));
 
             "Then the result is true"
                 .Then(() => result.Should().BeTrue());
@@ -191,7 +191,7 @@ namespace ConfigR.Features
                 .Teardown(() => File.Delete(LocalScriptFileConfig.Path));
 
             "When I try to get a string item"
-                .When(() => result = Config.Global.TryGetValue<string>(out value));
+                .When(() => result = Config.Global.TryGetValue(out value));
 
             "Then the result should be false"
                 .Then(() => result.Should().BeFalse());

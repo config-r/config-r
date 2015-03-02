@@ -44,6 +44,14 @@ namespace ConfigR
             using (var responseStream = response.GetResponseStream())
             using (var fileStream = File.OpenWrite(path))
             {
+                if (responseStream == null)
+                {
+                    var message = string.Format(
+                        CultureInfo.InvariantCulture, "No response received from '{0}'.", this.uri.ToString());
+
+                    throw new InvalidOperationException(message);
+                }
+
                 responseStream.CopyTo(fileStream);
             }
 
