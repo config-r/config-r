@@ -17,14 +17,14 @@ namespace ConfigR.Features
         public static void Background()
         {
             "Given no configuration has been loaded"
-                .Given(() => Config.Global.Reset());
+                .f(() => Config.Global.Reset());
         }
 
         [Scenario]
         public static void RetrievingAnObjectDefinedInTwoFiles(Foo result)
         {
             "Given a config file containing a Foo with a Bar of 'baz'"
-                .Given(() =>
+                .f(() =>
                 {
                     using (var writer = new StreamWriter("foo1.csx"))
                     {
@@ -37,7 +37,7 @@ namespace ConfigR.Features
                 .Teardown(() => File.Delete("foo1.csx"));
 
             "And another config file containing a Foo with a Bar of 'bazzzzz'"
-                .Given(() =>
+                .f(() =>
                 {
                     using (var writer = new StreamWriter("foo2.csx"))
                     {
@@ -50,23 +50,23 @@ namespace ConfigR.Features
                 .Teardown(() => File.Delete("foo2.csx"));
 
             "When I load the first file"
-                .When(() => Config.Global.LoadScriptFile("foo1.csx"));
+                .f(() => Config.Global.LoadScriptFile("foo1.csx"));
 
             "And I load the second file"
-                .And(() => Config.Global.LoadScriptFile("foo2.csx"));
+                .f(() => Config.Global.LoadScriptFile("foo2.csx"));
 
             "And I get the Foo"
-                .And(() => result = Config.Global.Get<Foo>("foo"));
+                .f(() => result = Config.Global.Get<Foo>("foo"));
 
             "Then the Foo has a Bar of 'baz'"
-                .Then(() => result.Bar.Should().Be("baz"));
+                .f(() => result.Bar.Should().Be("baz"));
         }
 
         [Scenario]
         public static void RetrievingAnObjectDefinedInTheSecondOfTwoFiles(Foo result)
         {
             "Given a config file not containing a Foo"
-                .Given(() =>
+                .f(() =>
                 {
                     using (var writer = new StreamWriter("foo1.csx"))
                     {
@@ -79,7 +79,7 @@ namespace ConfigR.Features
                 .Teardown(() => File.Delete("foo1.csx"));
 
             "And another config file containing a Foo with a Bar of 'bazzzzz'"
-                .Given(() =>
+                .f(() =>
                 {
                     using (var writer = new StreamWriter("foo2.csx"))
                     {
@@ -92,23 +92,23 @@ namespace ConfigR.Features
                 .Teardown(() => File.Delete("foo2.csx"));
 
             "When I load the first file"
-                .When(() => Config.Global.LoadScriptFile("foo1.csx"));
+                .f(() => Config.Global.LoadScriptFile("foo1.csx"));
 
             "And I load the second file"
-                .And(() => Config.Global.LoadScriptFile("foo2.csx"));
+                .f(() => Config.Global.LoadScriptFile("foo2.csx"));
 
             "And I get the Foo"
-                .And(() => result = Config.Global.Get<Foo>("foo"));
+                .f(() => result = Config.Global.Get<Foo>("foo"));
 
             "Then the Foo has a Bar of 'baz'"
-                .Then(() => result.Bar.Should().Be("bazzzzz"));
+                .f(() => result.Bar.Should().Be("bazzzzz"));
         }
 
         [Scenario]
         public static void RetrievingAnObjectDefinedInAFileWhoseNameIsDefinedInAnotherFile(string otherFileName, Foo result)
         {
             "Given a config file containing the name of another config file"
-                .Given(() =>
+                .f(() =>
                 {
                     using (var writer = new StreamWriter("foo1.csx"))
                     {
@@ -121,7 +121,7 @@ namespace ConfigR.Features
                 .Teardown(() => File.Delete("foo1.csx"));
 
             "And another config file containing a Foo with a Bar of 'bazzzzz'"
-                .Given(() =>
+                .f(() =>
                 {
                     using (var writer = new StreamWriter("foo2.csx"))
                     {
@@ -134,19 +134,19 @@ namespace ConfigR.Features
                 .Teardown(() => File.Delete("foo2.csx"));
 
             "When I load the first file"
-                .When(() => Config.Global.LoadScriptFile("foo1.csx"));
+                .f(() => Config.Global.LoadScriptFile("foo1.csx"));
 
             "And I get the name of the other file"
-                .And(() => otherFileName = Config.Global.Get<string>("otherFileName"));
+                .f(() => otherFileName = Config.Global.Get<string>("otherFileName"));
 
             "And I load the second file"
-                .And(() => Config.Global.LoadScriptFile(otherFileName));
+                .f(() => Config.Global.LoadScriptFile(otherFileName));
 
             "And I get the Foo"
-                .And(() => result = Config.Global.Get<Foo>("foo"));
+                .f(() => result = Config.Global.Get<Foo>("foo"));
 
             "Then the Foo has a Bar of 'baz'"
-                .Then(() => result.Bar.Should().Be("bazzzzz"));
+                .f(() => result.Bar.Should().Be("bazzzzz"));
         }
 
         [Scenario]

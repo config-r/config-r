@@ -15,14 +15,14 @@ namespace ConfigR.Features
         public static void Background()
         {
             "Given no configuration has been loaded"
-                .Given(() => Config.Global.Reset());
+                .f(() => Config.Global.Reset());
         }
 
         [Scenario]
         public static void RetrievingAnObject(Foo result)
         {
             "Given a local config file containing a Foo with a Bar of 'baz'"
-                .Given(() =>
+                .f(() =>
                 {
                     using (var writer = new StreamWriter(LocalScriptFileConfig.Path))
                     {
@@ -35,17 +35,17 @@ namespace ConfigR.Features
                 .Teardown(() => File.Delete(LocalScriptFileConfig.Path));
 
             "When I get the Foo"
-                .When(() => result = Config.Global.Get<Foo>("foo"));
+                .f(() => result = Config.Global.Get<Foo>("foo"));
 
             "Then the Foo has a Bar of 'baz'"
-                .Then(() => result.Bar.Should().Be("baz"));
+                .f(() => result.Bar.Should().Be("baz"));
         }
 
         [Scenario]
         public static void PassingAValueFromAnAppToAConfigurationScript(string result)
         {
             "Given a local config file which sets foo using the value of bar"
-                .Given(() =>
+                .f(() =>
                 {
                     using (var writer = new StreamWriter(LocalScriptFileConfig.Path))
                     {
@@ -56,20 +56,20 @@ namespace ConfigR.Features
                 .Teardown(() => File.Delete(LocalScriptFileConfig.Path));
 
             "When I set bar to 'baz'"
-                .When(() => Config.DisableGlobalAutoLoading().Add("bar", "baz"));
+                .f(() => Config.DisableGlobalAutoLoading().Add("bar", "baz"));
 
             "And I get foo"
-                .And(() => result = Config.EnableGlobalAutoLoading().Get<string>("foo"));
+                .f(() => result = Config.EnableGlobalAutoLoading().Get<string>("foo"));
 
             "Then foo is 'baz'"
-                .Then(() => result.Should().Be("baz"));
+                .f(() => result.Should().Be("baz"));
         }
 
         [Scenario]
         public static void ScriptIsMissingAClosingParenthesis(object exception)
         {
             "Given a local config file which is missing a closing bracket"
-                .Given(() =>
+                .f(() =>
                 {
                     using (var writer = new StreamWriter(LocalScriptFileConfig.Path))
                     {
@@ -80,10 +80,10 @@ namespace ConfigR.Features
                 .Teardown(() => File.Delete(LocalScriptFileConfig.Path));
 
             "When I load the config file"
-                .When(() => exception = Record.Exception(() => Config.Global));
+                .f(() => exception = Record.Exception(() => Config.Global));
 
             "Then an exception is thrown"
-                .Then(() => exception.Should().NotBeNull());
+                .f(() => exception.Should().NotBeNull());
         }
     }
 }

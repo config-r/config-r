@@ -13,23 +13,23 @@ namespace ConfigR.Features
         public static void Background()
         {
             "Given no configuration has been loaded"
-                .Given(() => Config.Global.Reset());
+                .f(() => Config.Global.Reset());
         }
 
         [Scenario]
         public static void RetrievingAnObject(ISimpleConfig configurator, string result)
         {
             "Given a configurator containing a string of 'bar' keyed by 'foo'"
-                .Given(() => (configurator = new BasicConfig()).Add("foo", "bar"));
+                .f(() => (configurator = new BasicConfig()).Add("foo", "bar"));
 
             "When I load the configurator"
-                .When(() => Config.Global.Load(configurator));
+                .f(() => Config.Global.Load(configurator));
 
             "And I get the Foo"
-                .And(() => result = Config.Global.Get<string>("foo"));
+                .f(() => result = Config.Global.Get<string>("foo"));
 
             "Then the result should be 'bar'"
-                .Then(() => result.Should().Be("bar"));
+                .f(() => result.Should().Be("bar"));
         }
     }
 }

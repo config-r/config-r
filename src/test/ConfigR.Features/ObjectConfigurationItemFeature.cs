@@ -14,7 +14,7 @@ namespace ConfigR.Features
         public static void Background()
         {
             "Given no configuration has been loaded"
-                .Given(() => Config.Global.Reset());
+                .f(() => Config.Global.Reset());
         }
 
         [Scenario]
@@ -32,7 +32,7 @@ namespace ConfigR.Features
                 .Teardown(() => File.Delete("foo1.csx"));
 
             "When I load the file"
-                .When(() => Config.Global.LoadScriptFile("foo1.csx"));
+                .f(() => Config.Global.LoadScriptFile("foo1.csx"));
 
             "And I try to get an object named 'foo'"
                 .f(() => Config.Global.TryGetValue("foo", out result));

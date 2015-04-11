@@ -14,7 +14,7 @@ namespace ConfigR.Features
         public static void Background()
         {
             "Given no configuration has been loaded"
-                .Given(() => Config.Global.Reset());
+                .f(() => Config.Global.Reset());
         }
 
         [Scenario]
@@ -32,7 +32,7 @@ namespace ConfigR.Features
                 .Teardown(() => File.Delete("foo1.csx"));
 
             "When I load the file"
-                .When(() => Config.Global.LoadScriptFile("foo1.csx"));
+                .f(() => Config.Global.LoadScriptFile("foo1.csx"));
 
             "And I get an int named 'foo' with a default of 456"
                 .f(() => result = Config.Global.GetOrDefault("foo", 456));
@@ -56,7 +56,7 @@ namespace ConfigR.Features
                 .Teardown(() => File.Delete("foo1.csx"));
 
             "When I load the file"
-                .When(() => Config.Global.LoadScriptFile("foo1.csx"));
+                .f(() => Config.Global.LoadScriptFile("foo1.csx"));
 
             "And I try to get an int named 'foo' with a default of 456"
                 .f(() => success = Config.Global.TryGetValueOrDefault("foo", out result, 456));
@@ -83,7 +83,7 @@ namespace ConfigR.Features
                 .Teardown(() => File.Delete("foo1.csx"));
 
             "When I load the file"
-                .When(() => Config.Global.LoadScriptFile("foo1.csx"));
+                .f(() => Config.Global.LoadScriptFile("foo1.csx"));
 
             "And I get an int named 'bar' with a default of 456"
                 .f(() => result = Config.Global.GetOrDefault("bar", 456));
@@ -107,7 +107,7 @@ namespace ConfigR.Features
                 .Teardown(() => File.Delete("foo1.csx"));
 
             "When I load the file"
-                .When(() => Config.Global.LoadScriptFile("foo1.csx"));
+                .f(() => Config.Global.LoadScriptFile("foo1.csx"));
 
             "And I try to get an int named 'bar' with a default of 456"
                 .f(() => success = Config.Global.TryGetValueOrDefault("bar", out result, 456));
