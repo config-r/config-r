@@ -83,6 +83,7 @@
       <Link>Properties\ConfigR.Dictionary</Link>
       <SubType>Designer</SubType>
     </CodeAnalysisDictionary>
+    <None Include="ConfigR.nuspec" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>

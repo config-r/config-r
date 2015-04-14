@@ -6,7 +6,6 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionFiles", "SolutionFiles", "{4928A491-6E0E-4948-A9DD-F24A4A0AAC08}"
 	ProjectSection(SolutionItems) = preProject
 		ConfigR.Dictionary = ConfigR.Dictionary
-		ConfigR.nuspec = ConfigR.nuspec
 		ConfigR.ruleset = ConfigR.ruleset
 		ConfigR.Test.ruleset = ConfigR.Test.ruleset
 		Settings.StyleCop = Settings.StyleCop
