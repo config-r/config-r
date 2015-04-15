@@ -14,7 +14,7 @@ namespace ConfigR.Features
         public static void RetrievingTheSameValueFromTwoFiles(string foo1, string foo2)
         {
             "Given a config file containing a Foo of 'baz'"
-                .Given(() =>
+                .f(() =>
                 {
                     using (var writer = new StreamWriter("foo1.csx"))
                     {
@@ -23,7 +23,7 @@ namespace ConfigR.Features
                 }).Teardown(() => File.Delete("foo1.csx"));
 
             "And a config file containing a Foo of 'bazzz'"
-                .And(() =>
+                .f(() =>
                 {
                     using (var writer = new StreamWriter("foo2.csx"))
                     {
@@ -32,16 +32,16 @@ namespace ConfigR.Features
                 }).Teardown(() => File.Delete("foo2.csx"));
 
             "When I get the foo from the first file"
-                .When(() => foo1 = new ScriptFileConfig("foo1.csx").Load().Get<string>("foo"));
+                .f(() => foo1 = new ScriptFileConfig("foo1.csx").Load().Get<string>("foo"));
 
             "And I get the foo from the second file"
-                .And(() => foo2 = new ScriptFileConfig("foo2.csx").Load().Get<string>("foo"));
+                .f(() => foo2 = new ScriptFileConfig("foo2.csx").Load().Get<string>("foo"));
 
             "Then the first Foo is 'baz'"
-                .Then(() => foo1.Should().Be("baz"));
+                .f(() => foo1.Should().Be("baz"));
 
             "And the second Foo is 'bazzz'"
-                .And(() => foo2.Should().Be("bazzz"));
+                .f(() => foo2.Should().Be("bazzz"));
         }
     }
 }
