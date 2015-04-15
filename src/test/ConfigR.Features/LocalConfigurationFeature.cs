@@ -85,5 +85,26 @@ namespace ConfigR.Features
             "Then an exception is thrown"
                 .f(() => exception.Should().NotBeNull());
         }
+
+        [Scenario]
+        public static void ScriptFailsToExecute(object exception)
+        {
+            "Given a local config file which fails to execute"
+                .f(() =>
+                {
+                    using (var writer = new StreamWriter(LocalScriptFileConfig.Path))
+                    {
+                        writer.WriteLine("throw new Exception();");
+                        writer.Flush();
+                    }
+                })
+                .Teardown(() => File.Delete(LocalScriptFileConfig.Path));
+
+            "When I load the config file"
+                .f(() => exception = Record.Exception(() => Config.Global));
+
+            "Then an exception is thrown"
+                .f(() => exception.Should().NotBeNull());
+        }
     }
 }
