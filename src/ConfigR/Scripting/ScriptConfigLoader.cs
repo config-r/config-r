@@ -57,11 +57,11 @@ namespace ConfigR.Scripting
                 executor.Terminate();
             }
 
-            RethrowExceptionIfAny(result);
+            RethrowExceptionIfAny(result, path);
             return result.ReturnValue;
         }
 
-        private static void RethrowExceptionIfAny(ScriptResult result)
+        private static void RethrowExceptionIfAny(ScriptResult result, string scriptPath)
         {
             if (result.CompileExceptionInfo != null)
             {
@@ -74,9 +74,11 @@ namespace ConfigR.Scripting
                 if (!result.ExecuteExceptionInfo.SourceException.StackTrace.Trim()
                     .StartsWith("at Submission#", StringComparison.OrdinalIgnoreCase))
                 {
-                    log.Warn(
-                        "Roslyn failed to execute the scripts. Any configuration in this script will not be available",
-                        result.ExecuteExceptionInfo.SourceException);
+                    log.WarnFormat(
+                        CultureInfo.InvariantCulture,
+                        "Roslyn failed to execute '{0}'. Any configuration in this script will not be available",
+                        result.ExecuteExceptionInfo.SourceException,
+                        scriptPath);
                 }
                 else
                 {
