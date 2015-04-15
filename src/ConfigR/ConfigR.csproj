@@ -60,7 +60,6 @@
     <Compile Include="Configurator.cs" />
     <Compile Include="ConfigExtensions.cs" />
     <Compile Include="ScriptConfig.cs" />
-    <Compile Include="Scripting\ConfigRScriptExecutor.cs" />
     <Compile Include="Scripting\IConfigRScriptHost.cs" />
     <Compile Include="Scripting\ScriptConfigLoader.cs" />
     <Compile Include="DictionaryExtensions.cs" />
