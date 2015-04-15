@@ -65,7 +65,6 @@ namespace ConfigR.Scripting
         {
             if (result.CompileExceptionInfo != null)
             {
-                log.ErrorFormat(CultureInfo.InvariantCulture, "Failed to compile {0}", result.CompileExceptionInfo, scriptPath);
                 result.CompileExceptionInfo.Throw();
             }
 
@@ -75,13 +74,14 @@ namespace ConfigR.Scripting
                 if (!result.ExecuteExceptionInfo.SourceException.StackTrace.Trim()
                     .StartsWith("at Submission#", StringComparison.OrdinalIgnoreCase))
                 {
-                    log.Warn(
-                        "Roslyn failed to execute the scripts. Any configuration in this script will not be available",
-                        result.ExecuteExceptionInfo.SourceException);
+                    log.WarnFormat(
+                        CultureInfo.InvariantCulture,
+                        "Roslyn failed to execute '{0}'. Any configuration in this script will not be available",
+                        result.ExecuteExceptionInfo.SourceException,
+                        scriptPath);
                 }
                 else
                 {
-                    log.ErrorFormat(CultureInfo.InvariantCulture, "Failed to execute {0}", result.ExecuteExceptionInfo, scriptPath);
                     result.ExecuteExceptionInfo.Throw();
                 }
             }
