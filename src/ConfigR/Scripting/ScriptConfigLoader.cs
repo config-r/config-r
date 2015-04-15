@@ -57,15 +57,14 @@ namespace ConfigR.Scripting
                 executor.Terminate();
             }
 
-            RethrowExceptionIfAny(result, path);
+            RethrowExceptionIfAny(result);
             return result.ReturnValue;
         }
 
-        private static void RethrowExceptionIfAny(ScriptResult result, string scriptPath)
+        private static void RethrowExceptionIfAny(ScriptResult result)
         {
             if (result.CompileExceptionInfo != null)
             {
-                log.ErrorFormat(CultureInfo.InvariantCulture, "Failed to compile {0}", result.CompileExceptionInfo, scriptPath);
                 result.CompileExceptionInfo.Throw();
             }
 
@@ -81,7 +80,6 @@ namespace ConfigR.Scripting
                 }
                 else
                 {
-                    log.ErrorFormat(CultureInfo.InvariantCulture, "Failed to execute {0}", result.ExecuteExceptionInfo, scriptPath);
                     result.ExecuteExceptionInfo.Throw();
                 }
             }
