@@ -39,12 +39,15 @@ namespace ConfigR.Scripting
 
             var filePreProcessor = new FilePreProcessor(fileSystem, scriptCsLog, lineProcessors);
             var engine = new RoslynScriptInMemoryEngine(new ConfigRScriptHostFactory(config), scriptCsLog);
-            var executor = new ConfigRScriptExecutor(fileSystem, filePreProcessor, engine, scriptCsLog);
+            var executor = new ScriptExecutor(fileSystem, filePreProcessor, engine, scriptCsLog);
             executor.AddReferenceAndImportNamespaces(new[] { typeof(Config), typeof(IScriptHost) });
             executor.AddReferences(this.references);
 
             ScriptResult result;
             executor.Initialize(new string[0], new IScriptPack[0]);
+
+            // HACK (adamralph): BaseDirectory is set to bin subfolder in Initialize()!
+            executor.ScriptEngine.BaseDirectory = executor.FileSystem.CurrentDirectory;
             try
             {
                 result = executor.Execute(path);

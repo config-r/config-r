@@ -11,7 +11,7 @@
     <AssemblyName>ConfigR</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <NuGetPackageImportStamp>7c15efc5</NuGetPackageImportStamp>
+    <NuGetPackageImportStamp>24d01ddd</NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -60,7 +60,6 @@
     <Compile Include="Configurator.cs" />
     <Compile Include="ConfigExtensions.cs" />
     <Compile Include="ScriptConfig.cs" />
-    <Compile Include="Scripting\ConfigRScriptExecutor.cs" />
     <Compile Include="Scripting\IConfigRScriptHost.cs" />
     <Compile Include="Scripting\ScriptConfigLoader.cs" />
     <Compile Include="DictionaryExtensions.cs" />
@@ -83,6 +82,7 @@
       <Link>Properties\ConfigR.Dictionary</Link>
       <SubType>Designer</SubType>
     </CodeAnalysisDictionary>
+    <None Include="ConfigR.nuspec" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
@@ -104,24 +104,25 @@
       <HintPath>..\packages\Roslyn.Compilers.CSharp.1.2.20906.2\lib\net45\Roslyn.Compilers.CSharp.dll</HintPath>
     </Reference>
     <Reference Include="ScriptCs.Contracts">
-      <HintPath>..\packages\ScriptCs.Contracts.0.12.0\lib\net45\ScriptCs.Contracts.dll</HintPath>
+      <HintPath>..\packages\ScriptCs.Contracts.0.14.0\lib\net45\ScriptCs.Contracts.dll</HintPath>
     </Reference>
     <Reference Include="ScriptCs.Core">
-      <HintPath>..\packages\ScriptCs.Core.0.12.0\lib\net45\ScriptCs.Core.dll</HintPath>
+      <HintPath>..\packages\ScriptCs.Core.0.14.0\lib\net45\ScriptCs.Core.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="ScriptCs.Engine.Roslyn">
-      <HintPath>..\packages\ScriptCs.Engine.Roslyn.0.12.0\lib\net45\ScriptCs.Engine.Roslyn.dll</HintPath>
+      <HintPath>..\packages\ScriptCs.Engine.Roslyn.0.14.0\lib\net45\ScriptCs.Engine.Roslyn.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Configuration" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="..\packages\StyleCop.MSBuild.4.7.49.0\build\StyleCop.MSBuild.Targets" Condition="Exists('..\packages\StyleCop.MSBuild.4.7.49.0\build\StyleCop.MSBuild.Targets')" />
+  <Import Project="..\packages\StyleCop.MSBuild.4.7.49.1\build\StyleCop.MSBuild.Targets" Condition="Exists('..\packages\StyleCop.MSBuild.4.7.49.1\build\StyleCop.MSBuild.Targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\StyleCop.MSBuild.4.7.49.0\build\StyleCop.MSBuild.Targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\StyleCop.MSBuild.4.7.49.0\build\StyleCop.MSBuild.Targets'))" />
+    <Error Condition="!Exists('..\packages\StyleCop.MSBuild.4.7.49.1\build\StyleCop.MSBuild.Targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\StyleCop.MSBuild.4.7.49.1\build\StyleCop.MSBuild.Targets'))" />
   </Target>
 </Project>
