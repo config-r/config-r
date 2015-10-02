@@ -69,26 +69,5 @@ namespace ConfigR.Scripting
             Config.Global.Load(config);
             return this;
         }
-
-        [Obsolete("Deprecated since version 0.9 and will soon be removed. Use LoadWebScript(Uri) instead.")]
-        public IConfigRScriptHost Load(Uri uri)
-        {
-            log.Warn("Load(Uri) in scripts is deprecated since version 0.9 and will soon be removed. Use LoadWebScript(Uri) instead.");
-            return this.LoadWebScript(uri);
-        }
-
-        [Obsolete("Deprecated since version 0.9 and will soon be removed. Use LoadScriptFile(string) instead.")]
-        public IConfigRScriptHost Load(string path)
-        {
-            log.Warn("Load(string) in scripts is deprecated since version 0.9 and will soon be removed. Use LoadScriptFile(string) instead.");
-            return this.LoadScriptFile(path);
-        }
-
-        [Obsolete("Deprecated since version 0.9 and will soon be removed. Use LoadLocalScriptFile() instead.")]
-        public IConfigRScriptHost LoadLocal()
-        {
-            log.Warn("LoadLocal() in scripts is deprecated since version 0.9 and will soon be removed. Use LoadLocalScriptFile() instead.");
-            return this.LoadLocalScriptFile();
-        }
     }
 }
