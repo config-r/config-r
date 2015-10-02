@@ -29,15 +29,5 @@ namespace ConfigR.Scripting
         IConfigRScriptHost LoadLocalScriptFile();
 
         IConfigRScriptHost Load(ISimpleConfig config);
-
-        [Obsolete("Deprecated since version 0.9 and will soon be removed. Use LoadWebScript(Uri) instead.")]
-        IConfigRScriptHost Load(Uri uri);
-
-        [Obsolete("Deprecated since version 0.9 and will soon be removed. Use LoadScriptFile(string) instead.")]
-        [SuppressMessage("Microsoft.Design", "CA1057:StringUriOverloadsCallSystemUriOverloads", Justification = "It's not a string URI, it's a path.")]
-        IConfigRScriptHost Load(string path);
-
-        [Obsolete("Deprecated since version 0.9 and will soon be removed. Use LoadLocalScriptFile() instead.")]
-        IConfigRScriptHost LoadLocal();
     }
 }
