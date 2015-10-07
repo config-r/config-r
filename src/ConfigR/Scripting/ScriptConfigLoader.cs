@@ -8,6 +8,7 @@ namespace ConfigR.Scripting
     using System.Globalization;
     using System.Linq;
     using System.Reflection;
+    using Logging;
     using Common.Logging;
     using ScriptCs;
     using ScriptCs.Contracts;
@@ -15,7 +16,7 @@ namespace ConfigR.Scripting
 
     public class ScriptConfigLoader
     {
-        private static readonly Common.Logging.ILog log = LogManager.GetCurrentClassLogger();
+        private static readonly Logging.ILog log = LogProvider.For<ScriptConfigLoader>();
         private readonly Assembly[] references;
 
         public ScriptConfigLoader(params Assembly[] references)
@@ -26,8 +27,8 @@ namespace ConfigR.Scripting
         public object LoadFromFile(ISimpleConfig config, string path)
         {
             var fileSystem = new FileSystem { CurrentDirectory = AppDomain.CurrentDomain.SetupInformation.ApplicationBase };
-            log.InfoFormat(CultureInfo.InvariantCulture, "Executing '{0}'", fileSystem.GetFullPath(path));
-            log.DebugFormat(CultureInfo.InvariantCulture, "The current directory is {0}", fileSystem.CurrentDirectory);
+            log.InfoFormat(string.Format(CultureInfo.InvariantCulture, "Executing '{0}'", fileSystem.GetFullPath(path)));
+            log.DebugFormat(string.Format(CultureInfo.InvariantCulture, "The current directory is {0}", fileSystem.CurrentDirectory));
 
             var scriptCsLog = LogManager.GetLogger("ScriptCs");
             var lineProcessors = new ILineProcessor[]
@@ -74,11 +75,10 @@ namespace ConfigR.Scripting
                 if (!result.ExecuteExceptionInfo.SourceException.StackTrace.Trim()
                     .StartsWith("at Submission#", StringComparison.OrdinalIgnoreCase))
                 {
-                    log.WarnFormat(
+                    log.WarnFormat(string.Format(
                         CultureInfo.InvariantCulture,
                         "Roslyn failed to execute '{0}'. Any configuration in this script will not be available",
-                        result.ExecuteExceptionInfo.SourceException,
-                        scriptPath);
+                        result.ExecuteExceptionInfo.SourceException));
                 }
                 else
                 {

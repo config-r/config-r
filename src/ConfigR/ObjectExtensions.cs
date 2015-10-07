@@ -7,12 +7,12 @@ namespace ConfigR
     using System;
     using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
-    using Common.Logging;
     using Newtonsoft.Json;
+    using Logging;
 
     internal static class ObjectExtensions
     {
-        private static readonly ILog log = LogManager.GetCurrentClassLogger();
+        private static readonly ILog log = LogProvider.GetCurrentClassLogger();
         private static readonly JsonSerializerSettings jsonSettings = new JsonSerializerSettings
         {
             PreserveReferencesHandling = PreserveReferencesHandling.Objects,
@@ -29,7 +29,7 @@ namespace ConfigR
             }
             catch (Exception ex)
             {
-                log.TraceFormat(CultureInfo.InvariantCulture, "Error converting '{0}' to JSON.", ex, value);
+                log.TraceFormat(string.Format(CultureInfo.InvariantCulture, "Error converting '{0}' to JSON.", ex));
                 return JsonConvert.SerializeObject(value.GetType(), Formatting.None, jsonSettings);
             }
         }

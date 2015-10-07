@@ -8,12 +8,12 @@ namespace ConfigR
     using System.Globalization;
     using System.IO;
     using System.Reflection;
-    using Common.Logging;
+    using Logging;
     using IOPath = System.IO.Path;
 
     public class LocalScriptFileConfig : ScriptConfig
     {
-        private static readonly ILog log = LogManager.GetCurrentClassLogger();
+        private static readonly ILog log = LogProvider.For<LocalScriptFileConfig>();
 
         private static readonly string visualStudioHostSuffix = ".vshost";
         private static readonly int visualStudioHostSuffixLength = ".vshost".Length;
@@ -85,11 +85,11 @@ namespace ConfigR
             var path = Path;
             if (scriptPath != path)
             {
-                log.WarnFormat(
+                log.WarnFormat(string.Format(
                     CultureInfo.InvariantCulture,
                     "'{0}' not found. Loading '{1}' instead.",
                     IOPath.GetFileName(path),
-                    IOPath.GetFileName(scriptPath));
+                    IOPath.GetFileName(scriptPath)));
             }
 
             base.Load(scriptPath);
