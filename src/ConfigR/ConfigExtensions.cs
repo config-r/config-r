@@ -5,13 +5,12 @@
 namespace ConfigR
 {
     using System;
-    using System.Diagnostics.CodeAnalysis;
     using System.Reflection;
-    using Common.Logging;
+    using Logging;
 
     public static class ConfigExtensions
     {
-        private static readonly ILog log = LogManager.GetCurrentClassLogger();
+        private static readonly ILog log = LogProvider.For<ConfigExtensions>();
 
         public static IConfig LoadWebScript(this IConfig config, Uri uri, params Assembly[] references)
         {
