@@ -6,14 +6,14 @@ namespace ConfigR.Scripting
 {
     using System;
     using System.Collections.Generic;
-    using Common.Logging;
+    using Logging;
     using ScriptCs;
     using ScriptCs.Contracts;
 
     [CLSCompliant(false)]
     public partial class ConfigRScriptHost : ScriptHost, IConfigRScriptHost
     {
-        private static readonly ILog log = LogManager.GetCurrentClassLogger();
+        private static readonly ILog log = LogProvider.For<ConfigRScriptHost>();
 
         private readonly IDictionary<string, object> dictionary;
 

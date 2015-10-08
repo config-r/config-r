@@ -10,7 +10,7 @@ namespace ConfigR
 
     public static class ConfigExtensions
     {
-        private static readonly ILog log = LogProvider.For<ConfigExtensions>();
+        private static readonly ILog log = LogProvider.GetCurrentClassLogger();
 
         public static IConfig LoadWebScript(this IConfig config, Uri uri, params Assembly[] references)
         {
