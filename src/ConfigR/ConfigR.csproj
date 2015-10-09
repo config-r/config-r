@@ -45,6 +45,7 @@
     <AssemblyOriginatorKeyFile>..\ConfigR.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="App_Packages\LibLog.4.2\LibLog.cs" />
     <Compile Include="BasicConfig.cs" />
     <Compile Include="BasicConfig.Dictionary.cs">
       <DependentUpon>BasicConfig.cs</DependentUpon>

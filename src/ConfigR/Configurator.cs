@@ -7,12 +7,12 @@ namespace ConfigR
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
-    using Common.Logging;
+    using Logging;
 
     [Obsolete("Deprecated since version 0.9 and will soon be removed. Use Config.Global instead.")]
     public static class Configurator
     {
-        private static readonly ILog log = LogManager.GetCurrentClassLogger();
+        private static readonly ILog log = LogProvider.GetCurrentClassLogger();
 
         public static IConfig Current
         {
@@ -135,7 +135,7 @@ namespace ConfigR
 
         private static void LogObsolete()
         {
-            log.Warn("ConfigR.Configurator is deprecated since version 0.9 and will soon be removed. Use Config and Config.Global instead.");
+            log.Warn(() => "ConfigR.Configurator is deprecated since version 0.9 and will soon be removed. Use Config and Config.Global instead.");
         }
     }
 }

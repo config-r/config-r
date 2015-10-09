@@ -9,11 +9,11 @@ namespace ConfigR
     using System.IO;
     using System.Net;
     using System.Reflection;
-    using Common.Logging;
+    using Logging;
 
     public class WebScriptConfig : ScriptConfig
     {
-        private static readonly ILog log = LogManager.GetCurrentClassLogger();
+        private static readonly ILog log = LogProvider.For<WebScriptConfig>();
         private readonly Uri uri;
 
         public WebScriptConfig(Uri uri, params Assembly[] references)
@@ -37,7 +37,7 @@ namespace ConfigR
         protected override string GetScriptPath()
         {
             var path = Path.GetTempFileName();
-            log.InfoFormat(CultureInfo.InvariantCulture, "Downloading '{0}' to '{1}'.", this.uri.ToString(), path);
+            log.InfoFormat(string.Format(CultureInfo.InvariantCulture, "Downloading '{0}' to '{1}'.", this.uri, path));
 
             var request = WebRequest.Create(this.uri);
             using (var response = request.GetResponse())

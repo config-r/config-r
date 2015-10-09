@@ -5,17 +5,16 @@
 namespace ConfigR.Testing.Service
 {
     using System;
-    using Common.Logging;
+    using Logging;
     using ConfigR;
     using Topshelf;
 
     public static class Program
     {
-        private static readonly ILog log = LogManager.GetCurrentClassLogger();
-
+        private static readonly ILog log = LogProvider.GetCurrentClassLogger();
         public static void Main()
         {
-            AppDomain.CurrentDomain.UnhandledException += (sender, e) => log.Fatal((Exception)e.ExceptionObject);
+            AppDomain.CurrentDomain.UnhandledException += (sender, e) => log.FatalException(string.Empty, (Exception)e.ExceptionObject, null);
             HostFactory.Run(x => x.Service<string>(o =>
             {
                 o.ConstructUsing(n => n);
