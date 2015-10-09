@@ -22,6 +22,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <WarningsNotAsErrors>612,618</WarningsNotAsErrors>
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <CodeAnalysisRuleSet>..\ConfigR.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
@@ -35,6 +36,7 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <DocumentationFile>
     </DocumentationFile>
+    <WarningsNotAsErrors>612,618</WarningsNotAsErrors>
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <CodeAnalysisRuleSet>..\ConfigR.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
@@ -101,15 +103,17 @@
       <Private>True</Private>
       <HintPath>..\packages\Roslyn.Compilers.CSharp.1.2.20906.2\lib\net45\Roslyn.Compilers.CSharp.dll</HintPath>
     </Reference>
-    <Reference Include="ScriptCs.Contracts">
-      <HintPath>..\packages\ScriptCs.Contracts.0.14.0\lib\net45\ScriptCs.Contracts.dll</HintPath>
-    </Reference>
-    <Reference Include="ScriptCs.Core">
-      <HintPath>..\packages\ScriptCs.Core.0.14.0\lib\net45\ScriptCs.Core.dll</HintPath>
+    <Reference Include="ScriptCs.Contracts, Version=0.15.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ScriptCs.Contracts.0.15.0\lib\net45\ScriptCs.Contracts.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="ScriptCs.Engine.Roslyn">
-      <HintPath>..\packages\ScriptCs.Engine.Roslyn.0.14.0\lib\net45\ScriptCs.Engine.Roslyn.dll</HintPath>
+    <Reference Include="ScriptCs.Core, Version=0.15.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ScriptCs.Core.0.15.0\lib\net45\ScriptCs.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ScriptCs.Engine.Roslyn, Version=0.15.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ScriptCs.Engine.Roslyn.0.15.0\lib\net45\ScriptCs.Engine.Roslyn.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
