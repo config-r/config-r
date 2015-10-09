@@ -13,7 +13,7 @@ namespace ConfigR.Scripting
     [CLSCompliant(false)]
     public partial class ConfigRScriptHost : ScriptHost, IConfigRScriptHost
     {
-        private static readonly ILog log = LogManager.GetCurrentClassLogger();
+        private static readonly Common.Logging.ILog log = LogManager.GetCurrentClassLogger();
 
         private readonly IDictionary<string, object> dictionary;
 
