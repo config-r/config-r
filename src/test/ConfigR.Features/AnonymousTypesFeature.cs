@@ -2,6 +2,8 @@
 //  Copyright (c) ConfigR contributors. (configr.net@gmail.com)
 // </copyright>
 
+using System.Diagnostics;
+
 namespace ConfigR.Features
 {
     using System;
@@ -22,7 +24,7 @@ namespace ConfigR.Features
         public static void RetrievingAnAnonymousType()
         {
             dynamic result = null;
-
+                        
             "Given a local config file containing an anonymous type with a Bar of 'baz'"
                 .f(() =>
                 {
