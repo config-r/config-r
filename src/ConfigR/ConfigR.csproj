@@ -56,7 +56,6 @@
     <Compile Include="Config.Global.cs">
       <DependentUpon>Config.cs</DependentUpon>
     </Compile>
-    <Compile Include="Configurator.cs" />
     <Compile Include="ConfigExtensions.cs" />
     <Compile Include="ScriptConfig.cs" />
     <Compile Include="Scripting\IConfigRScriptHost.cs" />
