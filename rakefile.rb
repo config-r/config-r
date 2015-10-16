@@ -7,7 +7,7 @@ version = IO.read("src/ConfigR/Properties/AssemblyInfo.cs").split(/AssemblyInfor
 
 $msbuild_command = "C:/Program Files (x86)/MSBuild/12.0/Bin/MSBuild.exe"
 $xunit_command = "src/packages/xunit.runner.console.2.1.0/tools/xunit.console.exe"
-nuget_command = "src/packages/NuGet.CommandLine.2.8.6/tools/NuGet.exe"
+nuget_command = "src/.nuget/NuGet.exe"
 $solution = "src/ConfigR.sln"
 output = "artifacts/output"
 logs = "artifacts/logs"
