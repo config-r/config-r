@@ -15,7 +15,7 @@ namespace ConfigR.Scripting
 
     public class ScriptConfigLoader
     {
-        private static readonly ILog log = LogManager.GetCurrentClassLogger();
+        private static readonly Common.Logging.ILog log = LogManager.GetCurrentClassLogger();
         private readonly Assembly[] references;
 
         public ScriptConfigLoader(params Assembly[] references)
