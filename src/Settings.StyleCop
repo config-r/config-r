@@ -10,7 +10,7 @@
     <Parser ParserId="StyleCop.CSharp.CsParser">
       <ParserSettings>
         <CollectionProperty Name="GeneratedFileFilters">
-          <Value>TemporaryGeneratedFile_.*\.cs$</Value>
+          <Value>TemporaryGeneratedFile_.*\.cs$|LibLog.cs</Value>
         </CollectionProperty>
       </ParserSettings>
     </Parser>

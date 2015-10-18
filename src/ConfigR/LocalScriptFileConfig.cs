@@ -8,7 +8,7 @@ namespace ConfigR
     using System.Globalization;
     using System.IO;
     using System.Reflection;
-    using Logging;
+    using ConfigR.Logging;
     using IOPath = System.IO.Path;
 
     public class LocalScriptFileConfig : ScriptConfig
@@ -85,11 +85,10 @@ namespace ConfigR
             var path = Path;
             if (scriptPath != path)
             {
-                log.WarnFormat(string.Format(
-                    CultureInfo.InvariantCulture,
+                log.WarnFormat(
                     "'{0}' not found. Loading '{1}' instead.",
                     IOPath.GetFileName(path),
-                    IOPath.GetFileName(scriptPath)));
+                    IOPath.GetFileName(scriptPath));
             }
 
             base.Load(scriptPath);

@@ -7,8 +7,8 @@ namespace ConfigR
     using System;
     using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
+    using ConfigR.Logging;
     using Newtonsoft.Json;
-    using Logging;
 
     internal static class ObjectExtensions
     {
@@ -29,7 +29,7 @@ namespace ConfigR
             }
             catch (Exception ex)
             {
-                log.TraceFormat(string.Format(CultureInfo.InvariantCulture, "Error converting '{0}' to JSON.", ex));
+                log.TraceFormat("Error converting '{0}' to JSON.", ex);
                 return JsonConvert.SerializeObject(value.GetType(), Formatting.None, jsonSettings);
             }
         }

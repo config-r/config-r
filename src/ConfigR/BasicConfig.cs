@@ -5,8 +5,7 @@
 namespace ConfigR
 {
     using System.Collections.Generic;
-    using System.Globalization;
-    using Logging;
+    using ConfigR.Logging;
 
     public partial class BasicConfig : ISimpleConfig
     {
@@ -26,7 +25,8 @@ namespace ConfigR
 
         private void LogMutating(string action, string key, object value)
         {
-            log.TraceFormat(string.Format(CultureInfo.InvariantCulture, "{0} '{1}' from {2}: {3}", action, key, this.GetSource(), value.ToJson()));
+            log.TraceFormat(
+                "{0} '{1}' from {2}: {3}", action, key, this.GetSource(), value.ToJson());
         }
 
         private string GetSource()

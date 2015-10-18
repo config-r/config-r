@@ -6,12 +6,9 @@ namespace ConfigR
 {
     using System;
     using System.Reflection;
-    using Logging;
 
     public static class ConfigExtensions
     {
-        private static readonly ILog log = LogProvider.GetCurrentClassLogger();
-
         public static IConfig LoadWebScript(this IConfig config, Uri uri, params Assembly[] references)
         {
             Guard.AgainstNullArgument("config", config);

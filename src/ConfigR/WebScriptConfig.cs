@@ -9,7 +9,7 @@ namespace ConfigR
     using System.IO;
     using System.Net;
     using System.Reflection;
-    using Logging;
+    using ConfigR.Logging;
 
     public class WebScriptConfig : ScriptConfig
     {
@@ -37,7 +37,7 @@ namespace ConfigR
         protected override string GetScriptPath()
         {
             var path = Path.GetTempFileName();
-            log.InfoFormat(string.Format(CultureInfo.InvariantCulture, "Downloading '{0}' to '{1}'.", this.uri, path));
+            log.InfoFormat("Downloading '{0}' to '{1}'.", this.uri.ToString(), path);
 
             var request = WebRequest.Create(this.uri);
             using (var response = request.GetResponse())
