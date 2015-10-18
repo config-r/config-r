@@ -22,7 +22,6 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <WarningsNotAsErrors>612,618</WarningsNotAsErrors>
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <CodeAnalysisRuleSet>..\ConfigR.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
@@ -36,7 +35,6 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <DocumentationFile>
     </DocumentationFile>
-    <WarningsNotAsErrors>612,618</WarningsNotAsErrors>
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <CodeAnalysisRuleSet>..\ConfigR.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
@@ -47,6 +45,7 @@
     <AssemblyOriginatorKeyFile>..\ConfigR.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="App_Packages\LibLog.4.2\LibLog.cs" />
     <Compile Include="BasicConfig.cs" />
     <Compile Include="BasicConfig.Dictionary.cs">
       <DependentUpon>BasicConfig.cs</DependentUpon>
