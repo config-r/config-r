@@ -2,7 +2,7 @@
 <RuleSet Name="ConfigR Rules" Description="ConfigR Rules" ToolsVersion="12.0">
   <Include Path="allrules.ruleset" Action="Error" />
   <Rules AnalyzerId="Microsoft.Analyzers.ManagedCodeAnalysis" RuleNamespace="Microsoft.Rules.Managed">
-    <Rule Id="CA1710" Action="Warning" />
+    <Rule Id="CA1303" Action="None" />
     <Rule Id="CA1802" Action="None" />
     <Rule Id="CA2210" Action="None" />
     <Rule Id="CA2243" Action="None" />

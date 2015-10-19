@@ -14,14 +14,14 @@ namespace ConfigR.Features
         public static void Background()
         {
             "Given no configuration has been loaded"
-                .Given(() => Config.Global.Reset());
+                .f(() => Config.Global.Reset());
         }
 
         [Scenario]
         public static void AScriptIteratingOverItself(int count)
         {
             "Given a local config file containing 2 values which iterates itself and counts the values"
-                .Given(() =>
+                .f(() =>
                 {
                     using (var writer = new StreamWriter(LocalScriptFileConfig.Path))
                     {
@@ -43,10 +43,10 @@ Add(""count"", count);
                 .Teardown(() => File.Delete(LocalScriptFileConfig.Path));
 
             "When I get the count"
-                .When(() => count = Config.Global.Get<int>("count"));
+                .f(() => count = Config.Global.Get<int>("count"));
 
             "Then the count is 2"
-                .Then(() => count.Should().Be(2));
+                .f(() => count.Should().Be(2));
         }
     }
 }

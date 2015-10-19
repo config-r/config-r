@@ -5,12 +5,11 @@
 namespace ConfigR
 {
     using System.Collections.Generic;
-    using System.Globalization;
-    using Common.Logging;
+    using ConfigR.Logging;
 
     public partial class BasicConfig : ISimpleConfig
     {
-        private static readonly ILog log = LogManager.GetCurrentClassLogger();
+        private static readonly ILog log = LogProvider.For<BasicConfig>();
 
         private readonly IDictionary<string, object> dictionary = new Dictionary<string, object>();
 
@@ -27,7 +26,7 @@ namespace ConfigR
         private void LogMutating(string action, string key, object value)
         {
             log.TraceFormat(
-                CultureInfo.InvariantCulture, "{0} '{1}' from {2}: {3}", action, key, this.GetSource(), value.ToJson());
+                "{0} '{1}' from {2}: {3}", action, key, this.GetSource(), value.ToJson());
         }
 
         private string GetSource()

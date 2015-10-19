@@ -8,15 +8,12 @@ namespace ConfigR
     using System.Globalization;
     using System.IO;
     using System.Reflection;
-    using Common.Logging;
-    using ConfigR.Scripting;
+    using ConfigR.Logging;
     using IOPath = System.IO.Path;
 
     public class LocalScriptFileConfig : ScriptConfig
     {
-        private static readonly ILog log = LogManager.GetCurrentClassLogger();
-        private static readonly string path =
-            IOPath.ChangeExtension(AppDomain.CurrentDomain.SetupInformation.ConfigurationFile, "csx");
+        private static readonly ILog log = LogProvider.For<LocalScriptFileConfig>();
 
         private static readonly string visualStudioHostSuffix = ".vshost";
         private static readonly int visualStudioHostSuffixLength = ".vshost".Length;
@@ -38,11 +35,13 @@ namespace ConfigR
         {
             get
             {
+                var path = IOPath.ChangeExtension(AppDomain.CurrentDomain.SetupInformation.ConfigurationFile, "csx");
                 if (!File.Exists(path))
                 {
                     var fileNameWithoutScriptExtension = IOPath.GetFileNameWithoutExtension(path);
                     var fileNameWithoutAssemblyExtension = IOPath.GetFileNameWithoutExtension(fileNameWithoutScriptExtension);
-                    if (fileNameWithoutAssemblyExtension.EndsWith(visualStudioHostSuffix, StringComparison.OrdinalIgnoreCase))
+                    if (fileNameWithoutAssemblyExtension != null &&
+                        fileNameWithoutAssemblyExtension.EndsWith(visualStudioHostSuffix, StringComparison.OrdinalIgnoreCase))
                     {
                         var fileNameWithoutHostSuffix = string.Concat(
                             fileNameWithoutAssemblyExtension.Substring(
@@ -50,7 +49,11 @@ namespace ConfigR
                             IOPath.GetExtension(fileNameWithoutScriptExtension),
                             IOPath.GetExtension(path));
 
-                        var pathWithoutHostSuffix = IOPath.Combine(IOPath.GetDirectoryName(path), fileNameWithoutHostSuffix);
+                        var directoryName = IOPath.GetDirectoryName(path);
+                        var pathWithoutHostSuffix = directoryName == null
+                            ? fileNameWithoutHostSuffix
+                            : IOPath.Combine(directoryName, fileNameWithoutHostSuffix);
+                        
                         if (File.Exists(pathWithoutHostSuffix))
                         {
                             return pathWithoutHostSuffix;
@@ -79,10 +82,10 @@ namespace ConfigR
                 return;
             }
 
+            var path = Path;
             if (scriptPath != path)
             {
                 log.WarnFormat(
-                    CultureInfo.InvariantCulture,
                     "'{0}' not found. Loading '{1}' instead.",
                     IOPath.GetFileName(path),
                     IOPath.GetFileName(scriptPath));

@@ -8,7 +8,6 @@ namespace ConfigR.Features
     using System.IO;
     using FluentAssertions;
     using Xbehave;
-    using Xunit;
 
     public static class AnonymousTypesFeature
     {
@@ -16,7 +15,7 @@ namespace ConfigR.Features
         public static void Background()
         {
             "Given no configuration has been loaded"
-                .Given(() => Config.Global.Reset());
+                .f(() => Config.Global.Reset());
         }
 
         [Scenario]
@@ -25,8 +24,9 @@ namespace ConfigR.Features
             dynamic result = null;
 
             "Given a local config file containing an anonymous type with a Bar of 'baz'"
-                .Given(() =>
+                .f(() =>
                 {
+                    AppDomain.CurrentDomain.SetData("APP_CONFIG_FILE", "Test.config");
                     using (var writer = new StreamWriter(LocalScriptFileConfig.Path))
                     {
                         writer.WriteLine(@"#r ""ConfigR.Features.dll""");
@@ -38,10 +38,10 @@ namespace ConfigR.Features
                 .Teardown(() => File.Delete(LocalScriptFileConfig.Path));
 
             "When I get the anonymous type"
-                .When(() => { result = Config.Global.Get<dynamic>("Foo"); });
+                .f(() => { result = Config.Global.Get<dynamic>("Foo"); });
 
             "Then the anonymous type has a Bar of 'baz'"
-                .Then(() => ((string)result.Bar).Should().Be("baz"));
+                .f(() => ((string)result.Bar).Should().Be("baz"));
         }
     }
 }

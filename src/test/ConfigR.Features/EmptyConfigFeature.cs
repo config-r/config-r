@@ -15,7 +15,7 @@ namespace ConfigR.Features
         public static void Background()
         {
             "Given no configuration has been loaded"
-                .Given(() => Config.Global.Reset());
+                .f(() => Config.Global.Reset());
         }
 
         [Scenario]
@@ -28,7 +28,7 @@ namespace ConfigR.Features
         public static void EmptyConfig(string code, object exception)
         {
             "Given a config file which contains no executable code"
-                .Given(() =>
+                .f(() =>
                 {
                     using (var writer = new StreamWriter(LocalScriptFileConfig.Path))
                     {
@@ -39,10 +39,10 @@ namespace ConfigR.Features
                 .Teardown(() => File.Delete(LocalScriptFileConfig.Path));
 
             "When I load the config"
-                .When(() => exception = Record.Exception(() => Config.Global));
+                .f(() => exception = Record.Exception(() => Config.Global));
 
             "Then no exception is thrown"
-                .Then(() => exception.Should().BeNull());
+                .f(() => exception.Should().BeNull());
         }
     }
 }

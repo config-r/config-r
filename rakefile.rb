@@ -1,80 +1,80 @@
 require 'albacore'
-require 'fileutils'
 
-version = IO.read("src/ConfigR/Properties/AssemblyInfo.cs").split(/AssemblyInformationalVersion\("/, 2)[1].split(/"/).first
-xunit_command = "src/packages/xunit.runners.1.9.2/tools/xunit.console.clr4.exe"
-nuget_command = "src/packages/NuGet.CommandLine.2.8.3/tools/NuGet.exe"
-solution = "src/ConfigR.sln"
-output = "bin"
+version_suffix = ENV["VERSION_SUFFIX"]  || ""
+build_number   = ENV["BUILD_NUMBER"]    || "000000"
+build_number_suffix = version_suffix == "" ? "" : "-build" + build_number
+version = IO.read("src/ConfigR/Properties/AssemblyInfo.cs").split(/AssemblyInformationalVersion\("/, 2)[1].split(/"/).first + version_suffix + build_number_suffix
 
-specs = [
+$msbuild_command = "C:/Program Files (x86)/MSBuild/12.0/Bin/MSBuild.exe"
+$xunit_command = "src/packages/xunit.runner.console.2.1.0/tools/xunit.console.exe"
+nuget_command = "src/.nuget/NuGet.exe"
+$solution = "src/ConfigR.sln"
+output = "artifacts/output"
+logs = "artifacts/logs"
+
+acceptance_tests = [
+  "src/test/ConfigR.Features/bin/Release/ConfigR.Features.dll",
 ]
 
-features = [
-  { :command => xunit_command, :assembly => "src/test/ConfigR.Features/bin/Release/ConfigR.Features.dll" },
+nuspecs = [
+  { :file => "src/ConfigR/ConfigR.csproj", :version => version },
 ]
-
-samples = [
-]
-
-nuspec = "src/ConfigR/ConfigR.csproj"
 
 Albacore.configure do |config|
   config.log_level = :verbose
 end
 
 desc "Execute default tasks"
-task :default => [:spec, :feature, :pack]
+task :default => [:accept, :pack]
 
 desc "Restore NuGet packages"
 exec :restore do |cmd|
   cmd.command = nuget_command
-  cmd.parameters "restore #{solution}"
+  cmd.parameters "restore #{$solution}"
 end
 
+directory logs
+
 desc "Clean solution"
-msbuild :clean do |msb|
-  FileUtils.rmtree output
-  msb.properties = { :configuration => :Release }
-  msb.targets = [:Clean]
-  msb.solution = solution
+task :clean => [logs] do
+  run_msbuild "Clean"
 end
 
 desc "Build solution"
-msbuild :build => [:clean, :restore] do |msb|
-  msb.properties = { :configuration => :Release }
-  msb.targets = [:Build]
-  msb.solution = solution
+task :build => [:clean, :restore, logs] do
+  run_msbuild "Build"
 end
 
-desc "Execute specs"
-task :spec => [:build] do
-  execute_xunit specs
+desc "Run acceptance tests"
+task :accept => [:build] do
+  run_tests acceptance_tests
 end
 
-desc "Execute features"
-task :feature => [:build] do
-  execute_xunit features
+directory output
+
+desc "Create the nuget packages"
+task :pack => [:build, output] do
+  nuspecs.each do |nuspec|
+    cmd = Exec.new
+    cmd.command = nuget_command
+    cmd.parameters "pack " + nuspec[:file] + " -Version " + nuspec[:version] + " -OutputDirectory " + output + " -NoPackageAnalysis" + " -Properties Configuration=Release"
+    cmd.execute
+  end
 end
 
-desc "Create the nuget package"
-exec :pack => [:build] do |cmd|
-  FileUtils.mkpath output
-  cmd.command = nuget_command
-  cmd.parameters "pack " + nuspec + " -Version " + version + " -OutputDirectory " + output + " -Properties Configuration=Release"
+def run_msbuild(target)
+  cmd = Exec.new
+  cmd.command = $msbuild_command
+  cmd.parameters "#{$solution} /target:#{target} /p:configuration=Release /nr:false /verbosity:minimal /nologo /fl /flp:LogFile=artifacts/logs/#{target}.log;Verbosity=Detailed;PerformanceSummary"
+  cmd.execute
 end
 
-desc "Execute samples"
-task :sample => [:build] do
-  execute_xunit samples
-end
-
-def execute_xunit(tests)
+def run_tests(tests)
   tests.each do |test|
     xunit = XUnitTestRunner.new
-    xunit.command = test[:command]
-    xunit.assembly = test[:assembly]
-    xunit.options "/html", File.expand_path(test[:assembly] + ".TestResults.html"), "/xml", File.expand_path(test[:assembly] + ".TestResults.xml")
+    xunit.command = $xunit_command
+    xunit.assembly = test
+    xunit.options "-html", File.expand_path(test + ".TestResults.html"), "-xml", File.expand_path(test + ".TestResults.xml")
     xunit.execute  
   end
 end

@@ -39,7 +39,7 @@ namespace ConfigR
             Guard.AgainstNullArgument("dictionary", dictionary);
 
             T value;
-            if (!dictionary.TryGetValue<T>(out value))
+            if (!dictionary.TryGetValue(out value))
             {
                 throw new ConfigurationErrorsException("Type not found.");
             }
@@ -52,7 +52,7 @@ namespace ConfigR
             Guard.AgainstNullArgument("dictionary", dictionary);
 
             T value;
-            return dictionary.TryGetValue<T>(out value) ? value : default(T);
+            return dictionary.TryGetValue(out value) ? value : default(T);
         }
 
         public static bool TryGetValue<T>(this IDictionary<string, object> dictionary, out T value)

@@ -5,17 +5,16 @@
 namespace ConfigR.Scripting
 {
     using System;
-    using System.Globalization;
     using System.Linq;
     using System.Reflection;
-    using Common.Logging;
+    using ConfigR.Logging;
     using ScriptCs;
     using ScriptCs.Contracts;
     using ScriptCs.Engine.Roslyn;
 
     public class ScriptConfigLoader
     {
-        private static readonly ILog log = LogManager.GetCurrentClassLogger();
+        private static readonly Logging.ILog log = LogProvider.For<ScriptConfigLoader>();
         private readonly Assembly[] references;
 
         public ScriptConfigLoader(params Assembly[] references)
@@ -26,10 +25,10 @@ namespace ConfigR.Scripting
         public object LoadFromFile(ISimpleConfig config, string path)
         {
             var fileSystem = new FileSystem { CurrentDirectory = AppDomain.CurrentDomain.SetupInformation.ApplicationBase };
-            log.InfoFormat(CultureInfo.InvariantCulture, "Executing '{0}'", fileSystem.GetFullPath(path));
-            log.DebugFormat(CultureInfo.InvariantCulture, "The current directory is {0}", fileSystem.CurrentDirectory);
+            log.InfoFormat("Executing '{0}'", fileSystem.GetFullPath(path));
+            log.DebugFormat("The current directory is {0}", fileSystem.CurrentDirectory);
 
-            var scriptCsLog = LogManager.GetLogger("ScriptCs");
+            var scriptCsLog = new LogProviderAdapter();
             var lineProcessors = new ILineProcessor[]
             {
                 new LoadLineProcessor(fileSystem),
@@ -39,12 +38,15 @@ namespace ConfigR.Scripting
 
             var filePreProcessor = new FilePreProcessor(fileSystem, scriptCsLog, lineProcessors);
             var engine = new RoslynScriptInMemoryEngine(new ConfigRScriptHostFactory(config), scriptCsLog);
-            var executor = new ConfigRScriptExecutor(fileSystem, filePreProcessor, engine, scriptCsLog);
+            var executor = new ScriptExecutor(fileSystem, filePreProcessor, engine, scriptCsLog);
             executor.AddReferenceAndImportNamespaces(new[] { typeof(Config), typeof(IScriptHost) });
             executor.AddReferences(this.references);
 
             ScriptResult result;
             executor.Initialize(new string[0], new IScriptPack[0]);
+
+            // HACK (adamralph): BaseDirectory is set to bin subfolder in Initialize()!
+            executor.ScriptEngine.BaseDirectory = executor.FileSystem.CurrentDirectory;
             try
             {
                 result = executor.Execute(path);
@@ -62,7 +64,6 @@ namespace ConfigR.Scripting
         {
             if (result.CompileExceptionInfo != null)
             {
-                log.ErrorFormat(CultureInfo.InvariantCulture, "Failed to compile {0}", result.CompileExceptionInfo, scriptPath);
                 result.CompileExceptionInfo.Throw();
             }
 
@@ -72,15 +73,34 @@ namespace ConfigR.Scripting
                 if (!result.ExecuteExceptionInfo.SourceException.StackTrace.Trim()
                     .StartsWith("at Submission#", StringComparison.OrdinalIgnoreCase))
                 {
-                    log.Warn(
-                        "Roslyn failed to execute the scripts. Any configuration in this script will not be available",
-                        result.ExecuteExceptionInfo.SourceException);
+                    log.WarnException(
+                        "Roslyn failed to execute '{0}'. Any configuration in this script will not be available",
+                        result.ExecuteExceptionInfo.SourceException,
+                        scriptPath);
                 }
                 else
                 {
-                    log.ErrorFormat(CultureInfo.InvariantCulture, "Failed to execute {0}", result.ExecuteExceptionInfo, scriptPath);
                     result.ExecuteExceptionInfo.Throw();
                 }
+            }
+        }
+
+        private class LogProviderAdapter : ScriptCs.Contracts.ILogProvider
+        {
+            public ScriptCs.Contracts.Logger GetLogger(string name)
+            {
+                return (logLevel, messageFunc, exception, formatParameters) =>
+                    LogProvider.GetLogger(name).Log((Logging.LogLevel)logLevel, messageFunc, exception, formatParameters);
+            }
+
+            public IDisposable OpenMappedContext(string key, string value)
+            {
+                return LogProvider.OpenMappedContext(key, value);
+            }
+
+            public IDisposable OpenNestedContext(string message)
+            {
+                return LogProvider.OpenNestedContext(message);
             }
         }
     }

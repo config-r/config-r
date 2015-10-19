@@ -16,14 +16,14 @@ namespace ConfigR.Features
         public static void Background()
         {
             "Given no configuration has been loaded"
-                .Given(() => Config.Global.Reset());
+                .f(() => Config.Global.Reset());
         }
 
         [Scenario]
         public static void ConfigValueHasActionProperty(Exception exception)
         {
             "Given a local config file containing a value with an action property"
-                .Given(() =>
+                .f(() =>
                 {
                     using (var writer = new StreamWriter(LocalScriptFileConfig.Path))
                     {
@@ -36,10 +36,10 @@ namespace ConfigR.Features
                 .Teardown(() => File.Delete(LocalScriptFileConfig.Path));
 
             "When I get the value"
-                .When(() => exception = Record.Exception(() => Config.Global.Get<Foo>("foo")));
+                .f(() => exception = Record.Exception(() => Config.Global.Get<Foo>("foo")));
 
             "Then no exception is thrown"
-                .Then(() => exception.Should().BeNull());
+                .f(() => exception.Should().BeNull());
         }
     }
 }

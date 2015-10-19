@@ -14,14 +14,14 @@ namespace ConfigR.Features
         public static void Background()
         {
             "Given no configuration has been loaded"
-                .Given(() => Config.Global.Reset());
+                .f(() => Config.Global.Reset());
         }
 
         [Scenario]
         public static void AScriptIndexingItself(int value)
         {
             "Given a local config file which indexes itself to set an named 'value' of 123"
-                .Given(() =>
+                .f(() =>
                 {
                     using (var writer = new StreamWriter(LocalScriptFileConfig.Path))
                     {
@@ -32,10 +32,10 @@ namespace ConfigR.Features
                 .Teardown(() => File.Delete(LocalScriptFileConfig.Path));
 
             "When I get the value"
-                .When(() => value = Config.Global.Get<int>("value"));
+                .f(() => value = Config.Global.Get<int>("value"));
 
             "Then the value is 123"
-                .Then(() => value.Should().Be(123));
+                .f(() => value.Should().Be(123));
         }
     }
 }
