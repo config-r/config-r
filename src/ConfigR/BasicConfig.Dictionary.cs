@@ -6,7 +6,7 @@ namespace ConfigR
 {
     using System.Collections;
     using System.Collections.Generic;
-    using System.Globalization;
+    using ConfigR.Logging;
 
     public partial class BasicConfig
     {
@@ -57,7 +57,7 @@ namespace ConfigR
 
         public bool Remove(string key)
         {
-            log.TraceFormat(CultureInfo.InvariantCulture, "Removing '{0}' from {1}", key, this.GetSource());
+            log.TraceFormat("Removing '{0}' from {1}", key, this.GetSource());
             return this.dictionary.Remove(key);
         }
 
@@ -68,7 +68,7 @@ namespace ConfigR
 
         public void Clear()
         {
-            log.TraceFormat(CultureInfo.InvariantCulture, "Clearing '{0}'", this.GetSource());
+            log.TraceFormat("Clearing '{0}'", this.GetSource());
             this.dictionary.Clear();
         }
 
