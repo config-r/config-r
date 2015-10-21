@@ -26,7 +26,7 @@ namespace ConfigR
         private void LogMutating(string action, string key, object value)
         {
             log.TraceFormat(
-                "{0} '{1}' from {2}: {3}", action, key, this.GetSource(), value.ToJson());
+                "{0} '{1}' from {2}: {3}", action, key, this.GetSource(), value.ToString());
         }
 
         private string GetSource()
