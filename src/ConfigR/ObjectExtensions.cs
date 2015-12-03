@@ -5,35 +5,10 @@
 namespace ConfigR
 {
     using System;
-    using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
-    using ConfigR.Logging;
-    using Newtonsoft.Json;
 
     internal static class ObjectExtensions
     {
-        private static readonly ILog log = LogProvider.GetCurrentClassLogger();
-        private static readonly JsonSerializerSettings jsonSettings = new JsonSerializerSettings
-        {
-            PreserveReferencesHandling = PreserveReferencesHandling.Objects,
-            ReferenceLoopHandling = ReferenceLoopHandling.Serialize,
-            MaxDepth = 4
-        };
-
-        [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Safe in this case.")]
-        public static string ToJson(this object value)
-        {
-            try
-            {
-                return JsonConvert.SerializeObject(value, Formatting.None, jsonSettings);
-            }
-            catch (Exception ex)
-            {
-                log.TraceFormat("Error converting '{0}' to JSON.", ex);
-                return JsonConvert.SerializeObject(value.GetType(), Formatting.None, jsonSettings);
-            }
-        }
-
         public static T CastForRetreival<T>(this object value, string key)
         {
             try
