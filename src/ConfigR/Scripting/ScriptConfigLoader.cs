@@ -37,7 +37,7 @@ namespace ConfigR.Scripting
             };
 
             var filePreProcessor = new FilePreProcessor(fileSystem, scriptCsLog, lineProcessors);
-            var engine = new RoslynScriptInMemoryEngine(new ConfigRScriptHostFactory(config), scriptCsLog);
+            var engine = new CSharpScriptInMemoryEngine(new ConfigRScriptHostFactory(config), scriptCsLog);
             var executor = new ScriptExecutor(fileSystem, filePreProcessor, engine, scriptCsLog);
             executor.AddReferenceAndImportNamespaces(new[] { typeof(Config), typeof(IScriptHost) });
             executor.AddReferences(this.references);
@@ -64,24 +64,24 @@ namespace ConfigR.Scripting
         {
             if (result.CompileExceptionInfo != null)
             {
-                result.CompileExceptionInfo.Throw();
-            }
-
-            if (result.ExecuteExceptionInfo != null)
-            {
                 // HACK: waiting on https://github.com/scriptcs/scriptcs/issues/545
-                if (!result.ExecuteExceptionInfo.SourceException.StackTrace.Trim()
-                    .StartsWith("at Submission#", StringComparison.OrdinalIgnoreCase))
+                if ((result.CompileExceptionInfo.SourceException.StackTrace == null && string.IsNullOrEmpty(result.CompileExceptionInfo.SourceException.Message)) ||
+                    !result.CompileExceptionInfo.SourceException.StackTrace.Trim().StartsWith("at Submission#", StringComparison.OrdinalIgnoreCase))
                 {
                     log.WarnException(
                         "Roslyn failed to execute '{0}'. Any configuration in this script will not be available",
-                        result.ExecuteExceptionInfo.SourceException,
+                        result.CompileExceptionInfo.SourceException,
                         scriptPath);
                 }
                 else
                 {
-                    result.ExecuteExceptionInfo.Throw();
+                    result.CompileExceptionInfo.Throw();
                 }
+            }
+
+            if (result.ExecuteExceptionInfo != null)
+            {
+                result.ExecuteExceptionInfo.Throw();
             }
         }
 
