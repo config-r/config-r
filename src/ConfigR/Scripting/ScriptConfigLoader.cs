@@ -64,12 +64,12 @@ namespace ConfigR.Scripting
         {
             if (result.CompileExceptionInfo != null)
             {
-                // HACK: waiting on https://github.com/scriptcs/scriptcs/issues/545
+                // HACK: ScriptCs.Engine.Roslyn.CSharpScriptInMemoryEngine fails miserably with no-op files
                 if ((result.CompileExceptionInfo.SourceException.StackTrace == null && string.IsNullOrEmpty(result.CompileExceptionInfo.SourceException.Message)) ||
                     !result.CompileExceptionInfo.SourceException.StackTrace.Trim().StartsWith("at Submission#", StringComparison.OrdinalIgnoreCase))
                 {
                     log.WarnException(
-                        "Roslyn failed to execute '{0}'. Any configuration in this script will not be available",
+                        "scriptcs failed to execute '{0}'. Any configuration in this script will not be available",
                         result.CompileExceptionInfo.SourceException,
                         scriptPath);
                 }
