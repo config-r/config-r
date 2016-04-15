@@ -6,14 +6,14 @@ build_number_suffix = version_suffix == "" ? "" : "-build" + build_number
 version = IO.read("src/ConfigR/Properties/AssemblyInfo.cs").split(/AssemblyInformationalVersion\("/, 2)[1].split(/"/).first + version_suffix + build_number_suffix
 
 $msbuild_command = "C:/Program Files (x86)/MSBuild/14.0/Bin/MSBuild.exe"
-$xunit_command = "src/packages/xunit.runner.console.2.1.0/tools/xunit.console.exe"
-nuget_command = "src/.nuget/NuGet.exe"
-$solution = "src/ConfigR.sln"
+$xunit_command = "packages/xunit.runner.console.2.1.0/tools/xunit.console.exe"
+nuget_command = ".nuget/NuGet.exe"
+$solution = "ConfigR.sln"
 output = "artifacts/output"
 logs = "artifacts/logs"
 
 acceptance_tests = [
-  "src/test/ConfigR.Features/bin/Release/ConfigR.Features.dll",
+  "tests/ConfigR.Features/bin/Release/ConfigR.Features.dll",
 ]
 
 nuspecs = [

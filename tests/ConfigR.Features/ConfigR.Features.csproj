@@ -24,7 +24,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <CodeAnalysisRuleSet>..\..\ConfigR.Test.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>..\ConfigR.Test.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -33,7 +33,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <CodeAnalysisRuleSet>..\..\ConfigR.Test.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>..\ConfigR.Test.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup />
   <ItemGroup>
@@ -98,7 +98,7 @@
     <Compile Include="TypedConfigurationItemFeature.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\ConfigR\ConfigR.csproj">
+    <ProjectReference Include="..\..\src\ConfigR\ConfigR.csproj">
       <Project>{a294db75-7707-4c47-8bec-56f5ada25367}</Project>
       <Name>ConfigR</Name>
     </ProjectReference>
