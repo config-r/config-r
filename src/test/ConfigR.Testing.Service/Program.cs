@@ -7,6 +7,9 @@ namespace ConfigR.Testing.Service
     using System;
     using ConfigR;
     using ConfigR.Testing.Service.Logging;
+    using NLog;
+    using NLog.Config;
+    using NLog.Targets;
     using Topshelf;
 
     public static class Program
@@ -15,6 +18,12 @@ namespace ConfigR.Testing.Service
 
         public static void Main()
         {
+            var config = new LoggingConfiguration();
+            var target = new ColoredConsoleTarget();
+            config.AddTarget("console", target);
+            config.LoggingRules.Add(new LoggingRule("*", NLog.LogLevel.Trace, target));
+            LogManager.Configuration = config;
+
             AppDomain.CurrentDomain.UnhandledException += (sender, e) => log.FatalException("Unhandled exception.", (Exception)e.ExceptionObject);
             HostFactory.Run(x => x.Service<string>(o =>
             {
