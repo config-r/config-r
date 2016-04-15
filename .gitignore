@@ -1,6 +1,7 @@
 artifacts
 bin
 obj
+.vs
 
 *.suo
 *.user
