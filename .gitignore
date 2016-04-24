@@ -1,12 +1,11 @@
 artifacts
 bin
 obj
+packages
 .vs
 
 *.suo
 *.user
-
-/src/packages/*
 
 *.sln.ide
 *.TMP

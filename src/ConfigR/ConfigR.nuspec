@@ -8,7 +8,7 @@
     <description>Write your .NET configuration files in C#.
 Fed up with XML soup? Frustrated that app settings can only be strings? Want to do more in your configuration file than just define app settings? Then ConfigR is for you!</description>
     <projectUrl>https://github.com/config-r/config-r/</projectUrl>
-    <licenseUrl>https://github.com/config-r/config-r/blob/master/license.txt</licenseUrl>
+    <licenseUrl>https://github.com/config-r/config-r/blob/master/LICENSE</licenseUrl>
     <copyright>Copyright (c) ConfigR contributors. (configr.net@gmail.com)</copyright>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <tags>configuration</tags>
