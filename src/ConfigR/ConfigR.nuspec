@@ -12,5 +12,11 @@ Fed up with XML soup? Frustrated that app settings can only be strings? Want to 
     <copyright>Copyright (c) ConfigR contributors. (configr.net@gmail.com)</copyright>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <tags>configuration</tags>
+    <dependencies>
+      <dependency id="Microsoft.CodeAnalysis.CSharp.Scripting" version="1.2.1" />
+    </dependencies>
   </metadata>
+  <files>
+    <file src="bin\release\ConfigR.dll" target="lib\net46" />
+  </files>
 </package>

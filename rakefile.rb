@@ -17,7 +17,7 @@ acceptance_tests = [
 ]
 
 nuspecs = [
-  { :file => "src/ConfigR/ConfigR.csproj", :version => version },
+  { :file => "src/ConfigR/ConfigR.nuspec", :version => version },
 ]
 
 Albacore.configure do |config|

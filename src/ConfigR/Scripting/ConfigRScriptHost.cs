@@ -6,17 +6,13 @@ namespace ConfigR.Scripting
 {
     using System;
     using System.Collections.Generic;
-    using ScriptCs;
-    using ScriptCs.Contracts;
 
     [CLSCompliant(false)]
-    public partial class ConfigRScriptHost : ScriptHost, IConfigRScriptHost
+    public partial class ConfigRScriptHost : IConfigRScriptHost
     {
         private readonly IDictionary<string, object> dictionary;
 
-        public ConfigRScriptHost(
-            IDictionary<string, object> dictionary, IScriptPackManager scriptPackManager, ScriptEnvironment environment)
-            : base(scriptPackManager, environment)
+        public ConfigRScriptHost(IDictionary<string, object> dictionary)
         {
             Guard.AgainstNullArgument("dictionary", dictionary);
 
