@@ -26,11 +26,9 @@ namespace ConfigR.Scripting
         {
             Guard.AgainstNullArgument(nameof(config), config);
 
-            var hostType = typeof(ConfigRScriptHost);
-            var host = new ConfigRScriptHost(config);
-
             path = Path.Combine(AppDomain.CurrentDomain.SetupInformation.ApplicationBase, path);
             var code = File.ReadAllText(Path.Combine(path));
+
             var searchPaths = new[]
             {
                 Path.GetDirectoryName(Path.GetFullPath(path)),
@@ -42,9 +40,12 @@ namespace ConfigR.Scripting
                 .WithSourceResolver(ScriptSourceResolver.Default.WithSearchPaths(searchPaths))
                 .AddReferences(typeof(Config).Assembly)
                 .AddReferences(this.references)
-                .AddImports("System", "System.IO", "System.Linq", "System.Collections.Generic", typeof(Config).Namespace);
+                .AddImports("System", "System.Collections.Generic", "System.IO", "System.Linq", typeof(Config).Namespace);
 
-            return CSharpScript.Create(code, options, hostType).RunAsync(host).GetAwaiter().GetResult().ReturnValue;
+            return CSharpScript
+                .Create(code, options, typeof(ConfigRScriptHost))
+                .RunAsync(new ConfigRScriptHost(config)).GetAwaiter().GetResult()
+                .ReturnValue;
         }
     }
 }
