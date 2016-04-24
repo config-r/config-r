@@ -5,12 +5,12 @@
 namespace ConfigR.Scripting
 {
     using System;
+    using System.IO;
     using System.Linq;
     using System.Reflection;
     using ConfigR.Logging;
-    using ScriptCs;
-    using ScriptCs.Contracts;
-    using ScriptCs.Engine.Roslyn;
+    using Microsoft.CodeAnalysis.CSharp.Scripting;
+    using Microsoft.CodeAnalysis.Scripting;
 
     public class ScriptConfigLoader
     {
@@ -24,93 +24,27 @@ namespace ConfigR.Scripting
 
         public object LoadFromFile(ISimpleConfig config, string path)
         {
-            // HACK (adamralph): workaround for https://github.com/scriptcs/scriptcs/issues/1022
-            var originalCurrentDirectory = Environment.CurrentDirectory;
-            try
+            Guard.AgainstNullArgument(nameof(config), config);
+
+            var hostType = typeof(ConfigRScriptHost);
+            var host = new ConfigRScriptHost(config);
+
+            path = Path.Combine(AppDomain.CurrentDomain.SetupInformation.ApplicationBase, path);
+            var code = File.ReadAllText(Path.Combine(path));
+            var searchPaths = new[]
             {
-                var fileSystem = new FileSystem { CurrentDirectory = AppDomain.CurrentDomain.SetupInformation.ApplicationBase };
-                log.InfoFormat("Executing '{0}'", fileSystem.GetFullPath(path));
-                log.DebugFormat("The current directory is {0}", fileSystem.CurrentDirectory);
+                Path.GetDirectoryName(Path.GetFullPath(path)),
+                AppDomain.CurrentDomain.SetupInformation.ApplicationBase,
+            };
 
-                var scriptCsLog = new LogProviderAdapter();
-                var lineProcessors = new ILineProcessor[]
-                {
-                new LoadLineProcessor(fileSystem),
-                new ReferenceLineProcessor(fileSystem),
-                new UsingLineProcessor(),
-                };
+            var options = ScriptOptions.Default
+                .WithMetadataResolver(ScriptMetadataResolver.Default.WithSearchPaths(searchPaths))
+                .WithSourceResolver(ScriptSourceResolver.Default.WithSearchPaths(searchPaths))
+                .AddReferences(typeof(Config).Assembly)
+                .AddReferences(this.references)
+                .AddImports("System", "System.IO", "System.Linq", "System.Collections.Generic", typeof(Config).Namespace);
 
-                var filePreProcessor = new FilePreProcessor(fileSystem, scriptCsLog, lineProcessors);
-                var engine = new CSharpScriptInMemoryEngine(new ConfigRScriptHostFactory(config), scriptCsLog);
-                var executor = new ScriptExecutor(fileSystem, filePreProcessor, engine, scriptCsLog);
-                executor.AddReferenceAndImportNamespaces(new[] { typeof(Config), typeof(IScriptHost) });
-                executor.AddReferences(this.references);
-
-                ScriptResult result;
-                executor.Initialize(new string[0], new IScriptPack[0]);
-
-                // HACK (adamralph): BaseDirectory is set to bin subfolder in Initialize()!
-                executor.ScriptEngine.BaseDirectory = executor.FileSystem.CurrentDirectory;
-                try
-                {
-                    result = executor.Execute(path);
-                }
-                finally
-                {
-                    executor.Terminate();
-                }
-
-                RethrowExceptionIfAny(result, path);
-                return result.ReturnValue;
-            }
-            finally
-            {
-                Environment.CurrentDirectory = originalCurrentDirectory;
-            }
-        }
-
-        private static void RethrowExceptionIfAny(ScriptResult result, string scriptPath)
-        {
-            if (result.CompileExceptionInfo != null)
-            {
-                // HACK: ScriptCs.Engine.Roslyn.CSharpScriptInMemoryEngine fails miserably with no-op files
-                if ((result.CompileExceptionInfo.SourceException.StackTrace == null && string.IsNullOrEmpty(result.CompileExceptionInfo.SourceException.Message)) ||
-                    !result.CompileExceptionInfo.SourceException.StackTrace.Trim().StartsWith("at Submission#", StringComparison.OrdinalIgnoreCase))
-                {
-                    log.WarnException(
-                        "scriptcs failed to execute '{0}'. Any configuration in this script will not be available",
-                        result.CompileExceptionInfo.SourceException,
-                        scriptPath);
-                }
-                else
-                {
-                    result.CompileExceptionInfo.Throw();
-                }
-            }
-
-            if (result.ExecuteExceptionInfo != null)
-            {
-                result.ExecuteExceptionInfo.Throw();
-            }
-        }
-
-        private class LogProviderAdapter : ScriptCs.Contracts.ILogProvider
-        {
-            public ScriptCs.Contracts.Logger GetLogger(string name)
-            {
-                return (logLevel, messageFunc, exception, formatParameters) =>
-                    LogProvider.GetLogger(name).Log((Logging.LogLevel)logLevel, messageFunc, exception, formatParameters);
-            }
-
-            public IDisposable OpenMappedContext(string key, string value)
-            {
-                return LogProvider.OpenMappedContext(key, value);
-            }
-
-            public IDisposable OpenNestedContext(string message)
-            {
-                return LogProvider.OpenNestedContext(message);
-            }
+            return CSharpScript.Create(code, options, hostType).RunAsync(host).GetAwaiter().GetResult().ReturnValue;
         }
     }
 }
