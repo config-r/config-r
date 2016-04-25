@@ -2,6 +2,9 @@
 //  Copyright (c) ConfigR contributors. (configr.net@gmail.com)
 // </copyright>
 
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.Scripting.Hosting;
+
 namespace ConfigR.Scripting
 {
     using System;
@@ -16,10 +19,20 @@ namespace ConfigR.Scripting
     {
         private static readonly Logging.ILog log = LogProvider.For<ScriptConfigLoader>();
         private readonly Assembly[] references;
+        private readonly Assembly[] inMemoryReferences;
+        private readonly MetadataReference[] metadataReferences;
 
-        public ScriptConfigLoader(params Assembly[] references)
+        public ScriptConfigLoader(params Assembly[] references) : this(references, new MetadataReference[0])
         {
-            this.references = (references ?? Enumerable.Empty<Assembly>()).ToArray();
+        }
+
+#pragma warning disable CS3001
+        public ScriptConfigLoader(Assembly[] references, MetadataReference[] metadataReferences)
+#pragma warning restore CS3001
+        {
+            this.references = (references?.Where(x => !string.IsNullOrWhiteSpace(x.Location)) ?? Enumerable.Empty<Assembly>()).ToArray();
+            this.inMemoryReferences = (references?.Where(x => string.IsNullOrWhiteSpace(x.Location)) ?? Enumerable.Empty<Assembly>()).ToArray();
+            this.metadataReferences = metadataReferences ?? new MetadataReference[0];
         }
 
         public object LoadFromFile(ISimpleConfig config, string path)
@@ -36,14 +49,30 @@ namespace ConfigR.Scripting
             };
 
             var options = ScriptOptions.Default
-                .WithMetadataResolver(ScriptMetadataResolver.Default.WithSearchPaths(searchPaths))
-                .WithSourceResolver(ScriptSourceResolver.Default.WithSearchPaths(searchPaths))
+                                .AddReferences(this.metadataReferences)
+                //.WithMetadataResolver(ScriptMetadataResolver.Default.WithSearchPaths(searchPaths))
+                //.WithSourceResolver(ScriptSourceResolver.Default.WithSearchPaths(searchPaths))
                 .AddReferences(typeof(Config).Assembly)
                 .AddReferences(this.references)
                 .AddImports("System", "System.Collections.Generic", "System.IO", "System.Linq", typeof(Config).Namespace);
 
+            if (inMemoryReferences.Any())
+            {
+                using (var interactiveLoader = new InteractiveAssemblyLoader())
+                {
+                    foreach (var inMemoryReference in inMemoryReferences)
+                    {
+                        interactiveLoader.RegisterDependency(inMemoryReference);
+                    }
+                    return CSharpScript
+                        .Create(code, options, typeof (ConfigRScriptHost), interactiveLoader)
+                        .RunAsync(new ConfigRScriptHost(config)).GetAwaiter().GetResult()
+                        .ReturnValue;
+                }
+            }
+
             return CSharpScript
-                .Create(code, options, typeof(ConfigRScriptHost))
+                .Create(code, options, typeof (ConfigRScriptHost))
                 .RunAsync(new ConfigRScriptHost(config)).GetAwaiter().GetResult()
                 .ReturnValue;
         }
