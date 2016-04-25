@@ -49,9 +49,9 @@ namespace ConfigR.Scripting
             };
 
             var options = ScriptOptions.Default
-                                .AddReferences(this.metadataReferences)
-                //.WithMetadataResolver(ScriptMetadataResolver.Default.WithSearchPaths(searchPaths))
-                //.WithSourceResolver(ScriptSourceResolver.Default.WithSearchPaths(searchPaths))
+                .AddReferences(this.metadataReferences)
+                .WithMetadataResolver(ScriptMetadataResolver.Default.WithSearchPaths(searchPaths))
+                .WithSourceResolver(ScriptSourceResolver.Default.WithSearchPaths(searchPaths))
                 .AddReferences(typeof(Config).Assembly)
                 .AddReferences(this.references)
                 .AddImports("System", "System.Collections.Generic", "System.IO", "System.Linq", typeof(Config).Namespace);
