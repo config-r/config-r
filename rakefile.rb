@@ -13,7 +13,7 @@ output = "artifacts/output"
 logs = "artifacts/logs"
 
 acceptance_tests = [
-  "tests/ConfigR.Features/bin/Release/ConfigR.Features.dll",
+  "tests/ConfigR.Tests.Acceptance/bin/Release/ConfigR.Tests.Acceptance.dll",
 ]
 
 nuspecs = [

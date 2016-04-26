@@ -24,31 +24,33 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{B32D81
 		.nuget\packages.config = .nuget\packages.config
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConfigR.Features", "tests\ConfigR.Features\ConfigR.Features.csproj", "{B80B228F-08E7-44F7-8209-6556DC4E68FB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConfigR.Tests.Acceptance", "tests\ConfigR.Tests.Acceptance\ConfigR.Tests.Acceptance.csproj", "{B80B228F-08E7-44F7-8209-6556DC4E68FB}"
 	ProjectSection(ProjectDependencies) = postProject
 		{CCC5ED41-E765-45A6-B555-21DF5956A5C2} = {CCC5ED41-E765-45A6-B555-21DF5956A5C2}
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{BFAB0B22-0936-409D-AA3A-04E5C503F479}"
 	ProjectSection(SolutionItems) = preProject
-		tests\ConfigR.Test.ruleset = tests\ConfigR.Test.ruleset
+		tests\ConfigR.Tests.ruleset = tests\ConfigR.Tests.ruleset
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConfigR.Testing.Service", "tests\ConfigR.Testing.Service\ConfigR.Testing.Service.csproj", "{3ABA6C87-14D3-4CDE-ADEA-052381287C99}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConfigR.Tests.Smoke.Service", "tests\ConfigR.Tests.Smoke.Service\ConfigR.Tests.Smoke.Service.csproj", "{3ABA6C87-14D3-4CDE-ADEA-052381287C99}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConfigR.Testing.VSHostingProcess", "tests\ConfigR.Testing.VSHostingProcess\ConfigR.Testing.VSHostingProcess.csproj", "{D3C09CAC-36C7-4E3C-A858-644862138250}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConfigR.Tests.Smoke.VSHostingProcess", "tests\ConfigR.Tests.Smoke.VSHostingProcess\ConfigR.Tests.Smoke.VSHostingProcess.csproj", "{D3C09CAC-36C7-4E3C-A858-644862138250}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Acceptance", "Acceptance", "{A6B57E3F-5EAC-42D4-99C8-82C84CDE83E9}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Exploratory", "Exploratory", "{CFB23AAE-EEC4-422A-B803-F247248485AD}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Smoke", "Smoke", "{CFB23AAE-EEC4-422A-B803-F247248485AD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConfigR.Testing.Website", "tests\ConfigR.Testing.Website\ConfigR.Testing.Website.csproj", "{ED638DD5-E755-4B7A-940D-5C94AB425686}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConfigR.Tests.Smoke.Website", "tests\ConfigR.Tests.Smoke.Website\ConfigR.Tests.Smoke.Website.csproj", "{ED638DD5-E755-4B7A-940D-5C94AB425686}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConfigR.Testing.External", "tests\ConfigR.Testing.External\ConfigR.Testing.External.csproj", "{CCC5ED41-E765-45A6-B555-21DF5956A5C2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConfigR.Tests.Support.SampleDependency", "tests\ConfigR.Tests.Support.SampleDependency\ConfigR.Tests.Support.SampleDependency.csproj", "{CCC5ED41-E765-45A6-B555-21DF5956A5C2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{50D9D874-1322-441C-9396-33F25832FB88}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConfigR", "src\ConfigR\ConfigR.csproj", "{A294DB75-7707-4C47-8BEC-56F5ADA25367}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Support", "Support", "{6F07A14D-1495-4CB4-9F11-CF0F30C916C4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -91,7 +93,8 @@ Global
 		{A6B57E3F-5EAC-42D4-99C8-82C84CDE83E9} = {BFAB0B22-0936-409D-AA3A-04E5C503F479}
 		{CFB23AAE-EEC4-422A-B803-F247248485AD} = {BFAB0B22-0936-409D-AA3A-04E5C503F479}
 		{ED638DD5-E755-4B7A-940D-5C94AB425686} = {CFB23AAE-EEC4-422A-B803-F247248485AD}
-		{CCC5ED41-E765-45A6-B555-21DF5956A5C2} = {CFB23AAE-EEC4-422A-B803-F247248485AD}
+		{CCC5ED41-E765-45A6-B555-21DF5956A5C2} = {6F07A14D-1495-4CB4-9F11-CF0F30C916C4}
 		{A294DB75-7707-4C47-8BEC-56F5ADA25367} = {50D9D874-1322-441C-9396-33F25832FB88}
+		{6F07A14D-1495-4CB4-9F11-CF0F30C916C4} = {BFAB0B22-0936-409D-AA3A-04E5C503F479}
 	EndGlobalSection
 EndGlobal
