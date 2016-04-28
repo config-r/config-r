@@ -4,18 +4,18 @@
 
 namespace ConfigR.Tests.Smoke.Website
 {
-    using ConfigR;
+    using System.Diagnostics.CodeAnalysis;
     using Nancy;
 
     public class IndexModule : NancyModule
     {
+        [SuppressMessage(
+            "StyleCop.CSharp.SpacingRules",
+            "SA1013:ClosingCurlyBracketsMustBeSpacedCorrectly",
+            Justification = "Bug in StyleCop - see https://stylecop.codeplex.com/workitem/7725.")]
         public IndexModule()
         {
-            this.Get["/"] = parameters =>
-            {
-                var model = new { Greeting = Config.Global.Get<string>("greeting") };
-                return View["index", model];
-            };
+            this.Get["/"] = _ => this.View["index", new { Greeting = Global.Config.Greeting<string>(), }];
         }
     }
 }

@@ -1,1 +1,1 @@
-﻿Add("greeting", "hello world");
+﻿Config.Greeting = "hello world";

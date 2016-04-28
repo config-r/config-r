@@ -9,8 +9,8 @@
     <ProjectGuid>{B80B228F-08E7-44F7-8209-6556DC4E68FB}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ConfigR.Tests.Acceptance</RootNamespace>
-    <AssemblyName>ConfigR.Tests.Acceptance</AssemblyName>
+    <RootNamespace>ConfigR.Tests.Acceptance.Roslyn.CSharp</RootNamespace>
+    <AssemblyName>ConfigR.Tests.Acceptance.Roslyn.CSharp</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>
@@ -22,7 +22,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;TESTS_ACCEPTANCE_ROSLYN_CSHARP</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>..\ConfigR.Tests.ruleset</CodeAnalysisRuleSet>
@@ -31,12 +31,11 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>TRACE;TESTS_ACCEPTANCE_ROSLYN_CSHARP</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>..\ConfigR.Tests.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
-  <ItemGroup />
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
@@ -50,7 +49,6 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="Xbehave.Core, Version=2.0.1.0, Culture=neutral, PublicKeyToken=e4957f48888f9fe8, processorArchitecture=MSIL">
@@ -78,28 +76,18 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EnvironmentallyFriendlyFeature.cs" />
+    <Compile Include="..\..\src\ConfigR\Sdk\AppDomainSetupExtensions.cs">
+      <Link>Support\AppDomainSetupExtensions.cs</Link>
+    </Compile>
+    <Compile Include="Support\Foo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Foo.cs" />
-    <Compile Include="CascadingConfigurationFeature.cs" />
-    <Compile Include="AnonymousValuesFeature.cs" />
-    <Compile Include="AnonymousTypesFeature.cs" />
-    <Compile Include="EmptyConfigFeature.cs" />
-    <Compile Include="DynamicReferencesFeature.cs" />
-    <Compile Include="NestedScriptLoadingFeature.cs" />
-    <Compile Include="ScriptIndexingFeature.cs" />
-    <Compile Include="ScriptIterationFeature.cs" />
-    <Compile Include="DefaultValuesFeature.cs" />
-    <Compile Include="ObjectConfigurationItemFeature.cs" />
-    <Compile Include="IsolatedConfigurationFeature.cs" />
-    <Compile Include="LoadFromConfiguratorFeature.cs" />
-    <Compile Include="FileConfigurationFeature.cs" />
     <Compile Include="LocalConfigurationFeature.cs" />
-    <Compile Include="LoggingFeature.cs" />
-    <Compile Include="NestedConfigurationFeature.cs" />
-    <Compile Include="TypedConfigurationItemFeature.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\src\ConfigR.Roslyn.CSharp\ConfigR.Roslyn.CSharp.csproj">
+      <Project>{5f214049-7cc8-4934-a02e-09c9055cee07}</Project>
+      <Name>ConfigR.Roslyn.CSharp</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\src\ConfigR\ConfigR.csproj">
       <Project>{a294db75-7707-4c47-8bec-56f5ada25367}</Project>
       <Name>ConfigR</Name>
