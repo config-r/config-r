@@ -11,13 +11,13 @@ At the time of writing the build is only confirmed to work on Windows using the 
 
 ## Prerequisites
 
-1. Ensure you have .NET framework 3.5 and 4.0/4.5 installed.
+1. Ensure you have .NET framework 3.5 and 4.6 or later installed.
 
-1. Ensure you have Visual Studio 2015 or MSBuild 14 installed.
+1. Ensure you have Visual Studio 2015 or later or MSBuild 14 or later installed.
 
 1. Install Ruby 1.8.7 or later.
 
- For Windows we recommend using the [RubyInstaller](http://rubyinstaller.org/) and select 'Add Ruby executables to your PATH' when prompted. For other alternatives see the [Ruby download page](http://www.ruby-lang.org/en/downloads/).
+ For Windows we recommend using the [RubyInstaller](http://rubyinstaller.org/) and selecting 'Add Ruby executables to your PATH' when prompted. For alternatives see the [Ruby download page](http://www.ruby-lang.org/en/downloads/).
 
 1. Using a command prompt, update RubyGems to the latest version:
 
