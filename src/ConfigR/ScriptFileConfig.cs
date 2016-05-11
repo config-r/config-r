@@ -2,6 +2,8 @@
 //  Copyright (c) ConfigR contributors. (configr.net@gmail.com)
 // </copyright>
 
+using Microsoft.CodeAnalysis;
+
 namespace ConfigR
 {
     using System.Reflection;
@@ -12,6 +14,14 @@ namespace ConfigR
 
         public ScriptFileConfig(string path, params Assembly[] references)
             : base(references)
+        {
+            this.path = path;
+        }
+
+#pragma warning disable CS3001
+        public ScriptFileConfig(string path, Assembly[] references, MetadataReference[] metadataReferences)
+#pragma warning restore CS3001
+            : base(references, metadataReferences)
         {
             this.path = path;
         }
