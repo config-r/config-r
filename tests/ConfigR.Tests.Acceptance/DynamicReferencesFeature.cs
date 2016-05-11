@@ -78,6 +78,25 @@ namespace ConfigR.Tests.Acceptance
                 .f(() => ((string)((dynamic)result).Bar).Should().Be("baz"));
         }
 
+        [Scenario(Skip = "Not implemented.")]
+        public static void AddingADynamicInMemoryReferenceToALocalFile(Assembly reference, object result)
+        {
+            "Given a local config file adds a Foo from a dynamically loaded in memory assembly with a Bar of 'baz'"
+                .f(() => { throw new System.NotImplementedException(); });
+
+            "When I load the assembly"
+                .f(() => { throw new System.NotImplementedException(); });
+
+            "And I load the config using the assembly as a reference"
+                .f(() => { throw new System.NotImplementedException(); });
+
+            "And I get the value"
+                .f(() => { throw new System.NotImplementedException(); });
+
+            "Then the Foo Bar should be 'baz'"
+                .f(() => { throw new System.NotImplementedException(); });
+        }
+
         [Scenario]
         public static void AddingADynamicReferenceToGlobalAutoLoading(Assembly reference, object result)
         {
