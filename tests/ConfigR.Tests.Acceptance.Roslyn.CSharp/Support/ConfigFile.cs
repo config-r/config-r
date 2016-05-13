@@ -5,17 +5,11 @@
 namespace ConfigR.Tests.Acceptance.Roslyn.CSharp.Support
 {
     using System;
-    using System.Diagnostics.CodeAnalysis;
     using System.IO;
 
     public static class ConfigFile
     {
-        [SuppressMessage(
-            "StyleCop.CSharp.LayoutRules",
-            "SA1500:CurlyBracketsForMultiLineStatementsMustNotShareLine",
-            Justification = "Bug in StyleCop - see https://stylecop.codeplex.com/workitem/7723.")]
-        public static string DefaultPath { get; } =
-            Path.ChangeExtension(AppDomain.CurrentDomain.SetupInformation.VSHostingAgnosticConfigurationFile(), "csx");
+        public static string DefaultPath { get; } = GetDefaultPath();
 
         public static IDisposable Create(string contents)
         {
@@ -26,6 +20,13 @@ namespace ConfigR.Tests.Acceptance.Roslyn.CSharp.Support
             }
 
             return new Disposable(() => File.Delete(DefaultPath));
+        }
+
+        private static string GetDefaultPath()
+        {
+            AppDomain.CurrentDomain.SetData("APP_CONFIG_FILE", "Test.config");
+            return Path.ChangeExtension(
+                AppDomain.CurrentDomain.SetupInformation.VSHostingAgnosticConfigurationFile(), "csx");
         }
 
         private sealed class Disposable : IDisposable
