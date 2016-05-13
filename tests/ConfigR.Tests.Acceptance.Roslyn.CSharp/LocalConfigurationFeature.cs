@@ -4,8 +4,6 @@
 
 namespace ConfigR.Tests.Acceptance.Roslyn.CSharp
 {
-    using System;
-    using System.IO;
     using ConfigR.Tests.Acceptance.Roslyn.CSharp.Support;
     using FluentAssertions;
     using Xbehave;
@@ -18,24 +16,20 @@ namespace ConfigR.Tests.Acceptance.Roslyn.CSharp
             dynamic config = null;
 
             "Given a local config file containing a Foo with a Bar of 'baz'"
-                .f(() =>
+                .f(c =>
                 {
-                    path = Path.ChangeExtension(
-                        AppDomain.CurrentDomain.SetupInformation.VSHostingAgnosticConfigurationFile(), "csx");
+                    var code =
+@"using ConfigR.Tests.Acceptance.Roslyn.CSharp.Support;
+Config.Foo = new Foo { Bar = ""baz"" };
+";
 
-                    using (var writer = new StreamWriter(path))
-                    {
-                        writer.WriteLine(@"using ConfigR.Tests.Acceptance.Roslyn.CSharp.Support;");
-                        writer.WriteLine(@"Config.Foo = new Foo { Bar = ""baz"" };");
-                        writer.Flush();
-                    }
-                })
-                .Teardown(() => File.Delete(path));
+                    ConfigFile.Create(code).Using(c);
+                });
 
-            "And the config is loaded"
+            "When I load the config"
                 .f(async () => config = await new Config().UseRoslynCSharpLoader().Load());
 
-            "When I get the Foo"
+            "And I get the Foo"
                 .f(() => result = config.Foo<Foo>());
 
             "Then the Foo has a Bar of 'baz'"
