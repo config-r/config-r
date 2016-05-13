@@ -57,13 +57,16 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.XML" />
     <Reference Include="Topshelf, Version=3.3.154.0, Culture=neutral, PublicKeyToken=b800c4cfcdeea87b, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Topshelf.3.3.1\lib\net40-full\Topshelf.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\src\ConfigR.Roslyn.CSharp\ConfigR.Roslyn.CSharp.csproj">
+      <Project>{5f214049-7cc8-4934-a02e-09c9055cee07}</Project>
+      <Name>ConfigR.Roslyn.CSharp</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\src\ConfigR\ConfigR.csproj">
       <Project>{a294db75-7707-4c47-8bec-56f5ada25367}</Project>
       <Name>ConfigR</Name>

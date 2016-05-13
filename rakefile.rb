@@ -3,7 +3,7 @@ require 'albacore'
 version_suffix = ENV["VERSION_SUFFIX"]  || ""
 build_number   = ENV["BUILD_NUMBER"]    || "000000"
 build_number_suffix = version_suffix == "" ? "" : "-build" + build_number
-version = IO.read("src/ConfigR/Properties/AssemblyInfo.cs").split(/AssemblyInformationalVersion\("/, 2)[1].split(/"/).first + version_suffix + build_number_suffix
+version = IO.read("src/CommonAssemblyInfo.cs").split(/AssemblyInformationalVersion\("/, 2)[1].split(/"/).first + version_suffix + build_number_suffix
 
 $msbuild_command = "C:/Program Files (x86)/MSBuild/14.0/Bin/MSBuild.exe"
 $xunit_command = "packages/xunit.runner.console.2.1.0/tools/xunit.console.exe"
@@ -13,11 +13,12 @@ output = "artifacts/output"
 logs = "artifacts/logs"
 
 acceptance_tests = [
-  "tests/ConfigR.Tests.Acceptance/bin/Release/ConfigR.Tests.Acceptance.dll",
+  "tests/ConfigR.Tests.Acceptance.Roslyn.CSharp/bin/Release/ConfigR.Tests.Acceptance.Roslyn.CSharp.dll",
 ]
 
 nuspecs = [
   { :file => "src/ConfigR/ConfigR.nuspec", :version => version },
+  { :file => "src/ConfigR.Roslyn.CSharp/ConfigR.Roslyn.CSharp.nuspec", :version => version },
 ]
 
 Albacore.configure do |config|

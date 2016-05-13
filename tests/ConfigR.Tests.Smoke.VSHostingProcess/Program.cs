@@ -5,6 +5,7 @@
 namespace ConfigR.Tests.Smoke.VSHostingProcess
 {
     using System;
+    using System.Threading.Tasks;
     using ConfigR;
     using NLog;
     using NLog.Config;
@@ -14,14 +15,19 @@ namespace ConfigR.Tests.Smoke.VSHostingProcess
     {
         public static void Main()
         {
+            MainAsync().GetAwaiter().GetResult();
+        }
+
+        public static async Task MainAsync()
+        {
             using (var target = new ColoredConsoleTarget())
             {
-                var config = new LoggingConfiguration();
-                config.AddTarget("console", target);
-                config.LoggingRules.Add(new LoggingRule("*", LogLevel.Trace, target));
-                LogManager.Configuration = config;
+                var loggingConfig = new LoggingConfiguration();
+                loggingConfig.AddTarget("console", target);
+                loggingConfig.LoggingRules.Add(new LoggingRule("*", LogLevel.Trace, target));
+                LogManager.Configuration = loggingConfig;
 
-                Console.WriteLine(Config.Global.Get<string>("greeting"));
+                Console.WriteLine((await new Config().UseRoslynCSharpLoader().Load()).Greeting<string>());
 
                 Console.WriteLine("Brutalize a key with your favourite finger to exit.");
                 Console.ReadKey();

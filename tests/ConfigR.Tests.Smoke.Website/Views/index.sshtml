@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8"/>
-    <title>ConfigR.Testing.Website</title>
+    <title>ConfigR.Tests.Smoke.Website</title>
     <style type="text/css">
       body {
       text-align: center;

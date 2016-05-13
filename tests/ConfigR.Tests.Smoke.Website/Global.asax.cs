@@ -4,21 +4,24 @@
 
 namespace ConfigR.Tests.Smoke.Website
 {
-    using System;
+    using System.Diagnostics.CodeAnalysis;
     using System.Web;
     using ConfigR;
 
     public class Global : HttpApplication
     {
-        protected void Application_Start(object sender, EventArgs e)
-        {
-            Config.Global
-                .LoadLocalScriptFile()
-#if DEBUG
-                .LoadScriptFile("Web.Debug.csx");
-#else
-                .LoadScriptFile("Web.Release.csx");
-#endif
-        }
+        [SuppressMessage(
+            "StyleCop.CSharp.LayoutRules",
+            "SA1500:CurlyBracketsForMultiLineStatementsMustNotShareLine",
+            Justification = "Bug in StyleCop - see https://stylecop.codeplex.com/workitem/7723.")]
+        public static dynamic Config { get; } = new Config()
+            .UseRoslynCSharpLoader()
+////#if DEBUG
+////            .UseRoslynCSharpLoader("Web.Debug.csx")
+////#else
+////            .UseRoslynCSharpLoader("Web.Release.csx")
+////#endif
+            .Load()
+            .GetAwaiter().GetResult();
     }
 }

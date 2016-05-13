@@ -2,4 +2,4 @@
 
 using ConfigR.Tests.Smoke.Service;
 
-Add("settings", new Settings { Greeting = "hello world", Valediction = "goodbye world" });
+Config.Settings = new Settings { Greeting = "hello world", Valediction = "goodbye world" };
