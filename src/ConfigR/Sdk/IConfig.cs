@@ -12,5 +12,7 @@ namespace ConfigR.Sdk
         IConfig UseLoader(ILoader loader);
 
         Task<dynamic> Load();
+
+        Task<dynamic> Load(object seed);
     }
 }
