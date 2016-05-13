@@ -79,6 +79,7 @@
     <Compile Include="..\..\src\ConfigR\Sdk\AppDomainSetupExtensions.cs">
       <Link>Support\AppDomainSetupExtensions.cs</Link>
     </Compile>
+    <Compile Include="AnonymousTypesFeature.cs" />
     <Compile Include="Support\ConfigFile.cs" />
     <Compile Include="Support\Foo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
