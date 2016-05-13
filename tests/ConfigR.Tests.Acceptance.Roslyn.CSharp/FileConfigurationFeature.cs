@@ -4,40 +4,33 @@
 
 namespace ConfigR.Tests.Acceptance
 {
-    using System.IO;
+    using ConfigR.Tests.Acceptance.Roslyn.CSharp.Support;
     using FluentAssertions;
     using Xbehave;
 
     public static class FileConfigurationFeature
     {
-        [Background]
-        public static void Background()
-        {
-            "Given no configuration has been loaded"
-                .f(() => Config.Global.Reset());
-        }
-
         [Scenario]
         public static void RetrievingAnObject(Foo result)
         {
+            dynamic config = null;
+
             "Given a config file containing a Foo with a Bar of 'baz'"
-                .f(() =>
+                .f(c =>
                 {
-                    using (var writer = new StreamWriter("foo.csx"))
-                    {
-                        writer.WriteLine(@"#r ""ConfigR.Tests.Acceptance.dll""");
-                        writer.WriteLine(@"using ConfigR.Tests.Acceptance;");
-                        writer.WriteLine(@"Add(""foo"", new Foo { Bar = ""baz"" });");
-                        writer.Flush();
-                    }
-                })
-                .Teardown(() => File.Delete("foo.csx"));
+                    var code =
+@"using ConfigR.Tests.Acceptance.Roslyn.CSharp.Support;
+Config.Foo = new Foo { Bar = ""baz"" };
+";
+
+                    ConfigFile.Create(code, "foo.csx").Using(c);
+                });
 
             "When I load the file"
-                .f(() => Config.Global.LoadScriptFile("foo.csx"));
+                .f(async () => config = await new Config().UseRoslynCSharpLoader("foo.csx").Load());
 
             "And I get the Foo"
-                .f(() => result = Config.Global.Get<Foo>("foo"));
+                .f(() => result = config.Foo<Foo>());
 
             "Then the Foo has a Bar of 'baz'"
                 .f(() => result.Bar.Should().Be("baz"));

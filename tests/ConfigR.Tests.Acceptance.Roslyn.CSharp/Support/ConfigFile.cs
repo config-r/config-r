@@ -9,17 +9,19 @@ namespace ConfigR.Tests.Acceptance.Roslyn.CSharp.Support
 
     public static class ConfigFile
     {
-        public static string DefaultPath { get; } = GetDefaultPath();
+        private static readonly string defaultPath = GetDefaultPath();
 
-        public static IDisposable Create(string contents)
+        public static IDisposable Create(string contents) => Create(contents, defaultPath);
+
+        public static IDisposable Create(string contents, string path)
         {
-            using (var writer = new StreamWriter(DefaultPath))
+            using (var writer = new StreamWriter(path))
             {
                 writer.Write(contents);
                 writer.Flush();
             }
 
-            return new Disposable(() => File.Delete(DefaultPath));
+            return new Disposable(() => File.Delete(path));
         }
 
         private static string GetDefaultPath()
