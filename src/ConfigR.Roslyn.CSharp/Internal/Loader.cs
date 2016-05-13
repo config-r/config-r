@@ -14,16 +14,26 @@ namespace ConfigR.Roslyn.CSharp.Internal
 
     public class Loader : ILoader
     {
+        private readonly string scriptPath;
+
+        public Loader()
+            : this(Path.ChangeExtension(
+                AppDomain.CurrentDomain.SetupInformation.VSHostingAgnosticConfigurationFile(), "csx"))
+        {
+        }
+
+        public Loader(string scriptPath)
+        {
+            this.scriptPath = scriptPath;
+        }
+
         public async Task<DynamicDictionary> Load(DynamicDictionary config)
         {
-            var path = Path.ChangeExtension(
-                AppDomain.CurrentDomain.SetupInformation.VSHostingAgnosticConfigurationFile(), "csx");
-
-            var code = File.ReadAllText(path);
+            var code = File.ReadAllText(this.scriptPath);
 
             var searchPaths = new[]
             {
-                Path.GetDirectoryName(Path.GetFullPath(path)),
+                Path.GetDirectoryName(Path.GetFullPath(this.scriptPath)),
                 AppDomain.CurrentDomain.SetupInformation.ApplicationBase,
             };
 
