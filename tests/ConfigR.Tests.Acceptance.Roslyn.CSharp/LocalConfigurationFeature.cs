@@ -4,9 +4,11 @@
 
 namespace ConfigR.Tests.Acceptance.Roslyn.CSharp
 {
+    using System;
     using ConfigR.Tests.Acceptance.Roslyn.CSharp.Support;
     using FluentAssertions;
     using Xbehave;
+    using Xunit;
 
     public static class LocalConfigurationFeature
     {
@@ -54,46 +56,36 @@ Config.Foo = new Foo { Bar = ""baz"" };
                 .f(() => result.Should().Be("baz"));
         }
 
-        ////[Scenario]
-        ////public static void ScriptIsMissingAClosingParenthesis(object exception)
-        ////{
-        ////    "Given a local config file which is missing a closing bracket"
-        ////        .f(() =>
-        ////        {
-        ////            using (var writer = new StreamWriter(LocalScriptFileConfig.Path))
-        ////            {
-        ////                writer.WriteLine(@"Add(""foo"", 123;");
-        ////                writer.Flush();
-        ////            }
-        ////        })
-        ////        .Teardown(() => File.Delete(LocalScriptFileConfig.Path));
+        [Scenario]
+        public static void ScriptFailsToCompile(Exception exception)
+        {
+            "Given a local config file which fails to compile"
+                .f(c => ConfigFile.Create(@"This is not C#!").Using(c));
 
-        ////    "When I load the config file"
-        ////        .f(() => exception = Record.Exception(() => Config.Global));
+            "When I load the config file"
+                .f(async () => exception = await Record.ExceptionAsync(async () => await new Config().UseRoslynCSharpLoader().Load()));
 
-        ////    "Then an exception is thrown"
-        ////        .f(() => exception.Should().NotBeNull());
-        ////}
+            "Then an exception is thrown"
+                .f(() => exception.Should().NotBeNull());
 
-        ////[Scenario]
-        ////public static void ScriptFailsToExecute(object exception)
-        ////{
-        ////    "Given a local config file which fails to execute"
-        ////        .f(() =>
-        ////        {
-        ////            using (var writer = new StreamWriter(LocalScriptFileConfig.Path))
-        ////            {
-        ////                writer.WriteLine("throw new Exception();");
-        ////                writer.Flush();
-        ////            }
-        ////        })
-        ////        .Teardown(() => File.Delete(LocalScriptFileConfig.Path));
+            "And the exception should be a compilation error exception"
+                .f(() => exception.GetType().Name.Should().Be("CompilationErrorException"));
+        }
 
-        ////    "When I load the config file"
-        ////        .f(() => exception = Record.Exception(() => Config.Global));
+        [Scenario]
+        public static void ScriptFailsToExecute(Exception exception)
+        {
+            "Given a local config file which throws an exception with the message 'Boo!'"
+                .f(c => ConfigFile.Create(@"throw new System.Exception(""Boo!"");").Using(c));
 
-        ////    "Then an exception is thrown"
-        ////        .f(() => exception.Should().NotBeNull());
-        ////}
+            "When I load the config file"
+                .f(async () => exception = await Record.ExceptionAsync(async () => await new Config().UseRoslynCSharpLoader().Load()));
+
+            "Then an exception is thrown"
+                .f(() => exception.Should().NotBeNull());
+
+            "And the exception message is 'Boo!'"
+                .f(() => exception.Message.Should().Be("Boo!"));
+        }
     }
 }

@@ -4,41 +4,34 @@
 
 namespace ConfigR.Tests.Acceptance
 {
-    using System;
-    using System.IO;
+    using ConfigR.Tests.Acceptance.Roslyn.CSharp.Support;
     using FluentAssertions;
     using Xbehave;
 
     public static class AnonymousTypesFeature
     {
-        [Background]
-        public static void Background()
-        {
-            "Given no configuration has been loaded"
-                .f(() => Config.Global.Reset());
-        }
-
         [Scenario]
         public static void RetrievingAnAnonymousType()
         {
+            dynamic config = null;
             dynamic result = null;
 
             "Given a local config file containing an anonymous type with a Bar of 'baz'"
-                .f(() =>
+                .f(c =>
                 {
-                    AppDomain.CurrentDomain.SetData("APP_CONFIG_FILE", "Test.config");
-                    using (var writer = new StreamWriter(LocalScriptFileConfig.Path))
-                    {
-                        writer.WriteLine(@"#r ""ConfigR.Tests.Acceptance.dll""");
-                        writer.WriteLine(@"using ConfigR.Tests.Acceptance;");
-                        writer.WriteLine(@"Add(""Foo"", new { Bar = ""baz"" });");
-                        writer.Flush();
-                    }
-                })
-                .Teardown(() => File.Delete(LocalScriptFileConfig.Path));
+                    var code =
+@"using ConfigR.Tests.Acceptance.Roslyn.CSharp.Support;
+Config.Foo = new { Bar = ""baz"" };
+";
+
+                    ConfigFile.Create(code).Using(c);
+                });
+
+            "When I load the config"
+                .f(async () => config = await new Config().UseRoslynCSharpLoader().Load());
 
             "When I get the anonymous type"
-                .f(() => { result = Config.Global.Get<dynamic>("Foo"); });
+                .f(() => { result = config.Foo; });
 
             "Then the anonymous type has a Bar of 'baz'"
                 .f(() => ((string)result.Bar).Should().Be("baz"));
