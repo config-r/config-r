@@ -11,7 +11,7 @@ namespace ConfigR.Tests.Acceptance.Roslyn.CSharp
     public static class LocalConfigurationFeature
     {
         [Scenario]
-        public static void RetrievingAnObject(string path, Foo result)
+        public static void RetrievingAnObject(Foo result)
         {
             dynamic config = null;
 
@@ -36,29 +36,23 @@ Config.Foo = new Foo { Bar = ""baz"" };
                 .f(() => result.Bar.Should().Be("baz"));
         }
 
-        ////[Scenario]
-        ////public static void PassingAValueFromAnAppToAConfigurationScript(string result)
-        ////{
-        ////    "Given a local config file which sets foo using the value of bar"
-        ////        .f(() =>
-        ////        {
-        ////            using (var writer = new StreamWriter(LocalScriptFileConfig.Path))
-        ////            {
-        ////                writer.WriteLine(@"Add(""foo"", Config.Global.Get<string>(""bar""));");
-        ////                writer.Flush();
-        ////            }
-        ////        })
-        ////        .Teardown(() => File.Delete(LocalScriptFileConfig.Path));
+        [Scenario]
+        public static void PassingAValueFromAnAppToAConfigurationScript(string result)
+        {
+            dynamic config = null;
 
-        ////    "When I set bar to 'baz'"
-        ////        .f(() => Config.DisableGlobalAutoLoading().Add("bar", "baz"));
+            "Given a local config file which sets Foo using the value of Bar"
+                .f(c => ConfigFile.Create(@"Config.Foo = Config.Bar;").Using(c));
 
-        ////    "And I get foo"
-        ////        .f(() => result = Config.EnableGlobalAutoLoading().Get<string>("foo"));
+            "And I load the config seeded with Bar set to 'baz'"
+                .f(async () => config = await new Config().UseRoslynCSharpLoader().Load(new { Bar = "baz" }));
 
-        ////    "Then foo is 'baz'"
-        ////        .f(() => result.Should().Be("baz"));
-        ////}
+            "And I get Foo"
+                .f(() => result = config.Foo<string>());
+
+            "Then Foo is 'baz'"
+                .f(() => result.Should().Be("baz"));
+        }
 
         ////[Scenario]
         ////public static void ScriptIsMissingAClosingParenthesis(object exception)

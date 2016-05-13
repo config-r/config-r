@@ -27,10 +27,13 @@ namespace ConfigR.Roslyn.CSharp.Internal
                 AppDomain.CurrentDomain.SetupInformation.ApplicationBase,
             };
 
+            var references = AppDomain.CurrentDomain.GetAssemblies()
+                .Where(assembly => !assembly.IsDynamic && !string.IsNullOrEmpty(assembly.Location));
+
             var options = ScriptOptions.Default
                 .WithMetadataResolver(ScriptMetadataResolver.Default.WithSearchPaths(searchPaths))
                 .WithSourceResolver(ScriptSourceResolver.Default.WithSearchPaths(searchPaths))
-                .AddReferences(AppDomain.CurrentDomain.GetAssemblies().Where(assembly => !string.IsNullOrEmpty(assembly.Location)));
+                .AddReferences(references);
 
             await CSharpScript.Create(code, options, typeof(ScriptGlobals)).RunAsync(new ScriptGlobals(config));
             return config;

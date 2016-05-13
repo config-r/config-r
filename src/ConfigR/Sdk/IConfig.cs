@@ -5,12 +5,13 @@
 namespace ConfigR.Sdk
 {
     using System.Threading.Tasks;
-    using ConfigR.Sdk;
 
     public interface IConfig
     {
         IConfig UseLoader(ILoader loader);
 
         Task<dynamic> Load();
+
+        Task<dynamic> Load(object seed);
     }
 }
