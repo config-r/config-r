@@ -11,7 +11,7 @@ namespace ConfigR.Tests.Acceptance.Roslyn.CSharp
     public static class LocalConfigurationFeature
     {
         [Scenario]
-        public static void RetrievingAnObject(string path, Foo result)
+        public static void RetrievingAnObject(Foo result)
         {
             dynamic config = null;
 
