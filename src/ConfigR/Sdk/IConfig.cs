@@ -5,7 +5,6 @@
 namespace ConfigR.Sdk
 {
     using System.Threading.Tasks;
-    using ConfigR.Sdk;
 
     public interface IConfig
     {
