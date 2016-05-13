@@ -9,9 +9,10 @@ namespace ConfigR
 
     public static class ConfigExtensions
     {
-        public static IConfig UseRoslynCSharpLoader(this IConfig config)
-        {
-            return config?.UseLoader(new Loader());
-        }
+        public static IConfig UseRoslynCSharpLoader(this IConfig config) =>
+            config?.UseLoader(new Loader());
+
+        public static IConfig UseRoslynCSharpLoader(this IConfig config, string scriptPath) =>
+            config?.UseLoader(new Loader(scriptPath));
     }
 }
