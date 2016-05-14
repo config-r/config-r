@@ -4,16 +4,11 @@
 
 namespace ConfigR.Tests.Smoke.Website
 {
-    using System.Diagnostics.CodeAnalysis;
     using System.Web;
     using ConfigR;
 
     public class Global : HttpApplication
     {
-        [SuppressMessage(
-            "StyleCop.CSharp.LayoutRules",
-            "SA1500:CurlyBracketsForMultiLineStatementsMustNotShareLine",
-            Justification = "Bug in StyleCop - see https://stylecop.codeplex.com/workitem/7723.")]
         public static dynamic Config { get; } = new Config()
             .UseRoslynCSharpLoader()
 ////#if DEBUG
