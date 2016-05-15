@@ -88,6 +88,7 @@
     <Compile Include="Support\Foo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="LocalConfigurationFeature.cs" />
+    <Compile Include="StaticTypingFeature.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\ConfigR.Roslyn.CSharp\ConfigR.Roslyn.CSharp.csproj">
