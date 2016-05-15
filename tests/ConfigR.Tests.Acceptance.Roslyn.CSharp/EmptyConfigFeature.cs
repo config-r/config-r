@@ -4,20 +4,14 @@
 
 namespace ConfigR.Tests.Acceptance
 {
-    using System.IO;
+    using System;
+    using ConfigR.Tests.Acceptance.Roslyn.CSharp.Support;
     using FluentAssertions;
     using Xbehave;
     using Xunit;
 
     public static class EmptyConfigFeature
     {
-        [Background]
-        public static void Background()
-        {
-            "Given no configuration has been loaded"
-                .f(() => Config.Global.Reset());
-        }
-
         [Scenario]
         [Example(null)]
         [Example("")]
@@ -25,21 +19,13 @@ namespace ConfigR.Tests.Acceptance
         [Example("\n")]
         [Example("//")]
         [Example("// a comment")]
-        public static void EmptyConfig(string code, object exception)
+        public static void EmptyConfig(string code, Exception exception)
         {
             "Given a config file which contains no executable code"
-                .f(() =>
-                {
-                    using (var writer = new StreamWriter(LocalScriptFileConfig.Path))
-                    {
-                        writer.WriteLine(code);
-                        writer.Flush();
-                    }
-                })
-                .Teardown(() => File.Delete(LocalScriptFileConfig.Path));
+                .f(c => ConfigFile.Create(code));
 
             "When I load the config"
-                .f(() => exception = Record.Exception(() => Config.Global));
+                .f(async () => exception = await Record.ExceptionAsync(async () => await new Config().UseRoslynCSharpLoader().Load()));
 
             "Then no exception is thrown"
                 .f(() => exception.Should().BeNull());

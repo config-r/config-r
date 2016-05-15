@@ -4,6 +4,7 @@
 
 namespace ConfigR.Roslyn.CSharp.Internal
 {
+    using System.Collections.Generic;
     using ConfigR.Sdk;
 
     public class ScriptGlobals
@@ -14,5 +15,13 @@ namespace ConfigR.Roslyn.CSharp.Internal
         }
 
         public dynamic Config { get; }
+
+        public IDictionary<string, object> ConfigDictionary
+        {
+            get
+            {
+                return this.Config;
+            }
+        }
     }
 }

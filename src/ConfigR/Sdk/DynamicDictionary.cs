@@ -8,10 +8,17 @@ namespace ConfigR.Sdk
     using System.Collections.Generic;
     using System.Dynamic;
     using System.Linq;
+    using System.Linq.Expressions;
+    using System.Reflection;
+    using System.Runtime.ExceptionServices;
+    using ConfigR.Internal;
     using static System.FormattableString;
 
     public partial class DynamicDictionary : DynamicObject
     {
+        private static readonly Expression<Func<object, object>> castForRetreivalExample =
+            @object => ObjectExtensions.CastForRetreival<object>(@object, null);
+
         private readonly Dictionary<string, object> values = new Dictionary<string, object>();
 
         public override bool TrySetMember(SetMemberBinder binder, object value)
@@ -41,13 +48,42 @@ namespace ConfigR.Sdk
 
             if (!this.values.TryGetValue(binder.Name, out result))
             {
+                if (args != null && args.Any())
+                {
+                    if (!genericTypeArgument.IsInstanceOfType(args[0]))
+                    {
+                        throw new InvalidOperationException(
+                            Invariant($"The specified default is not an instance of '{genericTypeArgument.FullName}'."));
+                    }
+
+                    result = args[0];
+                    return true;
+                }
+
                 throw new InvalidOperationException(Invariant($"'{binder.Name}' does not exist."));
             }
 
-            if (!genericTypeArgument.IsInstanceOfType(result))
+            var castForRetreival = ((MethodCallExpression)castForRetreivalExample.Body)
+                .Method.GetGenericMethodDefinition().MakeGenericMethod(genericTypeArgument);
+
+            try
             {
-                throw new InvalidOperationException(
-                    Invariant($"'{binder.Name}' is not an instance of '{genericTypeArgument.FullName}'."));
+                result = castForRetreival.Invoke(null, new object[] { result, binder.Name });
+            }
+            catch (Exception ex)
+            {
+                while (true)
+                {
+                    var tiex = ex as TargetInvocationException;
+                    if (tiex == null)
+                    {
+                        break;
+                    }
+
+                    ex = tiex.InnerException;
+                }
+
+                ExceptionDispatchInfo.Capture(ex).Throw();
             }
 
             return true;
