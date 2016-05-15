@@ -84,6 +84,7 @@
     <Compile Include="DictionarySyntaxFeature.cs" />
     <Compile Include="EmptyConfigFeature.cs" />
     <Compile Include="FileConfigurationFeature.cs" />
+    <Compile Include="SearchPathsFeature.cs" />
     <Compile Include="Support\ConfigFile.cs" />
     <Compile Include="Support\Foo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -98,6 +99,10 @@
     <ProjectReference Include="..\..\src\ConfigR\ConfigR.csproj">
       <Project>{a294db75-7707-4c47-8bec-56f5ada25367}</Project>
       <Name>ConfigR</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ConfigR.Tests.Support.SampleDependency\ConfigR.Tests.Support.SampleDependency.csproj">
+      <Project>{ccc5ed41-e765-45a6-b555-21df5956a5c2}</Project>
+      <Name>ConfigR.Tests.Support.SampleDependency</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
