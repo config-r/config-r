@@ -1,4 +1,4 @@
-﻿// <copyright file="DictionaryExtensions.cs" company="ConfigR contributors">
+﻿// <copyright file="ObjectExtensions.cs" company="ConfigR contributors">
 //  Copyright (c) ConfigR contributors. (configr.net@gmail.com)
 // </copyright>
 
