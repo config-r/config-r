@@ -43,5 +43,9 @@ namespace ConfigR
 
             return config;
         }
+
+        public async Task<IDictionary<string, object>> LoadDictionary() => await this.Load();
+
+        public async Task<IDictionary<string, object>> LoadDictionary(object seed) => await this.Load(seed);
     }
 }

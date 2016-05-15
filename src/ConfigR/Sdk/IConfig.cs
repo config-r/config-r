@@ -4,6 +4,7 @@
 
 namespace ConfigR.Sdk
 {
+    using System.Collections.Generic;
     using System.Threading.Tasks;
 
     public interface IConfig
@@ -13,5 +14,9 @@ namespace ConfigR.Sdk
         Task<dynamic> Load();
 
         Task<dynamic> Load(object seed);
+
+        Task<IDictionary<string, object>> LoadDictionary();
+
+        Task<IDictionary<string, object>> LoadDictionary(object seed);
     }
 }
