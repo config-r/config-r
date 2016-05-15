@@ -41,6 +41,18 @@ namespace ConfigR.Sdk
 
             if (!this.values.TryGetValue(binder.Name, out result))
             {
+                if (args != null && args.Any())
+                {
+                    if (!genericTypeArgument.IsInstanceOfType(args[0]))
+                    {
+                        throw new InvalidOperationException(
+                            Invariant($"The specified default is not an instance of '{genericTypeArgument.FullName}'."));
+                    }
+
+                    result = args[0];
+                    return true;
+                }
+
                 throw new InvalidOperationException(Invariant($"'{binder.Name}' does not exist."));
             }
 
