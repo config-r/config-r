@@ -51,8 +51,11 @@
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="App_Packages\LibLog.4.2\LibLog.cs" />
+    <Compile Include="Guard.cs" />
+    <Compile Include="IRoslynCSharpConfig.cs" />
+    <Compile Include="Internal\RoslynCSharpConfig.cs" />
     <Compile Include="Internal\ScriptGlobals.cs" />
-    <Compile Include="Internal\Loader.cs" />
+    <Compile Include="Internal\RoslynCSharpLoader.cs" />
     <Compile Include="ConfigExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
