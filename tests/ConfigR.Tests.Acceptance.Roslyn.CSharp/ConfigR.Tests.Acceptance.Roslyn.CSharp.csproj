@@ -80,6 +80,7 @@
       <Link>Support\AppDomainSetupExtensions.cs</Link>
     </Compile>
     <Compile Include="AnonymousTypesFeature.cs" />
+    <Compile Include="MultipleLoadersFeature.cs" />
     <Compile Include="DefaultValuesFeature.cs" />
     <Compile Include="DictionarySyntaxFeature.cs" />
     <Compile Include="EmptyConfigFeature.cs" />
