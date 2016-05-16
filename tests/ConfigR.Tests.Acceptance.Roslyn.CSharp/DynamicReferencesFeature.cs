@@ -4,122 +4,129 @@
 
 namespace ConfigR.Tests.Acceptance
 {
+    using System;
     using System.IO;
+    using System.Linq;
     using System.Reflection;
+    using ConfigR.Tests.Acceptance.Roslyn.CSharp.Support;
     using FluentAssertions;
+    using Microsoft.CodeAnalysis;
+    using Microsoft.CodeAnalysis.CSharp;
     using Xbehave;
 
     public static class DynamicReferencesFeature
     {
-        [Background]
-        public static void Background()
-        {
-            "Given no configuration has been loaded"
-                .f(() => Config.Global.Reset());
-        }
-
         [Scenario]
-        public static void AddingADynamicReferenceToAnExplicitFile(Assembly reference, object result)
+        public static void AddingADynamicReferenceToAnAssemblyOnDisk(Assembly reference, object result)
         {
-            "Given a config file adds a Foo from a dynamically loaded assembly with a Bar of 'baz'"
-                .f(() =>
+            dynamic config = null;
+
+            "Given an assembly on disk which defines a Foo type"
+                .f(c =>
                 {
-                    using (var writer = new StreamWriter("foo.csx"))
-                    {
-                        writer.WriteLine(@"using ConfigR.Tests.Support.SampleDependency;");
-                        writer.WriteLine(@"Add(""foo"", new Foo { Bar = ""baz"" });");
-                        writer.Flush();
-                    }
-                })
-                .Teardown(() => File.Delete("foo.csx"));
+                    var code =
+$@"namespace {c.Step.Scenario.ScenarioOutline.Method.Name}
+{{
+    public class Foo
+    {{
+        public string Bar {{ get; set; }}
+    }}
+}}";
+
+                    var compilation = CSharpCompilation.Create(
+                            c.Step.Scenario.ScenarioOutline.Method.Name,
+                            new[] { CSharpSyntaxTree.ParseText(code) },
+                            null,
+                            new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary))
+                        .AddReferences(MetadataReference.CreateFromFile(typeof(object).Assembly.Location));
+
+                    var emitResult = compilation.Emit(compilation.AssemblyName + ".dll");
+                    emitResult.Success.Should().BeTrue(
+                        "The diagnostics should indicate no errors:{0}{1}",
+                        Environment.NewLine,
+                        string.Join(Environment.NewLine, emitResult.Diagnostics.Select(diagnostic => diagnostic.ToString())));
+                });
+
+            "And config file with Foo with a Bar of 'baz'"
+                .f(c =>
+                {
+                    var code =
+$@"using {c.Step.Scenario.ScenarioOutline.Method.Name};
+Config.Foo = new Foo {{ Bar = ""baz"" }};
+";
+                    ConfigFile.Create(code).Using(c);
+                });
 
             "When I load the assembly"
-                .f(() => reference = Assembly.Load("ConfigR.Tests.Support.SampleDependency"));
+                .f(c => reference = Assembly.Load(c.Step.Scenario.ScenarioOutline.Method.Name));
 
             "And I load the config using the assembly as a reference"
-                .f(() => result = Config.Global.LoadScriptFile("foo.csx", reference));
+                .f(async () => config = await new Config().UseRoslynCSharpLoader().AddReferences(reference).Load());
 
             "And I get the value"
-                .f(() => result = Config.Global.Get<object>("foo"));
+                .f(() => result = config.Foo);
 
             "Then the Foo Bar should be 'baz'"
                 .f(() => ((string)((dynamic)result).Bar).Should().Be("baz"));
         }
 
         [Scenario]
-        public static void AddingADynamicReferenceToALocalFile(Assembly reference, object result)
+        public static void AddingADynamicReferenceToAnInMemoryAssembly(Assembly reference, MetadataReference metadataReference, object result)
         {
-            "Given a local config file adds a Foo from a dynamically loaded assembly with a Bar of 'baz'"
-                .f(() =>
+            dynamic config = null;
+
+            "Given an assembly in memory which defines a Foo type"
+                .f(c =>
                 {
-                    using (var writer = new StreamWriter(LocalScriptFileConfig.Path))
+                    var code =
+$@"namespace {c.Step.Scenario.ScenarioOutline.Method.Name}
+{{
+    public class Foo
+    {{
+        public string Bar {{ get; set; }}
+    }}
+}}";
+
+                    var compilation = CSharpCompilation.Create(
+                            c.Step.Scenario.ScenarioOutline.Method.Name,
+                            new[] { CSharpSyntaxTree.ParseText(code) },
+                            null,
+                            new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary))
+                        .AddReferences(MetadataReference.CreateFromFile(typeof(object).Assembly.Location));
+
+                    metadataReference = compilation.ToMetadataReference();
+
+                    using (var stream = new MemoryStream())
                     {
-                        writer.WriteLine(@"using ConfigR.Tests.Support.SampleDependency;");
-                        writer.WriteLine(@"Add(""foo"", new Foo { Bar = ""baz"" });");
-                        writer.Flush();
+                        var emitResult = compilation.Emit(stream);
+                        emitResult.Success.Should().BeTrue(
+                            "The diagnostics should indicate no errors:{0}{1}",
+                            Environment.NewLine,
+                            string.Join(Environment.NewLine, emitResult.Diagnostics.Select(diagnostic => diagnostic.ToString())));
+
+                        stream.Seek(0, SeekOrigin.Begin);
+                        reference = Assembly.Load(stream.ToArray());
                     }
-                })
-                .Teardown(() => File.Delete(LocalScriptFileConfig.Path));
+                });
 
-            "When I load the assembly"
-                .f(() => reference = Assembly.Load("ConfigR.Tests.Support.SampleDependency"));
-
-            "When I disable global auto loading"
-                .f(() => Config.DisableGlobalAutoLoading())
-                .Teardown(() => Config.EnableGlobalAutoLoading());
+            "And config file with Foo with a Bar of 'baz'"
+                .f(c =>
+                {
+                    var code =
+$@"using {c.Step.Scenario.ScenarioOutline.Method.Name};
+Config.Foo = new Foo {{ Bar = ""baz"" }};
+";
+                    ConfigFile.Create(code).Using(c);
+                });
 
             "And I load the config using the assembly as a reference"
-                .f(() => result = Config.Global.LoadLocalScriptFile(reference));
+                .f(async () => config = await new Config().UseRoslynCSharpLoader()
+                    .AddReferences(reference)
+                    .AddReferences(metadataReference)
+                    .Load());
 
             "And I get the value"
-                .f(() => result = Config.Global.Get<object>("foo"));
-
-            "Then the Foo Bar should be 'baz'"
-                .f(() => ((string)((dynamic)result).Bar).Should().Be("baz"));
-        }
-
-        [Scenario(Skip = "Not implemented.")]
-        public static void AddingADynamicInMemoryReferenceToALocalFile(Assembly reference, object result)
-        {
-            "Given a local config file adds a Foo from a dynamically loaded in memory assembly with a Bar of 'baz'"
-                .f(() => { throw new System.NotImplementedException(); });
-
-            "When I load the assembly"
-                .f(() => { throw new System.NotImplementedException(); });
-
-            "And I load the config using the assembly as a reference"
-                .f(() => { throw new System.NotImplementedException(); });
-
-            "And I get the value"
-                .f(() => { throw new System.NotImplementedException(); });
-
-            "Then the Foo Bar should be 'baz'"
-                .f(() => { throw new System.NotImplementedException(); });
-        }
-
-        [Scenario]
-        public static void AddingADynamicReferenceToGlobalAutoLoading(Assembly reference, object result)
-        {
-            "Given a local config file adds a Foo from a dynamically loaded assembly with a Bar of 'baz'"
-                .f(() =>
-                {
-                    using (var writer = new StreamWriter(LocalScriptFileConfig.Path))
-                    {
-                        writer.WriteLine(@"using ConfigR.Tests.Support.SampleDependency;");
-                        writer.WriteLine(@"Add(""foo"", new Foo { Bar = ""baz"" });");
-                        writer.Flush();
-                    }
-                })
-                .Teardown(() => File.Delete(LocalScriptFileConfig.Path));
-
-            "When I load the assembly"
-                .f(() => reference = Assembly.Load("ConfigR.Tests.Support.SampleDependency"));
-
-            "And I add the reference to global autoloading"
-                .f(() => Config.GlobalAutoLoadingReferences.Add(reference));
-
-            "And I get the value"
-                .f(() => result = Config.Global.Get<object>("foo"));
+                .f(() => result = config.Foo);
 
             "Then the Foo Bar should be 'baz'"
                 .f(() => ((string)((dynamic)result).Bar).Should().Be("baz"));

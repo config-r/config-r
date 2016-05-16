@@ -4,15 +4,25 @@
 
 namespace ConfigR
 {
+    using System;
+    using ConfigR.Roslyn.CSharp;
     using ConfigR.Roslyn.CSharp.Internal;
     using ConfigR.Sdk;
 
     public static class ConfigExtensions
     {
-        public static IConfig UseRoslynCSharpLoader(this IConfig config) =>
-            config?.UseLoader(new Loader());
+        [CLSCompliant(false)]
+        public static IRoslynCSharpConfig UseRoslynCSharpLoader(this IConfig config)
+        {
+            var loader = new RoslynCSharpLoader();
+            return new RoslynCSharpConfig(config?.UseLoader(loader), loader);
+        }
 
-        public static IConfig UseRoslynCSharpLoader(this IConfig config, string scriptPath) =>
-            config?.UseLoader(new Loader(scriptPath));
+        [CLSCompliant(false)]
+        public static IRoslynCSharpConfig UseRoslynCSharpLoader(this IConfig config, string scriptPath)
+        {
+            var loader = new RoslynCSharpLoader(scriptPath);
+            return new RoslynCSharpConfig(config?.UseLoader(loader), loader);
+        }
     }
 }
