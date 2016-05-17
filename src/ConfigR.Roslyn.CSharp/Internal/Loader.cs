@@ -8,6 +8,7 @@ namespace ConfigR.Roslyn.CSharp.Internal
     using System.Diagnostics.CodeAnalysis;
     using System.IO;
     using System.Threading.Tasks;
+    using ConfigR.Roslyn.CSharp.Logging;
     using ConfigR.Sdk;
     using Microsoft.CodeAnalysis.CSharp.Scripting;
     using Microsoft.CodeAnalysis.Scripting;
@@ -15,6 +16,8 @@ namespace ConfigR.Roslyn.CSharp.Internal
 
     public class Loader : ILoader
     {
+        private static readonly ILog log = LogProvider.GetCurrentClassLogger();
+
         private readonly string scriptPath;
         private readonly ScriptOptions options;
         private readonly InteractiveAssemblyLoader assemblyLoader;
@@ -35,6 +38,8 @@ namespace ConfigR.Roslyn.CSharp.Internal
 
         public async Task<DynamicDictionary> Load(DynamicDictionary config)
         {
+            log.InfoFormat("Running script '{0}'...", this.scriptPath);
+
             await CSharpScript.Create(
                     File.ReadAllText(this.scriptPath),
                     this.options ?? ScriptOptions.Default.ForConfigScript(this.scriptPath),
