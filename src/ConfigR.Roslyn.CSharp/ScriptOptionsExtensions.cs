@@ -55,6 +55,9 @@ namespace ConfigR
                     continue;
                 }
 
+                log.TraceFormat(
+                    "Adding a reference to assembly '{0}' located at '{1}'.", assembly.FullName, assembly.Location);
+
                 references.Add(assembly);
             }
 
