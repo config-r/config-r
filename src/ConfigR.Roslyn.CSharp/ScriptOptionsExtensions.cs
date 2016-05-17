@@ -5,12 +5,17 @@
 namespace ConfigR
 {
     using System;
+    using System.Collections.Generic;
     using System.IO;
     using System.Linq;
+    using System.Reflection;
+    using ConfigR.Roslyn.CSharp.Logging;
     using Microsoft.CodeAnalysis.Scripting;
 
     public static class ScriptOptionsExtensions
     {
+        private static readonly ILog log = LogProvider.GetCurrentClassLogger();
+
         [CLSCompliant(false)]
         public static ScriptOptions ForConfigScript(this ScriptOptions options) => options.ForConfigScript(null);
 
@@ -19,17 +24,43 @@ namespace ConfigR
         {
             var searchPaths = new[]
             {
-                Path.GetDirectoryName(Path.GetFullPath(scriptPath ?? AppDomain.CurrentDomain.SetupInformation.ConfigurationFile)),
-                AppDomain.CurrentDomain.SetupInformation.ApplicationBase,
-            };
+                Path.GetDirectoryName(Path.GetFullPath(scriptPath ?? AppDomain.CurrentDomain.SetupInformation.ConfigurationFile)).TrimEnd(Path.DirectorySeparatorChar),
+                AppDomain.CurrentDomain.SetupInformation.ApplicationBase.TrimEnd(Path.DirectorySeparatorChar),
+            }.Distinct().ToList();
 
-            var currentAssemblies = AppDomain.CurrentDomain.GetAssemblies()
-                .Where(assembly => !assembly.IsDynamic && !string.IsNullOrEmpty(assembly.Location));
+            foreach (var searchPath in searchPaths.OrderBy(_ => _))
+            {
+                log.DebugFormat("Using search path '{0}'.", searchPath);
+            }
+
+            var references = new List<Assembly>();
+            foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
+            {
+                if (assembly.IsDynamic)
+                {
+                    log.TraceFormat(
+                        "Not adding a reference to assembly '{0}' in the script options because it is dynamic.",
+                        assembly.FullName);
+
+                    continue;
+                }
+
+                if (string.IsNullOrEmpty(assembly.Location))
+                {
+                    log.TraceFormat(
+                        "Not adding a reference to assembly '{0}' in the script options because it has no location.",
+                        assembly.FullName);
+
+                    continue;
+                }
+
+                references.Add(assembly);
+            }
 
             return options
                 ?.WithMetadataResolver(ScriptMetadataResolver.Default.WithSearchPaths(searchPaths))
                 .WithSourceResolver(ScriptSourceResolver.Default.WithSearchPaths(searchPaths))
-                .AddReferences(currentAssemblies);
+                .AddReferences(references);
         }
     }
 }

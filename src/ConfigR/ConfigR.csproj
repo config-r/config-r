@@ -50,7 +50,6 @@
     <Compile Include="..\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="App_Packages\LibLog.4.2\LibLog.cs" />
     <Compile Include="DictionaryExtensions.cs" />
     <Compile Include="Internal\ObjectExtensions.cs" />
     <Compile Include="Sdk\DynamicDictionary_IDictionary.cs" />
