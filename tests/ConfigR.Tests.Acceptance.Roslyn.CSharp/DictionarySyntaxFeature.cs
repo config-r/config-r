@@ -12,7 +12,7 @@ namespace ConfigR.Tests.Acceptance.Roslyn.CSharp
     public static class DictionarySyntaxFeature
     {
         [Scenario]
-        public static void UsingDicionarySyntax(int result)
+        public static void UsingDictionarySyntax(int result)
         {
             var config = default(IDictionary<string, object>);
 
@@ -30,7 +30,7 @@ namespace ConfigR.Tests.Acceptance.Roslyn.CSharp
         }
 
         [Scenario]
-        public static void UsingDicionarySyntaxWithADefaultValue(int result)
+        public static void UsingDictionarySyntaxWithADefaultValue(int result)
         {
             var config = default(IDictionary<string, object>);
 

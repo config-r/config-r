@@ -4,6 +4,7 @@
 
 namespace ConfigR.Tests.Smoke.Website
 {
+    using System;
     using System.Web;
     using ConfigR;
 

@@ -22,7 +22,7 @@ namespace ConfigR.Tests.Acceptance
         public static void EmptyConfig(string code, Exception exception)
         {
             "Given a config file which contains no executable code"
-                .f(c => ConfigFile.Create(code));
+                .f(c => ConfigFile.Create(code).Using(c));
 
             "When I load the config"
                 .f(async () => exception = await Record.ExceptionAsync(async () => await new Config().UseRoslynCSharpLoader().Load()));
