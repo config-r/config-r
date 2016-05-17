@@ -15,7 +15,7 @@ namespace ConfigR.Tests.Smoke.Website
             Justification = "Bug in StyleCop - see https://stylecop.codeplex.com/workitem/7725.")]
         public IndexModule()
         {
-            this.Get["/"] = _ => this.View["index", new { Greeting = Global.Config.Greeting<string>(), }];
+            this.Get["/"] = _ => this.View["index", new { Greeting = Global.Config.Greeting<string>(), BuiltFor = Global.Config.BuiltFor<string>() }];
         }
     }
 }

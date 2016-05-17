@@ -11,6 +11,7 @@
   </head>
   <body>
     <img src="@Path['~/Content/nancy-logo.png']" alt="Nancy logo" /><br />
-    @Model.Greeting
+    @Model.Greeting<br />
+    Built for @Model.BuiltFor
   </body>
 </html>
