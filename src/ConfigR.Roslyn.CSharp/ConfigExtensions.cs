@@ -5,6 +5,7 @@
 namespace ConfigR
 {
     using System;
+    using System.Diagnostics.CodeAnalysis;
     using ConfigR.Roslyn.CSharp.Internal;
     using ConfigR.Sdk;
     using Microsoft.CodeAnalysis.Scripting;
@@ -12,6 +13,10 @@ namespace ConfigR
 
     public static class ConfigExtensions
     {
+        [SuppressMessage(
+            "Microsoft.Design",
+            "CA1026:DefaultParametersShouldNotBeUsed",
+            Justification = "Too many combinations. Following the Roslyn API.")]
         [CLSCompliant(false)]
         public static IConfig UseRoslynCSharpLoader(
                 this IConfig config,

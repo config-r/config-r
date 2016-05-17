@@ -17,7 +17,7 @@ namespace ConfigR.Sdk
     public partial class DynamicDictionary : DynamicObject
     {
         private static readonly Expression<Func<object, object>> castForRetreivalExample =
-            @object => ObjectExtensions.CastForRetreival<object>(@object, null);
+            @object => ObjectExtensions.CastForRetrieval<object>(@object, null);
 
         private readonly Dictionary<string, object> values = new Dictionary<string, object>();
 
@@ -70,20 +70,15 @@ namespace ConfigR.Sdk
             {
                 result = castForRetreival.Invoke(null, new object[] { result, binder.Name });
             }
-            catch (Exception ex)
+            catch (TargetInvocationException ex)
             {
-                while (true)
+                Exception actualException = ex;
+                while (actualException is TargetInvocationException)
                 {
-                    var tiex = ex as TargetInvocationException;
-                    if (tiex == null)
-                    {
-                        break;
-                    }
-
-                    ex = tiex.InnerException;
+                    actualException = ex.InnerException;
                 }
 
-                ExceptionDispatchInfo.Capture(ex).Throw();
+                ExceptionDispatchInfo.Capture(actualException).Throw();
             }
 
             return true;

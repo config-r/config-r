@@ -12,7 +12,10 @@ namespace ConfigR
     public static class ScriptOptionsExtensions
     {
         [CLSCompliant(false)]
-        public static ScriptOptions ForConfigScript(this ScriptOptions options, string scriptPath = null)
+        public static ScriptOptions ForConfigScript(this ScriptOptions options) => options.ForConfigScript(null);
+
+        [CLSCompliant(false)]
+        public static ScriptOptions ForConfigScript(this ScriptOptions options, string scriptPath)
         {
             var searchPaths = new[]
             {
