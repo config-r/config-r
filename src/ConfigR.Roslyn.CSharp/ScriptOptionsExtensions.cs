@@ -24,9 +24,9 @@ namespace ConfigR
         {
             var searchPaths = new[]
             {
-                Path.GetDirectoryName(Path.GetFullPath(scriptPath ?? AppDomain.CurrentDomain.SetupInformation.ConfigurationFile)),
-                AppDomain.CurrentDomain.SetupInformation.ApplicationBase,
-            };
+                Path.GetDirectoryName(Path.GetFullPath(scriptPath ?? AppDomain.CurrentDomain.SetupInformation.ConfigurationFile)).TrimEnd(Path.DirectorySeparatorChar),
+                AppDomain.CurrentDomain.SetupInformation.ApplicationBase.TrimEnd(Path.DirectorySeparatorChar),
+            }.Distinct().ToList();
 
             foreach (var searchPath in searchPaths.OrderBy(_ => _))
             {
