@@ -22,14 +22,14 @@ namespace ConfigR.Tests.Smoke.Service
 
         public static async Task MainAsync()
         {
-            var config = await new Config().UseRoslynCSharpLoader().Load();
-
             using (var target = new ColoredConsoleTarget())
             {
                 var loggingConfig = new LoggingConfiguration();
                 loggingConfig.AddTarget("console", target);
                 loggingConfig.LoggingRules.Add(new LoggingRule("*", NLog.LogLevel.Trace, target));
                 LogManager.Configuration = loggingConfig;
+
+                var config = await new Config().UseRoslynCSharpLoader().Load();
 
                 var log = LogProvider.GetCurrentClassLogger();
 
