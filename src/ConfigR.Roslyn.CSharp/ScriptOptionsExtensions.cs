@@ -9,6 +9,7 @@ namespace ConfigR
     using System.IO;
     using System.Linq;
     using System.Reflection;
+    using ConfigR.Roslyn.CSharp.Internal;
     using ConfigR.Roslyn.CSharp.Logging;
     using Microsoft.CodeAnalysis.Scripting;
 
@@ -24,7 +25,7 @@ namespace ConfigR
         {
             var searchPaths = new[]
             {
-                Path.GetDirectoryName(Path.GetFullPath(scriptPath ?? AppDomain.CurrentDomain.SetupInformation.ConfigurationFile)).TrimEnd(Path.DirectorySeparatorChar),
+                Path.GetDirectoryName(scriptPath.ResolveScriptPath()).TrimEnd(Path.DirectorySeparatorChar),
                 AppDomain.CurrentDomain.SetupInformation.ApplicationBase.TrimEnd(Path.DirectorySeparatorChar),
             }.Distinct().ToList();
 
