@@ -51,6 +51,8 @@
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="App_Packages\LibLog.4.2\LibLog.cs" />
+    <Compile Include="ScriptOptionsExtensions.cs" />
+    <Compile Include="Guard.cs" />
     <Compile Include="Internal\ScriptGlobals.cs" />
     <Compile Include="Internal\Loader.cs" />
     <Compile Include="ConfigExtensions.cs" />

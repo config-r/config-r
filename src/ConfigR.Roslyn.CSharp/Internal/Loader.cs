@@ -6,46 +6,37 @@ namespace ConfigR.Roslyn.CSharp.Internal
 {
     using System;
     using System.IO;
-    using System.Linq;
     using System.Threading.Tasks;
     using ConfigR.Sdk;
     using Microsoft.CodeAnalysis.CSharp.Scripting;
     using Microsoft.CodeAnalysis.Scripting;
+    using Microsoft.CodeAnalysis.Scripting.Hosting;
 
     public class Loader : ILoader
     {
         private readonly string scriptPath;
+        private readonly ScriptOptions options;
+        private readonly InteractiveAssemblyLoader assemblyLoader;
 
-        public Loader()
-            : this(Path.ChangeExtension(
-                AppDomain.CurrentDomain.SetupInformation.VSHostingAgnosticConfigurationFile(), "csx"))
+        [CLSCompliant(false)]
+        public Loader(string scriptPath = null, ScriptOptions options = null, InteractiveAssemblyLoader assemblyLoader = null)
         {
-        }
+            this.scriptPath = scriptPath ??
+                Path.ChangeExtension(AppDomain.CurrentDomain.SetupInformation.VSHostingAgnosticConfigurationFile(), "csx");
 
-        public Loader(string scriptPath)
-        {
-            this.scriptPath = scriptPath;
+            this.options = options;
+            this.assemblyLoader = assemblyLoader;
         }
 
         public async Task<DynamicDictionary> Load(DynamicDictionary config)
         {
-            var code = File.ReadAllText(this.scriptPath);
+            await CSharpScript.Create(
+                    File.ReadAllText(this.scriptPath),
+                    this.options ?? ScriptOptions.Default.ForConfigScript(this.scriptPath),
+                    typeof(ScriptGlobals),
+                    this.assemblyLoader)
+                .RunAsync(new ScriptGlobals(config));
 
-            var searchPaths = new[]
-            {
-                Path.GetDirectoryName(Path.GetFullPath(this.scriptPath)),
-                AppDomain.CurrentDomain.SetupInformation.ApplicationBase,
-            };
-
-            var references = AppDomain.CurrentDomain.GetAssemblies()
-                .Where(assembly => !assembly.IsDynamic && !string.IsNullOrEmpty(assembly.Location));
-
-            var options = ScriptOptions.Default
-                .WithMetadataResolver(ScriptMetadataResolver.Default.WithSearchPaths(searchPaths))
-                .WithSourceResolver(ScriptSourceResolver.Default.WithSearchPaths(searchPaths))
-                .AddReferences(references);
-
-            await CSharpScript.Create(code, options, typeof(ScriptGlobals)).RunAsync(new ScriptGlobals(config));
             return config;
         }
     }
