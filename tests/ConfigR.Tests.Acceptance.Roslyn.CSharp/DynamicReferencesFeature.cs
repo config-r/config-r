@@ -5,6 +5,7 @@
 namespace ConfigR.Tests.Acceptance
 {
     using System;
+    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Reflection;
     using ConfigR.Tests.Acceptance.Roslyn.CSharp.Support;
@@ -16,6 +17,10 @@ namespace ConfigR.Tests.Acceptance
 
     public static class DynamicReferencesFeature
     {
+        [SuppressMessage(
+            "Microsoft.Maintainability",
+            "CA1506:AvoidExcessiveClassCoupling",
+            Justification = "Required, and no need for reuse elsewhere.")]
         [Scenario]
         public static void AddingADynamicReferenceToAnAssemblyOnDisk(Assembly reference, object result)
         {

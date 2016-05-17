@@ -5,6 +5,7 @@
 namespace ConfigR.Roslyn.CSharp.Internal
 {
     using System;
+    using System.Diagnostics.CodeAnalysis;
     using System.IO;
     using System.Threading.Tasks;
     using ConfigR.Sdk;
@@ -18,6 +19,10 @@ namespace ConfigR.Roslyn.CSharp.Internal
         private readonly ScriptOptions options;
         private readonly InteractiveAssemblyLoader assemblyLoader;
 
+        [SuppressMessage(
+            "Microsoft.Design",
+            "CA1026:DefaultParametersShouldNotBeUsed",
+            Justification = "Too many combinations. Following the Roslyn API.")]
         [CLSCompliant(false)]
         public Loader(string scriptPath = null, ScriptOptions options = null, InteractiveAssemblyLoader assemblyLoader = null)
         {

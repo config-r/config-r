@@ -13,7 +13,7 @@ namespace ConfigR
         {
             Guard.AgainstNullArgument("dictionary", dictionary);
 
-            return dictionary[key].CastForRetreival<T>(key);
+            return dictionary[key].CastForRetrieval<T>(key);
         }
 
         public static T Get<T>(this IDictionary<string, object> dictionary, string key, T defaultValue)
@@ -21,7 +21,7 @@ namespace ConfigR
             Guard.AgainstNullArgument("dictionary", dictionary);
 
             object value;
-            return dictionary.TryGetValue(key, out value) ? value.CastForRetreival<T>(key) : defaultValue;
+            return dictionary.TryGetValue(key, out value) ? value.CastForRetrieval<T>(key) : defaultValue;
         }
     }
 }

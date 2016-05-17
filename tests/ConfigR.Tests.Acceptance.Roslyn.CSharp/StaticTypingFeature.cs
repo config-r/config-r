@@ -18,7 +18,7 @@ namespace ConfigR.Tests.Acceptance
             dynamic config = null;
 
             "Given a config file with a Foo string"
-                .f(c => ConfigFile.Create(@"Config.Foo = ""abc"";"));
+                .f(c => ConfigFile.Create(@"Config.Foo = ""abc"";").Using(c));
 
             "When I load the file"
                 .f(async () => config = await new Config().UseRoslynCSharpLoader().Load());

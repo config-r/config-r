@@ -5,6 +5,7 @@
 namespace ConfigR.Sdk
 {
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.Threading.Tasks;
 
     public interface IConfig
@@ -15,8 +16,12 @@ namespace ConfigR.Sdk
 
         Task<dynamic> Load(object seed);
 
+        [SuppressMessage(
+            "Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "'Advanced' feature.")]
         Task<IDictionary<string, object>> LoadDictionary();
 
+        [SuppressMessage(
+            "Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "'Advanced' feature.")]
         Task<IDictionary<string, object>> LoadDictionary(object seed);
     }
 }

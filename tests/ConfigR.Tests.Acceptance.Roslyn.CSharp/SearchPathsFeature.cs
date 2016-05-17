@@ -97,7 +97,7 @@ Config.Foo = new Foo {{ Bar = ""baz"" }};
         }
 
         [Scenario]
-        public static void ReferencingAnAssemblyFromTheApplicationFolder(string path1, string path2, Foo foo)
+        public static void ReferencingAnAssemblyFromTheApplicationFolder(string path, Foo foo)
         {
             dynamic config = null;
 
@@ -115,11 +115,11 @@ Config.Foo = new Foo {{ Bar = ""baz"" }};
                         File.Delete(remoteAssemblyPath);
                     }
 
-                    ConfigFile.Create(code, path2 = Path.Combine(Path.GetTempPath(), Path.GetTempFileName())).Using(c);
+                    ConfigFile.Create(code, path = Path.Combine(Path.GetTempPath(), Path.GetTempFileName())).Using(c);
                 });
 
             "When I load the config file"
-                .f(async () => config = await new Config().UseRoslynCSharpLoader(path2).Load());
+                .f(async () => config = await new Config().UseRoslynCSharpLoader(path).Load());
 
             "And I get Foo"
                 .f(() => foo = config.Foo<Foo>());
