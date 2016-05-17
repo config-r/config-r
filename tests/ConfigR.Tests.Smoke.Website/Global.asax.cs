@@ -4,7 +4,6 @@
 
 namespace ConfigR.Tests.Smoke.Website
 {
-    using System;
     using System.Web;
     using ConfigR;
 
@@ -12,11 +11,11 @@ namespace ConfigR.Tests.Smoke.Website
     {
         public static dynamic Config { get; } = new Config()
             .UseRoslynCSharpLoader()
-////#if DEBUG
-////            .UseRoslynCSharpLoader("Web.Debug.csx")
-////#else
-////            .UseRoslynCSharpLoader("Web.Release.csx")
-////#endif
+#if DEBUG
+            .UseRoslynCSharpLoader("Web.Debug.csx")
+#else
+            .UseRoslynCSharpLoader("Web.Release.csx")
+#endif
             .Load()
             .GetAwaiter().GetResult();
     }

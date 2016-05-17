@@ -1,1 +1,1 @@
-﻿Add("builtfor", "releasing");
+﻿Config.BuiltFor = "releasing";

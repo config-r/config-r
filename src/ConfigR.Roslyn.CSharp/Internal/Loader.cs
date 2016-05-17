@@ -5,7 +5,6 @@
 namespace ConfigR.Roslyn.CSharp.Internal
 {
     using System;
-    using System.Diagnostics.CodeAnalysis;
     using System.IO;
     using System.Threading.Tasks;
     using ConfigR.Roslyn.CSharp.Logging;
@@ -22,16 +21,10 @@ namespace ConfigR.Roslyn.CSharp.Internal
         private readonly ScriptOptions options;
         private readonly InteractiveAssemblyLoader assemblyLoader;
 
-        [SuppressMessage(
-            "Microsoft.Design",
-            "CA1026:DefaultParametersShouldNotBeUsed",
-            Justification = "Too many combinations. Following the Roslyn API.")]
         [CLSCompliant(false)]
-        public Loader(string scriptPath = null, ScriptOptions options = null, InteractiveAssemblyLoader assemblyLoader = null)
+        public Loader(string scriptPath, ScriptOptions options, InteractiveAssemblyLoader assemblyLoader)
         {
-            this.scriptPath = scriptPath ??
-                Path.ChangeExtension(AppDomain.CurrentDomain.SetupInformation.VSHostingAgnosticConfigurationFile(), "csx");
-
+            this.scriptPath = scriptPath;
             this.options = options;
             this.assemblyLoader = assemblyLoader;
         }
@@ -41,10 +34,7 @@ namespace ConfigR.Roslyn.CSharp.Internal
             log.InfoFormat("Running script '{0}'...", this.scriptPath);
 
             await CSharpScript.Create(
-                    File.ReadAllText(this.scriptPath),
-                    this.options ?? ScriptOptions.Default.ForConfigScript(this.scriptPath),
-                    typeof(ScriptGlobals),
-                    this.assemblyLoader)
+                    File.ReadAllText(this.scriptPath), this.options, typeof(ScriptGlobals), this.assemblyLoader)
                 .RunAsync(new ScriptGlobals(config));
 
             return config;

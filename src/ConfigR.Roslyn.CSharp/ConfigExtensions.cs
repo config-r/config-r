@@ -23,6 +23,10 @@ namespace ConfigR
                 string scriptPath = null,
                 ScriptOptions options = null,
                 InteractiveAssemblyLoader assemblyLoader = null) =>
-            config?.UseLoader(new Loader(scriptPath, options, assemblyLoader));
+            config?.UseLoader(
+                new Loader(
+                    scriptPath.ResolveScriptPath(),
+                    options ?? ScriptOptions.Default.ForConfigScript(scriptPath),
+                    assemblyLoader));
     }
 }

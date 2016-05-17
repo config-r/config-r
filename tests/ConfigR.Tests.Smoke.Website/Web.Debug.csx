@@ -1,1 +1,1 @@
-﻿Add("builtfor", "debugging");
+﻿Config.BuiltFor = "debugging";
