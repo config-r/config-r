@@ -5,6 +5,7 @@
 namespace ConfigR.Tests.Acceptance.Roslyn.CSharp
 {
     using System;
+    using System.IO;
     using ConfigR.Tests.Acceptance.Roslyn.CSharp.Support;
     using FluentAssertions;
     using Xbehave;
@@ -68,6 +69,23 @@ Config.Foo = new Foo { Bar = ""baz"" };
 
             "And the exception message is 'Boo!'"
                 .f(() => exception.Message.Should().Be("Boo!"));
+        }
+
+        [Scenario]
+        public static void ConfigurationFileIsNull(Exception exception)
+        {
+            "Given the app domain configuration file is null"
+                .f(c => AppDomain.CurrentDomain.SetData("APP_CONFIG_FILE", null))
+                .Teardown(() => AppDomain.CurrentDomain.SetData("APP_CONFIG_FILE", Path.GetFileName(ConfigFile.GetDefaultPath())));
+
+            "When I load the config file"
+                .f(async () => exception = await Record.ExceptionAsync(async () => await new Config().UseRoslynCSharpLoader().Load()));
+
+            "Then an invalid operation exception is thrown"
+                .f(() => exception.Should().NotBeNull());
+
+            "And the exception message tells us that the app domain config file is null"
+                .f(() => exception.Message.Should().Be("AppDomain.CurrentDomain.SetupInformation.ConfigurationFile is null."));
         }
     }
 }
