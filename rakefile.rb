@@ -56,10 +56,21 @@ directory output
 desc "Create the nuget packages"
 task :pack => [:build, output] do
   nuspecs.each do |nuspec|
-    cmd = Exec.new
-    cmd.command = nuget_command
-    cmd.parameters "pack " + nuspec[:file] + " -Version " + nuspec[:version] + " -OutputDirectory " + output + " -NoPackageAnalysis" + " -Properties Configuration=Release"
-    cmd.execute
+    file = nuspec[:file]
+    original_file = "#{file}.original"
+    File.rename file, original_file
+    original_content = File.read(original_file)
+    content = original_content.gsub(/\[0.0.0\]/, "[#{nuspec[:version]}]")
+    File.open(file, "w") {|file| file.puts content }
+    begin
+      cmd = Exec.new
+      cmd.command = nuget_command
+      cmd.parameters "pack " + file + " -Version " + nuspec[:version] + " -OutputDirectory " + output + " -NoPackageAnalysis"
+      cmd.execute
+    ensure
+      FileUtils.rm file
+      FileUtils.mv original_file, file
+    end
   end
 end
 
