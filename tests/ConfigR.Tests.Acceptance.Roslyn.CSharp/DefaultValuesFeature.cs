@@ -4,7 +4,6 @@
 
 namespace ConfigR.Tests.Acceptance
 {
-    using System.IO;
     using ConfigR.Tests.Acceptance.Roslyn.CSharp.Support;
     using FluentAssertions;
     using Xbehave;
