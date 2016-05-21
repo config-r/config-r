@@ -60,7 +60,7 @@ task :pack => [:build, output] do
     original_file = "#{file}.original"
     File.rename file, original_file
     original_content = File.read(original_file)
-    content = original_content.gsub(/\[0.0.0\]/, "[#{nuspec[:version]}]")
+    content = original_content.gsub(/\[0.0.0/, "[#{nuspec[:version]}")
     File.open(file, "w") {|file| file.puts content }
     begin
       cmd = Exec.new
