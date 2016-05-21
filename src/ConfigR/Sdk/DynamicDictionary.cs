@@ -6,6 +6,7 @@ namespace ConfigR.Sdk
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
     using System.Dynamic;
     using System.Linq;
     using System.Linq.Expressions;
@@ -19,7 +20,29 @@ namespace ConfigR.Sdk
         private static readonly Expression<Func<object, object>> castForRetreivalExample =
             @object => ObjectExtensions.CastForRetrieval<object>(@object, null);
 
-        private readonly Dictionary<string, object> values = new Dictionary<string, object>();
+        private readonly Dictionary<string, object> values;
+
+        public DynamicDictionary()
+            : this(null)
+        {
+        }
+
+        public DynamicDictionary(IDictionary<string, object> seed)
+        {
+            this.values = seed == null ? new Dictionary<string, object>() : new Dictionary<string, object>(seed);
+        }
+
+        public DynamicDictionary(object seed)
+        {
+            this.values = new Dictionary<string, object>();
+            if (seed != null)
+            {
+                foreach (PropertyDescriptor property in TypeDescriptor.GetProperties(seed.GetType()))
+                {
+                    this.values.Add(property.Name, property.GetValue(seed));
+                }
+            }
+        }
 
         public override bool TrySetMember(SetMemberBinder binder, object value)
         {
