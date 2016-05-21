@@ -15,6 +15,11 @@ namespace ConfigR.Roslyn.CSharp.Internal
             scriptPath = scriptPath ??
                 Path.ChangeExtension(AppDomain.CurrentDomain.SetupInformation.VSHostingAgnosticConfigurationFile(), "csx");
 
+            if (scriptPath == null)
+            {
+                throw new InvalidOperationException("AppDomain.CurrentDomain.SetupInformation.ConfigurationFile is null.");
+            }
+
             return Path.Combine(AppDomain.CurrentDomain.SetupInformation.ApplicationBase, scriptPath);
         }
     }
