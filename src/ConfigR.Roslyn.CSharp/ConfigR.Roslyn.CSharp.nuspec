@@ -13,7 +13,7 @@
     <tags>configuration C# Roslyn</tags>
     <dependencies>
       <dependency id="Microsoft.CodeAnalysis.CSharp.Scripting" version="[1.2.1,2)" />
-      <dependency id="ConfigR" version="[0.0.0]" />
+      <dependency id="ConfigR" version="[0.0.0,2.0.0)" />
     </dependencies>
     <frameworkAssemblies>
       <frameworkAssembly assemblyName="Microsoft.CSharp" />
