@@ -27,8 +27,7 @@ namespace ConfigR.Tests.Acceptance.Roslyn.CSharp.Support
         private static string GetDefaultPath()
         {
             AppDomain.CurrentDomain.SetData("APP_CONFIG_FILE", "Test.config");
-            return Path.ChangeExtension(
-                AppDomain.CurrentDomain.SetupInformation.VSHostingAgnosticConfigurationFile(), "csx");
+            return Path.ChangeExtension(AppDomain.CurrentDomain.SetupInformation.ConfigurationFile, "csx");
         }
 
         private sealed class Disposable : IDisposable

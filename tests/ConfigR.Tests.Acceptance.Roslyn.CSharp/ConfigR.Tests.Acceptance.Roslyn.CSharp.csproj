@@ -22,7 +22,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;TESTS_ACCEPTANCE_ROSLYN_CSHARP</DefineConstants>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>..\ConfigR.Tests.ruleset</CodeAnalysisRuleSet>
@@ -31,7 +31,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE;TESTS_ACCEPTANCE_ROSLYN_CSHARP</DefineConstants>
+    <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>..\ConfigR.Tests.ruleset</CodeAnalysisRuleSet>
@@ -113,9 +113,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\src\ConfigR\Sdk\AppDomainSetupExtensions.cs">
-      <Link>Support\AppDomainSetupExtensions.cs</Link>
-    </Compile>
     <Compile Include="AnonymousTypesFeature.cs" />
     <Compile Include="DynamicReferencesFeature.cs" />
     <Compile Include="SeedingFeature.cs" />
