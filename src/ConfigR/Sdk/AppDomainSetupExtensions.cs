@@ -2,11 +2,7 @@
 //  Copyright (c) ConfigR contributors. (configr.net@gmail.com)
 // </copyright>
 
-#if TESTS_ACCEPTANCE_ROSLYN_CSHARP
-namespace ConfigR.Tests.Acceptance.Roslyn.CSharp.Support
-#else
 namespace ConfigR.Sdk
-#endif
 {
     using System;
     using System.IO;
