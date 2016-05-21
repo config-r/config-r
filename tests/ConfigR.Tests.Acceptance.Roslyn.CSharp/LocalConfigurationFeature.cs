@@ -39,7 +39,7 @@ Config.Foo = new Foo { Bar = ""baz"" };
         }
 
         [Scenario]
-        public static void PassingAValueFromAnAppToAConfigurationScript(string result)
+        public static void PassingAnObjectFromAnAppToAConfigurationScript(string result)
         {
             dynamic config = null;
 
