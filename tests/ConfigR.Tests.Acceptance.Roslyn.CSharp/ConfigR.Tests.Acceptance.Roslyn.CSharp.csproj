@@ -122,6 +122,7 @@
     <Compile Include="EmptyConfigFeature.cs" />
     <Compile Include="FileConfigurationFeature.cs" />
     <Compile Include="SearchPathsFeature.cs" />
+    <Compile Include="VisualStudioHostingFeature.cs" />
     <Compile Include="Support\ConfigFile.cs" />
     <Compile Include="Support\Foo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

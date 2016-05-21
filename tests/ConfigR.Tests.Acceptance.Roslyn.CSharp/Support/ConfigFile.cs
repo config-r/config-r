@@ -24,9 +24,9 @@ namespace ConfigR.Tests.Acceptance.Roslyn.CSharp.Support
             return new Disposable(() => File.Delete(path));
         }
 
-        private static string GetDefaultPath()
+        public static string GetDefaultPath()
         {
-            AppDomain.CurrentDomain.SetData("APP_CONFIG_FILE", "Test.config");
+            AppDomain.CurrentDomain.SetData("APP_CONFIG_FILE", "Test.exe.config");
             return Path.ChangeExtension(AppDomain.CurrentDomain.SetupInformation.ConfigurationFile, "csx");
         }
 
