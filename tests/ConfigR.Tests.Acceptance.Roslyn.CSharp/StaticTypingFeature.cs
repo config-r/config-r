@@ -38,5 +38,32 @@ namespace ConfigR.Tests.Acceptance
             "And the exception message contains the full type name of string"
                 .f(() => ex.Message.Should().Contain(typeof(string).FullName));
         }
+
+        [Scenario]
+        public static void TryingToGetANullConfigurationItem(Exception ex)
+        {
+            dynamic config = null;
+
+            "Given a config file with a Foo null"
+                .f(c => ConfigFile.Create(@"Config.Foo = null;").Using(c));
+
+            "When I load the file"
+                .f(async () => config = await new Config().UseRoslynCSharpLoader().Load());
+
+            "And I try to get an integer named 'foo'"
+                .f(() => ex = Record.Exception(() => config.Foo<int>()));
+
+            "Then an exception is thrown"
+                .f(() => ex.Should().NotBeNull());
+
+            "And the exception message contains 'Foo'"
+                .f(() => ex.Message.Should().Contain("Foo"));
+
+            "And the exception message contains the full type name of int"
+                .f(() => ex.Message.Should().Contain(typeof(int).FullName));
+
+            "And the exception message contains 'null'"
+                .f(() => ex.Message.Should().Contain("null"));
+        }
     }
 }
