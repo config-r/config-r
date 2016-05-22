@@ -33,7 +33,7 @@ namespace ConfigR
         public async Task<IDictionary<string, object>> LoadDictionary(IDictionary<string, object> seed) => await this.Load(seed);
 
         // private
-        private async Task<IDictionary<string, object>> Load(DynamicDictionary config)
+        private async Task<DynamicDictionary> Load(DynamicDictionary config)
         {
             foreach (var loader in this.loaders)
             {
