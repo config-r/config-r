@@ -29,7 +29,7 @@ namespace ConfigR.Tests.Smoke.Service
                 loggingConfig.LoggingRules.Add(new LoggingRule("*", NLog.LogLevel.Trace, target));
                 LogManager.Configuration = loggingConfig;
 
-                var config = await new Config().UseRoslynCSharpLoader().Load();
+                var settings = await new Config().UseRoslynCSharpLoader().Load<Settings>();
 
                 var log = LogProvider.GetCurrentClassLogger();
 
@@ -37,8 +37,8 @@ namespace ConfigR.Tests.Smoke.Service
                 HostFactory.Run(x => x.Service<string>(o =>
                 {
                     o.ConstructUsing(n => n);
-                    o.WhenStarted(n => log.Info((string)config.Settings<Settings>().Greeting));
-                    o.WhenStopped(n => log.Info((string)config.Settings<Settings>().Valediction));
+                    o.WhenStarted(n => log.Info(settings.Greeting));
+                    o.WhenStopped(n => log.Info(settings.Valediction));
                 }));
             }
         }

@@ -30,7 +30,7 @@ namespace ConfigR.Tests.Acceptance
                     .Using(c));
 
             "When I load the second config file"
-                .f(async () => config = await new Config().UseRoslynCSharpLoader(path2).Load());
+                .f(async () => config = await new Config().UseRoslynCSharpLoader(path2).LoadDynamic());
 
             "And I get Foo"
                 .f(() => foo = config.Foo<int>());
@@ -54,7 +54,7 @@ namespace ConfigR.Tests.Acceptance
                     .Using(c));
 
             "When I load the second config file"
-                .f(async () => config = await new Config().UseRoslynCSharpLoader(path2).Load());
+                .f(async () => config = await new Config().UseRoslynCSharpLoader(path2).LoadDynamic());
 
             "And I get Foo"
                 .f(() => foo = config.Foo<int>());
@@ -87,7 +87,7 @@ Config.Foo = new Foo {{ Bar = ""baz"" }};
                 });
 
             "When I load the config file"
-                .f(async () => config = await new Config().UseRoslynCSharpLoader(path2).Load());
+                .f(async () => config = await new Config().UseRoslynCSharpLoader(path2).LoadDynamic());
 
             "And I get Foo"
                 .f(() => foo = config.Foo<Foo>());
@@ -119,7 +119,7 @@ Config.Foo = new Foo {{ Bar = ""baz"" }};
                 });
 
             "When I load the config file"
-                .f(async () => config = await new Config().UseRoslynCSharpLoader(path).Load());
+                .f(async () => config = await new Config().UseRoslynCSharpLoader(path).LoadDynamic());
 
             "And I get Foo"
                 .f(() => foo = config.Foo<Foo>());

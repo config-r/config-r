@@ -30,7 +30,7 @@ Config.Foo = new Foo { Bar = ""baz"" };
                 });
 
             "When I load the config"
-                .f(async () => config = await new Config().UseRoslynCSharpLoader().Load());
+                .f(async () => config = await new Config().UseRoslynCSharpLoader().LoadDynamic());
 
             "And I get the Foo"
                 .f(() => result = config.Foo<Foo>());
@@ -46,7 +46,7 @@ Config.Foo = new Foo { Bar = ""baz"" };
                 .f(c => ConfigFile.Create(@"This is not C#!").Using(c));
 
             "When I load the config file"
-                .f(async () => exception = await Record.ExceptionAsync(async () => await new Config().UseRoslynCSharpLoader().Load()));
+                .f(async () => exception = await Record.ExceptionAsync(async () => await new Config().UseRoslynCSharpLoader().LoadDynamic()));
 
             "Then an exception is thrown"
                 .f(() => exception.Should().NotBeNull());
@@ -62,7 +62,7 @@ Config.Foo = new Foo { Bar = ""baz"" };
                 .f(c => ConfigFile.Create(@"throw new System.Exception(""Boo!"");").Using(c));
 
             "When I load the config file"
-                .f(async () => exception = await Record.ExceptionAsync(async () => await new Config().UseRoslynCSharpLoader().Load()));
+                .f(async () => exception = await Record.ExceptionAsync(async () => await new Config().UseRoslynCSharpLoader().LoadDynamic()));
 
             "Then an exception is thrown"
                 .f(() => exception.Should().NotBeNull());
@@ -79,7 +79,7 @@ Config.Foo = new Foo { Bar = ""baz"" };
                 .Teardown(() => AppDomain.CurrentDomain.SetData("APP_CONFIG_FILE", Path.GetFileName(ConfigFile.GetDefaultPath())));
 
             "When I load the config file"
-                .f(async () => exception = await Record.ExceptionAsync(async () => await new Config().UseRoslynCSharpLoader().Load()));
+                .f(async () => exception = await Record.ExceptionAsync(async () => await new Config().UseRoslynCSharpLoader().LoadDynamic()));
 
             "Then an invalid operation exception is thrown"
                 .f(() => exception.Should().NotBeNull());

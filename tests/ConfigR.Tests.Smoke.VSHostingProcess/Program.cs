@@ -27,7 +27,7 @@ namespace ConfigR.Tests.Smoke.VSHostingProcess
                 loggingConfig.LoggingRules.Add(new LoggingRule("*", LogLevel.Trace, target));
                 LogManager.Configuration = loggingConfig;
 
-                Console.WriteLine((await new Config().UseRoslynCSharpLoader().Load()).Greeting<string>());
+                Console.WriteLine((await new Config().UseRoslynCSharpLoader().LoadDynamic()).Greeting<string>());
 
                 Console.WriteLine("Brutalize a key with your favourite finger to exit.");
                 Console.ReadKey();

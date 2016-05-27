@@ -23,7 +23,7 @@ namespace ConfigR.Tests.Acceptance
 
             "When I load the first file followed by the second file"
                 .f(async () => config = await new Config()
-                    .UseRoslynCSharpLoader("foo.csx").UseRoslynCSharpLoader("bar.csx").Load());
+                    .UseRoslynCSharpLoader("foo.csx").UseRoslynCSharpLoader("bar.csx").LoadDynamic());
 
             "And I get Foo"
                 .f(() => foo = config.Foo<int>());

@@ -21,7 +21,7 @@ namespace ConfigR.Tests.Acceptance
                 .f(c => ConfigFile.Create("Config.Foo = 123;").Using(c));
 
             "When I load the file"
-                .f(async () => config = await new Config().UseRoslynCSharpLoader().Load());
+                .f(async () => config = await new Config().UseRoslynCSharpLoader().LoadDynamic());
 
             "And I get Foo with a default of 456"
                 .f(() => result = config.Foo<int>(456));
@@ -39,7 +39,7 @@ namespace ConfigR.Tests.Acceptance
                 .f(c => ConfigFile.Create("Config.Foo = 123;").Using(c));
 
             "When I load the file"
-                .f(async () => config = await new Config().UseRoslynCSharpLoader().Load());
+                .f(async () => config = await new Config().UseRoslynCSharpLoader().LoadDynamic());
 
             "And I get Bar with a default of 456"
                 .f(() => result = config.Bar<int>(456));
@@ -57,7 +57,7 @@ namespace ConfigR.Tests.Acceptance
                 .f(c => ConfigFile.Create("Config.Foo = 123;").Using(c));
 
             "When I load the file"
-                .f(async () => config = await new Config().UseRoslynCSharpLoader().Load());
+                .f(async () => config = await new Config().UseRoslynCSharpLoader().LoadDynamic());
 
             "And I get Bar with a default of 'abc'"
                 .f(() => exception = Record.Exception(() => config.Bar<int>("abc")));

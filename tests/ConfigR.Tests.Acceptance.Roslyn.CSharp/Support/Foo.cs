@@ -10,6 +10,8 @@ namespace ConfigR.Tests.Acceptance.Roslyn.CSharp.Support
     {
         public string Bar { get; set; }
 
+        public string Baz { get; set; }
+
         public Action Action { get; set; }
     }
 }

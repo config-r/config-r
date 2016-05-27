@@ -115,6 +115,7 @@
   <ItemGroup>
     <Compile Include="AnonymousTypesFeature.cs" />
     <Compile Include="DynamicReferencesFeature.cs" />
+    <Compile Include="TypeSyntaxFeature.cs" />
     <Compile Include="SeedingFeature.cs" />
     <Compile Include="MultipleLoadersFeature.cs" />
     <Compile Include="DefaultValuesFeature.cs" />

@@ -21,7 +21,7 @@ namespace ConfigR.Tests.Acceptance
                 .f(c => ConfigFile.Create(@"Config.Foo = ""abc"";").Using(c));
 
             "When I load the file"
-                .f(async () => config = await new Config().UseRoslynCSharpLoader().Load());
+                .f(async () => config = await new Config().UseRoslynCSharpLoader().LoadDynamic());
 
             "And I try to get an integer named 'foo'"
                 .f(() => ex = Record.Exception(() => config.Foo<int>()));
@@ -48,7 +48,7 @@ namespace ConfigR.Tests.Acceptance
                 .f(c => ConfigFile.Create(@"Config.Foo = null;").Using(c));
 
             "When I load the file"
-                .f(async () => config = await new Config().UseRoslynCSharpLoader().Load());
+                .f(async () => config = await new Config().UseRoslynCSharpLoader().LoadDynamic());
 
             "And I try to get an integer named 'foo'"
                 .f(() => ex = Record.Exception(() => config.Foo<int>()));
