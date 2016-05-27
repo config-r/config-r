@@ -18,17 +18,23 @@ namespace ConfigR
             return this;
         }
 
-        public async Task<dynamic> LoadDynamic() => await this.Load(new DynamicDictionary());
+        public async Task<dynamic> LoadDynamic() =>
+            await this.Load(new DynamicDictionary());
 
-        public async Task<dynamic> LoadDynamic(object seed) => await this.Load(new DynamicDictionary(seed));
+        public async Task<dynamic> LoadDynamic(object seed) =>
+            await this.Load(new DynamicDictionary(seed));
 
-        public async Task<dynamic> LoadDynamic(IDictionary<string, object> seed) => await this.Load(new DynamicDictionary(seed));
+        public async Task<dynamic> LoadDynamic(IDictionary<string, object> seed) =>
+            await this.Load(new DynamicDictionary(seed));
 
-        public async Task<IDictionary<string, object>> LoadDictionary() => await this.LoadDynamic();
+        public async Task<IDictionary<string, object>> LoadDictionary() =>
+            await this.LoadDynamic();
 
-        public async Task<IDictionary<string, object>> LoadDictionary(object seed) => await this.LoadDynamic(seed);
+        public async Task<IDictionary<string, object>> LoadDictionary(object seed) =>
+            await this.LoadDynamic(seed);
 
-        public async Task<IDictionary<string, object>> LoadDictionary(IDictionary<string, object> seed) => await this.LoadDynamic(seed);
+        public async Task<IDictionary<string, object>> LoadDictionary(IDictionary<string, object> seed) =>
+            await this.LoadDynamic(seed);
 
         public async Task<T> Load<T>() where T : new() =>
             (await this.Load(new DynamicDictionary())).Bind<T>();
