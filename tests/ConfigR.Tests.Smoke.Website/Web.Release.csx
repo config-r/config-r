@@ -1,1 +1,1 @@
-﻿Config.BuiltFor = "releasing";
+﻿Config["BuiltFor"] = "releasing";
