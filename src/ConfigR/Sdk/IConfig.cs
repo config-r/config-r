@@ -29,5 +29,11 @@ namespace ConfigR.Sdk
         [SuppressMessage(
             "Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "'Advanced' feature.")]
         Task<IDictionary<string, object>> LoadDictionary(IDictionary<string, object> seed);
+
+        Task<T> Load<T>() where T : new();
+
+        Task<T> Load<T>(object seed) where T : new();
+
+        Task<T> Load<T>(IDictionary<string, object> seed) where T : new();
     }
 }

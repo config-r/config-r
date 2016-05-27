@@ -106,5 +106,27 @@ namespace ConfigR.Sdk
 
             return true;
         }
+
+        public T Bind<T>() where T : new()
+        {
+            var t = new T();
+            foreach (var property in typeof(T).GetProperties())
+            {
+                object value;
+                if (this.values.TryGetValue(property.Name, out value))
+                {
+                    try
+                    {
+                        property.SetValue(t, value, null);
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new InvalidOperationException(Invariant($"Failed to set property '{property.Name}'."), ex);
+                    }
+                }
+            }
+
+            return t;
+        }
     }
 }

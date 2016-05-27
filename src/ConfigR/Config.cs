@@ -30,6 +30,15 @@ namespace ConfigR
 
         public async Task<IDictionary<string, object>> LoadDictionary(IDictionary<string, object> seed) => await this.LoadDynamic(seed);
 
+        public async Task<T> Load<T>() where T : new() =>
+            (await this.Load(new DynamicDictionary())).Bind<T>();
+
+        public async Task<T> Load<T>(object seed) where T : new() =>
+            (await this.Load(new DynamicDictionary(seed))).Bind<T>();
+
+        public async Task<T> Load<T>(IDictionary<string, object> seed) where T : new() =>
+            (await this.Load(new DynamicDictionary(seed))).Bind<T>();
+
         private async Task<DynamicDictionary> Load(DynamicDictionary config)
         {
             foreach (var loader in this.loaders)
