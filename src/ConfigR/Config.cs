@@ -18,21 +18,18 @@ namespace ConfigR
             return this;
         }
 
-        // dynamic
-        public async Task<dynamic> Load() => await this.Load(new DynamicDictionary());
+        public async Task<dynamic> LoadDynamic() => await this.Load(new DynamicDictionary());
 
-        public async Task<dynamic> Load(object seed) => await this.Load(new DynamicDictionary(seed));
+        public async Task<dynamic> LoadDynamic(object seed) => await this.Load(new DynamicDictionary(seed));
 
-        public async Task<dynamic> Load(IDictionary<string, object> seed) => await this.Load(new DynamicDictionary(seed));
+        public async Task<dynamic> LoadDynamic(IDictionary<string, object> seed) => await this.Load(new DynamicDictionary(seed));
 
-        // dictionary
-        public async Task<IDictionary<string, object>> LoadDictionary() => await this.Load();
+        public async Task<IDictionary<string, object>> LoadDictionary() => await this.LoadDynamic();
 
-        public async Task<IDictionary<string, object>> LoadDictionary(object seed) => await this.Load(seed);
+        public async Task<IDictionary<string, object>> LoadDictionary(object seed) => await this.LoadDynamic(seed);
 
-        public async Task<IDictionary<string, object>> LoadDictionary(IDictionary<string, object> seed) => await this.Load(seed);
+        public async Task<IDictionary<string, object>> LoadDictionary(IDictionary<string, object> seed) => await this.LoadDynamic(seed);
 
-        // private
         private async Task<DynamicDictionary> Load(DynamicDictionary config)
         {
             foreach (var loader in this.loaders)
