@@ -28,13 +28,13 @@ namespace ConfigR
             await this.Load(new DynamicDictionary(seed));
 
         public async Task<IDictionary<string, object>> LoadDictionary() =>
-            await this.LoadDynamic();
+            await this.Load(new DynamicDictionary());
 
         public async Task<IDictionary<string, object>> LoadDictionary(object seed) =>
-            await this.LoadDynamic(seed);
+            await this.Load(new DynamicDictionary(seed));
 
         public async Task<IDictionary<string, object>> LoadDictionary(IDictionary<string, object> seed) =>
-            await this.LoadDynamic(seed);
+            await this.Load(new DynamicDictionary(seed));
 
         public async Task<T> Load<T>() where T : new() =>
             (await this.Load(new DynamicDictionary())).Bind<T>();
