@@ -21,7 +21,7 @@ namespace ConfigR.Tests.Acceptance
                 .f(c => ConfigFile.Create("Config.Foo = 42;").Using(c));
 
             "When I load the config"
-                .f(async () => config = await new Config().UseRoslynCSharpLoader().Load());
+                .f(async () => config = await new Config().UseRoslynCSharpLoader().LoadDynamic());
 
             "And I get Bar"
                 .f(() => exception = Record.Exception(() => config.Bar<int>()));

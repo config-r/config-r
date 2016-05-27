@@ -27,7 +27,7 @@ Config.Foo = new Foo { Bar = ""baz"" };
                 });
 
             "When I load the file"
-                .f(async () => config = await new Config().UseRoslynCSharpLoader("foo.csx").Load());
+                .f(async () => config = await new Config().UseRoslynCSharpLoader("foo.csx").LoadDynamic());
 
             "And I get the Foo"
                 .f(() => result = config.Foo<Foo>());

@@ -37,7 +37,7 @@ namespace ConfigR.Tests.Acceptance
                 .Teardown(() => AppDomain.CurrentDomain.SetData("APP_CONFIG_FILE", Path.GetFileName(ConfigFile.GetDefaultPath())));
 
             "When I load the config"
-                .f(async () => config = await new Config().UseRoslynCSharpLoader().Load());
+                .f(async () => config = await new Config().UseRoslynCSharpLoader().LoadDynamic());
 
             "And I get Foo"
                 .f(() => result = config.Foo<int>());

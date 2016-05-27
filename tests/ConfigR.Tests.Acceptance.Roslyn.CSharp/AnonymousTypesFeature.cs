@@ -28,7 +28,7 @@ Config.Foo = new { Bar = ""baz"" };
                 });
 
             "When I load the config"
-                .f(async () => config = await new Config().UseRoslynCSharpLoader().Load());
+                .f(async () => config = await new Config().UseRoslynCSharpLoader().LoadDynamic());
 
             "When I get the anonymous type"
                 .f(() => { result = config.Foo; });

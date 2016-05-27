@@ -25,7 +25,7 @@ namespace ConfigR.Tests.Acceptance
                 .f(c => ConfigFile.Create(code).Using(c));
 
             "When I load the config"
-                .f(async () => exception = await Record.ExceptionAsync(async () => await new Config().UseRoslynCSharpLoader().Load()));
+                .f(async () => exception = await Record.ExceptionAsync(async () => await new Config().UseRoslynCSharpLoader().LoadDynamic()));
 
             "Then no exception is thrown"
                 .f(() => exception.Should().BeNull());

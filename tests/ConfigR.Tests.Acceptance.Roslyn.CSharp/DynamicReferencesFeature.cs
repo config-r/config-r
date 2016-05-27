@@ -67,7 +67,7 @@ Config.Foo = new Foo {{ Bar = ""baz"" }};
 
             "And I load the config using the assembly as a reference"
                 .f(async () => config = await new Config()
-                    .UseRoslynCSharpLoader(options: ScriptOptions.Default.ForConfigScript().AddReferences(reference)).Load());
+                    .UseRoslynCSharpLoader(options: ScriptOptions.Default.ForConfigScript().AddReferences(reference)).LoadDynamic());
 
             "And I get the value"
                 .f(() => result = config.Foo);

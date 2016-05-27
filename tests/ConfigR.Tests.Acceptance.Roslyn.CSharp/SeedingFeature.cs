@@ -20,7 +20,7 @@ namespace ConfigR.Tests.Acceptance.Roslyn.CSharp
                 .f(c => ConfigFile.Create(@"Config.Foo = Config.Bar;").Using(c));
 
             "And I load the config seeded with Bar set to 'baz'"
-                .f(async () => config = await new Config().UseRoslynCSharpLoader().Load(new { Bar = "baz" }));
+                .f(async () => config = await new Config().UseRoslynCSharpLoader().LoadDynamic(new { Bar = "baz" }));
 
             "And I get Foo"
                 .f(() => result = config.Foo<string>());
@@ -38,7 +38,7 @@ namespace ConfigR.Tests.Acceptance.Roslyn.CSharp
                 .f(c => ConfigFile.Create(@"Config.Foo = Config.Bar;").Using(c));
 
             "And I load the config seeded with Bar set to 'baz'"
-                .f(async () => config = await new Config().UseRoslynCSharpLoader().Load(new Dictionary<string, object> { { "Bar", "baz" } }));
+                .f(async () => config = await new Config().UseRoslynCSharpLoader().LoadDynamic(new Dictionary<string, object> { { "Bar", "baz" } }));
 
             "And I get Foo"
                 .f(() => result = config.Foo<string>());

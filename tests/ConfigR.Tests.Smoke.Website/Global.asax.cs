@@ -16,7 +16,7 @@ namespace ConfigR.Tests.Smoke.Website
 #else
             .UseRoslynCSharpLoader("Web.Release.csx")
 #endif
-            .Load()
+            .LoadDynamic()
             .GetAwaiter().GetResult();
     }
 }

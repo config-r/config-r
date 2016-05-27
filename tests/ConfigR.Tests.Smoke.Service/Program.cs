@@ -29,7 +29,7 @@ namespace ConfigR.Tests.Smoke.Service
                 loggingConfig.LoggingRules.Add(new LoggingRule("*", NLog.LogLevel.Trace, target));
                 LogManager.Configuration = loggingConfig;
 
-                var config = await new Config().UseRoslynCSharpLoader().Load();
+                var config = await new Config().UseRoslynCSharpLoader().LoadDynamic();
 
                 var log = LogProvider.GetCurrentClassLogger();
 
