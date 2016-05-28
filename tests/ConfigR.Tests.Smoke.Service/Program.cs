@@ -37,8 +37,17 @@ namespace ConfigR.Tests.Smoke.Service
                 HostFactory.Run(x => x.Service<string>(o =>
                 {
                     o.ConstructUsing(n => n);
-                    o.WhenStarted(n => log.Info(settings.Greeting));
-                    o.WhenStopped(n => log.Info(settings.Valediction));
+                    o.WhenStarted(n =>
+                    {
+                        log.Info(settings.Greeting);
+                        log.Info(settings.WebGreeting);
+                    });
+
+                    o.WhenStopped(n =>
+                    {
+                        log.Info(settings.Valediction);
+                        log.Info(settings.WebValediction);
+                    });
                 }));
             }
         }
