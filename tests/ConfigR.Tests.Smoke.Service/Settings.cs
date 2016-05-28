@@ -9,5 +9,9 @@ namespace ConfigR.Tests.Smoke.Service
         public string Greeting { get; set; }
 
         public string Valediction { get; set; }
+
+        public string WebGreeting { get; set; }
+
+        public string WebValediction { get; set; }
     }
 }

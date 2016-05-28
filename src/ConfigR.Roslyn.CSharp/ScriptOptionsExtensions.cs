@@ -6,6 +6,7 @@ namespace ConfigR
 {
     using System;
     using System.Collections.Generic;
+    using System.Collections.Immutable;
     using System.IO;
     using System.Linq;
     using System.Reflection;
@@ -61,9 +62,12 @@ namespace ConfigR
                 references.Add(assembly);
             }
 
+            var sourceResolver =
+                new HttpSourceFileResolver(searchPaths.ToImmutableArray(), ScriptSourceResolver.Default.BaseDirectory);
+
             return options
                 ?.WithMetadataResolver(ScriptMetadataResolver.Default.WithSearchPaths(searchPaths))
-                .WithSourceResolver(ScriptSourceResolver.Default.WithSearchPaths(searchPaths))
+                .WithSourceResolver(sourceResolver)
                 .AddReferences(references);
         }
     }
