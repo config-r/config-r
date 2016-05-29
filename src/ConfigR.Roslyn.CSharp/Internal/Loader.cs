@@ -17,24 +17,25 @@ namespace ConfigR.Roslyn.CSharp.Internal
     {
         private static readonly ILog log = LogProvider.GetCurrentClassLogger();
 
-        private readonly string scriptPath;
+        private readonly Uri scriptUri;
         private readonly ScriptOptions options;
         private readonly InteractiveAssemblyLoader assemblyLoader;
 
         [CLSCompliant(false)]
-        public Loader(string scriptPath, ScriptOptions options, InteractiveAssemblyLoader assemblyLoader)
+        public Loader(Uri scriptUri, ScriptOptions options, InteractiveAssemblyLoader assemblyLoader)
         {
-            this.scriptPath = scriptPath;
+            this.scriptUri = scriptUri;
             this.options = options;
             this.assemblyLoader = assemblyLoader;
         }
 
         public async Task<DynamicDictionary> Load(DynamicDictionary config)
         {
-            log.InfoFormat("Running script '{0}'...", this.scriptPath);
+            var path = this.scriptUri.ToFilePath();
 
+            log.InfoFormat("Running script '{0}'...", path);
             await CSharpScript.Create(
-                    File.ReadAllText(this.scriptPath), this.options, typeof(ScriptGlobals), this.assemblyLoader)
+                    File.ReadAllText(path), this.options, typeof(ScriptGlobals), this.assemblyLoader)
                 .RunAsync(new ScriptGlobals(config));
 
             return config;

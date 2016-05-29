@@ -52,6 +52,7 @@
     </Compile>
     <Compile Include="App_Packages\LibLog.4.2\LibLog.cs" />
     <Compile Include="Internal\HttpSourceFileResolver.cs" />
+    <Compile Include="Internal\ScriptOptionsExtensions.cs" />
     <Compile Include="Internal\StringExtensions.cs" />
     <Compile Include="ScriptOptionsExtensions.cs" />
     <Compile Include="Internal\ScriptGlobals.cs" />

@@ -19,14 +19,14 @@ namespace ConfigR
             Justification = "Too many combinations. Following the Roslyn API.")]
         [CLSCompliant(false)]
         public static IConfig UseRoslynCSharpLoader(
-                this IConfig config,
-                string scriptPath = null,
-                ScriptOptions options = null,
-                InteractiveAssemblyLoader assemblyLoader = null) =>
-            config?.UseLoader(
-                new Loader(
-                    scriptPath.ResolveScriptPath(),
-                    options ?? ScriptOptions.Default.ForConfigScript(scriptPath),
-                    assemblyLoader));
+            this IConfig config,
+            string address = null,
+            ScriptOptions options = null,
+            InteractiveAssemblyLoader assemblyLoader = null)
+        {
+            var uri = address.ResolveScriptUri();
+            return config?.UseLoader(
+                new Loader(uri, options ?? ScriptOptions.Default.ForConfigScript(uri), assemblyLoader));
+        }
     }
 }

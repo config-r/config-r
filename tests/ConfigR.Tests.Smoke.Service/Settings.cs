@@ -10,6 +10,12 @@ namespace ConfigR.Tests.Smoke.Service
 
         public string Valediction { get; set; }
 
+        public string Foo { get; set; }
+
+        public string Bar { get; set; }
+
+        public string Baz { get; set; }
+
         public string WebGreeting { get; set; }
 
         public string WebValediction { get; set; }

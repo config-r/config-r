@@ -108,6 +108,15 @@
     <None Include="app.config">
       <SubType>Designer</SubType>
     </None>
+    <None Include="Test3.csx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Test2.csx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Test1.csx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="ConfigR.Tests.Smoke.Service.exe.csx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
