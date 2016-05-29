@@ -31,7 +31,7 @@ namespace ConfigR.Roslyn.CSharp.Internal
 
             foreach (var searchPath in searchPaths)
             {
-                log.DebugFormat("Using search path '{0}'.", searchPath);
+                log.DebugFormat("Using search path '{0}' for script '{1}'.", searchPath, uri);
             }
 
             var references = new List<Assembly>();
@@ -40,8 +40,9 @@ namespace ConfigR.Roslyn.CSharp.Internal
                 if (assembly.IsDynamic)
                 {
                     log.TraceFormat(
-                        "Not adding a reference to assembly '{0}' in the script options because it is dynamic.",
-                        assembly.FullName);
+                        "Not adding a reference to assembly '{0}' because it is dynamic, for script '{1}'.",
+                        assembly.FullName,
+                        uri);
 
                     continue;
                 }
@@ -49,14 +50,18 @@ namespace ConfigR.Roslyn.CSharp.Internal
                 if (string.IsNullOrEmpty(assembly.Location))
                 {
                     log.TraceFormat(
-                        "Not adding a reference to assembly '{0}' in the script options because it has no location.",
-                        assembly.FullName);
+                        "Not adding a reference to assembly '{0}' because it has no location, for script '{1}'.",
+                        assembly.FullName,
+                        uri);
 
                     continue;
                 }
 
                 log.TraceFormat(
-                    "Adding a reference to assembly '{0}' located at '{1}'.", assembly.FullName, assembly.Location);
+                    "Adding a reference to assembly '{0}' located at '{1}', for script '{2}'..",
+                    assembly.FullName,
+                    assembly.Location,
+                    uri);
 
                 references.Add(assembly);
             }
