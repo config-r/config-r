@@ -36,24 +36,24 @@ namespace ConfigR.Roslyn.CSharp.Internal
             return uri;
         }
 
-        public static string ToScriptPath(this Uri scriptUri)
+        public static string ToFilePath(this Uri uri)
         {
             string path;
-            if (scriptUri.TryGetFilePath(out path))
+            if (uri.TryGetFilePath(out path))
             {
                 return path;
             }
 
             path = Path.GetTempFileName();
-            log.InfoFormat("Downloading '{0}' to '{1}'.", scriptUri.ToString(), path);
+            log.InfoFormat("Downloading '{0}' to '{1}'.", uri.ToString(), path);
 
-            using (var response = WebRequest.Create(scriptUri).GetResponse())
+            using (var response = WebRequest.Create(uri).GetResponse())
             using (var responseStream = response.GetResponseStream())
             using (var fileStream = File.OpenWrite(path))
             {
                 if (responseStream == null)
                 {
-                    throw new InvalidOperationException(Invariant($"No response received from '{scriptUri}'."));
+                    throw new InvalidOperationException(Invariant($"No response received from '{uri}'."));
                 }
 
                 responseStream.CopyTo(fileStream);
@@ -62,10 +62,10 @@ namespace ConfigR.Roslyn.CSharp.Internal
             return path;
         }
 
-        public static bool TryGetFilePath(this Uri scriptUri, out string path)
+        public static bool TryGetFilePath(this Uri uri, out string path)
         {
-            return (path = scriptUri.Scheme == Uri.UriSchemeFile
-                ? scriptUri.LocalPath + Uri.UnescapeDataString(scriptUri.Fragment).Replace('/', Path.DirectorySeparatorChar)
+            return (path = uri.Scheme == Uri.UriSchemeFile
+                ? uri.LocalPath + Uri.UnescapeDataString(uri.Fragment).Replace('/', Path.DirectorySeparatorChar)
                 : default(string)) != null;
         }
     }

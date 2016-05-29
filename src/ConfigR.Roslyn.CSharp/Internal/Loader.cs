@@ -31,7 +31,7 @@ namespace ConfigR.Roslyn.CSharp.Internal
 
         public async Task<DynamicDictionary> Load(DynamicDictionary config)
         {
-            var path = this.scriptUri.ToScriptPath();
+            var path = this.scriptUri.ToFilePath();
 
             log.InfoFormat("Running script '{0}'...", path);
             await CSharpScript.Create(

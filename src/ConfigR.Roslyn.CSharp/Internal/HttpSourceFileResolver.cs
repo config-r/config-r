@@ -21,7 +21,7 @@ namespace ConfigR.Roslyn.CSharp.Internal
         {
             Uri uri;
             return base.ResolveReference(
-                Uri.TryCreate(path, UriKind.Absolute, out uri) ? uri.ToScriptPath() : path, baseFilePath);
+                Uri.TryCreate(path, UriKind.Absolute, out uri) ? uri.ToFilePath() : path, baseFilePath);
         }
 
         public bool Equals(HttpSourceFileResolver other) => base.Equals(other);
