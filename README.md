@@ -11,6 +11,8 @@ Get it at [NuGet](https://nuget.org/packages/ConfigR/ "ConfigR on Nuget").
 
 Powered by [Roslyn](https://github.com/dotnet/roslyn).
 
+[![Source Browser](https://img.shields.io/badge/Browse-Source-green.svg)](http://sourcebrowser.io/Browse/config-r/config-r)
+
 ## Features
 
 Checkout the [quickstart](https://github.com/config-r/config-r/wiki/Quickstart) to get an idea of the basics.
