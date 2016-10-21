@@ -6,6 +6,7 @@
     <title>ConfigR.Roslyn.CSharp</title>
     <authors>Adam Ralph, ConfigR contributors</authors>
     <description>Write your .NET configuration files in C# and execute them using Roslyn.</description>
+    <iconUrl>https://avatars2.githubusercontent.com/u/4706277?v=3&s=200</iconUrl>    
     <projectUrl>https://github.com/config-r/config-r/</projectUrl>
     <licenseUrl>https://github.com/config-r/config-r/blob/master/LICENSE</licenseUrl>
     <copyright>Copyright (c) ConfigR contributors. (configr.net@gmail.com)</copyright>
