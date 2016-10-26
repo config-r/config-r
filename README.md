@@ -23,9 +23,9 @@ TIP: you can write **any C# you like** in your 'configuration file' :wink:. The 
 
 ## Updates
 
-Releases will be pushed regularly to [NuGet](https://nuget.org/packages/ConfigR/). For update notifications, follow [@adamralph](https://twitter.com/#!/adamralph).
+Releases will be pushed regularly to [NuGet](https://nuget.org/packages/ConfigR/).
 
-To build manually, clone or fork this repository and see ['How to build'](https://github.com/config-r/config-r/blob/master/how_to_build.md).
+To build manually, clone or fork this repository and see ['How to build'](#how-to-build).
 
 ## Can I help to improve it and/or fix bugs? ##
 
@@ -33,11 +33,32 @@ Absolutely! Please feel free to raise issues, fork the source code, send pull re
 
 No pull request is too small. Even whitespace fixes are appreciated. Before you contribute anything make sure you read [CONTRIBUTING.md](https://github.com/config-r/config-r/blob/master/CONTRIBUTING.md).
 
+## How to build
+
+Navigate to your clone root folder and execute `build.cmd`. The only prerequisite you need is MSBuild 14, which is also included in Visual Studio 2015.
+
+`build.cmd` executes the default build targets which include compilation, test execution and packaging. After the build has completed, the build artifacts will be located in `artifacts/output/`.
+
+You can also build the solution using Visual Studio 2015 or later. At the time of writing the build is only confirmed to work on Windows using the Microsoft .NET framework.
+
+### Extras
+
+* View the full list of build targets:
+
+    `build.cmd -T`
+
+* Run a specific target:
+
+    `build.cmd build`
+
+* Run multiple targets:
+
+    `build.cmd build pack`
+
+* View the full list of options:
+
+    `build.cmd -?`
+
 ## What do the version numbers mean? ##
 
 ConfigR uses [Semantic Versioning](http://semver.org/).
-
-## Sponsors ##
-Our build server is kindly provided by [CodeBetter](http://codebetter.com/) and [JetBrains](http://www.jetbrains.com/).
-
-![YouTrack and TeamCity](http://www.jetbrains.com/img/banners/Codebetter300x250.png)
