@@ -23,7 +23,7 @@ TIP: you can write **any C# you like** in your 'configuration file' :wink:. The 
 
 ## Updates
 
-Releases will be pushed regularly to [NuGet](https://nuget.org/packages/ConfigR/). For update notifications, follow [@adamralph](https://twitter.com/#!/adamralph).
+Releases will be pushed regularly to [NuGet](https://nuget.org/packages/ConfigR/).
 
 To build manually, clone or fork this repository and see ['How to build'](#how-to-build).
 
