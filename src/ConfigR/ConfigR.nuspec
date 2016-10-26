@@ -7,7 +7,7 @@
     <authors>Adam Ralph, ConfigR contributors</authors>
     <description>Write your .NET configuration files in C# and other .NET languages.
 Fed up with XML soup? Frustrated that app settings can only be strings? Want to do more in your configuration file than just define app settings? Then ConfigR is for you!</description>
-    <iconUrl>https://avatars2.githubusercontent.com/u/4706277?v=3&s=200</iconUrl>        
+    <iconUrl>https://avatars2.githubusercontent.com/u/4706277?v=3&amp;s=200</iconUrl>        
     <projectUrl>https://github.com/config-r/config-r/</projectUrl>
     <licenseUrl>https://github.com/config-r/config-r/blob/master/LICENSE</licenseUrl>
     <copyright>Copyright (c) ConfigR contributors. (configr.net@gmail.com)</copyright>
