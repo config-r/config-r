@@ -13,6 +13,11 @@ Powered by [Roslyn](https://github.com/dotnet/roslyn).
 
 [![Source Browser](https://img.shields.io/badge/Browse-Source-green.svg)](http://sourcebrowser.io/Browse/config-r/config-r)
 
+**Status**
+
+ - Dev [![AppVeyor branch](https://img.shields.io/appveyor/ci/filipw/config-r/dev.svg)](https://ci.appveyor.com/project/filipw/config-r/branch/dev) 
+ - Master [![AppVeyor branch](https://img.shields.io/appveyor/ci/filipw/config-r/dev.svg)](https://ci.appveyor.com/project/filipw/config-r/branch/develop) 
+
 ## Features
 
 Checkout the [quickstart](https://github.com/config-r/config-r/wiki/Quickstart) to get an idea of the basics.
