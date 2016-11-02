@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{A294DB75-7707-4C47-8BEC-56F5ADA25367}</ProjectGuid>
+    <ProjectGuid>{CCC5ED41-E765-45A6-B555-21DF5956A5C2}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ConfigR</RootNamespace>
-    <AssemblyName>ConfigR</AssemblyName>
+    <RootNamespace>ConfigR.Tests.Support.SampleDependency</RootNamespace>
+    <AssemblyName>ConfigR.Tests.Support.SampleDependency</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>
@@ -23,9 +23,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <CodeAnalysisRuleSet>..\ConfigR.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>..\ConfigR.Tests.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -34,45 +32,19 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <DocumentationFile>
-    </DocumentationFile>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <CodeAnalysisRuleSet>..\ConfigR.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup>
-    <SignAssembly>false</SignAssembly>
-  </PropertyGroup>
-  <PropertyGroup>
-    <AssemblyOriginatorKeyFile>..\ConfigR.snk</AssemblyOriginatorKeyFile>
+    <CodeAnalysisRuleSet>..\ConfigR.Tests.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="..\CommonAssemblyInfo.cs">
-      <Link>Properties\CommonAssemblyInfo.cs</Link>
-    </Compile>
-    <Compile Include="DictionaryExtensions.cs" />
-    <Compile Include="Internal\ObjectExtensions.cs" />
-    <Compile Include="Sdk\DynamicDictionary_IDictionary.cs" />
-    <Compile Include="Sdk\DynamicDictionary.cs" />
-    <Compile Include="Sdk\ILoader.cs" />
-    <Compile Include="Sdk\IConfig.cs" />
-    <Compile Include="Config.cs" />
-    <Compile Include="Guard.cs" />
-    <Compile Include="Sdk\AppDomainSetupExtensions.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <CodeAnalysisDictionary Include="..\ConfigR.Dictionary">
-      <Link>Properties\ConfigR.Dictionary</Link>
-    </CodeAnalysisDictionary>
-    <None Include="ConfigR.nuspec" />
-    <None Include="packages.config">
-      <SubType>Designer</SubType>
-    </None>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System" />
+    <Compile Include="Foo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\..\packages\StyleCop.MSBuild.4.7.54.0\build\StyleCop.MSBuild.Targets" Condition="Exists('..\..\packages\StyleCop.MSBuild.4.7.54.0\build\StyleCop.MSBuild.Targets')" />

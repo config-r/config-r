@@ -4,5 +4,5 @@
 
 using System.Reflection;
 
-[assembly: AssemblyTitle("ConfigR")]
-[assembly: AssemblyDescription("Write your .NET configuration files in C# and other .NET languages.")]
+[assembly: AssemblyTitle("ConfigR.Roslyn.CSharp")]
+[assembly: AssemblyDescription("Write your .NET configuration files in C# and execute them using Roslyn.")]

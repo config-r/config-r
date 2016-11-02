@@ -4,94 +4,55 @@
 
 namespace ConfigR
 {
-    using System;
     using System.Collections.Generic;
-    using System.Linq;
-    using System.Reflection;
+    using System.Threading.Tasks;
+    using ConfigR.Sdk;
 
-    public partial class Config : IConfig
+    public class Config : IConfig
     {
-        private static readonly Comparer<object> comparer = new Comparer<object>();
+        private readonly Queue<ILoader> loaders = new Queue<ILoader>();
 
-        private readonly List<IDictionary<string, object>> dictionaries = new List<IDictionary<string, object>>();
-
-        private IDictionary<string, object> additionTarget;
-        private bool loadInvoked;
-
-        public IConfig Load(ISimpleConfig config)
+        public IConfig UseLoader(ILoader loader)
         {
-            this.loadInvoked = true;
-
-            Guard.AgainstNullArgument("config", config);
-
-            var index = this.dictionaries.Count;
-            this.dictionaries.Add(config);
-            try
-            {
-                config.Load();
-            }
-            catch
-            {
-                this.dictionaries.RemoveRange(index, this.dictionaries.Count - index);
-                throw;
-            }
-
+            this.loaders.Enqueue(loader);
             return this;
         }
 
-        public IConfig Unload()
-        {
-            this.dictionaries.Clear();
-            return this;
-        }
+        public async Task<dynamic> LoadDynamic() =>
+            await this.Load(new DynamicDictionary());
 
-        public IConfig Reset()
-        {
-            this.Unload();
-            this.loadInvoked = false;
-            return this;
-        }
+        public async Task<dynamic> LoadDynamic(object seed) =>
+            await this.Load(new DynamicDictionary(seed));
 
-        public IConfig EnsureLoaded(params Assembly[] references)
+        public async Task<dynamic> LoadDynamic(IDictionary<string, object> seed) =>
+            await this.Load(new DynamicDictionary(seed));
+
+        public async Task<IDictionary<string, object>> LoadDictionary() =>
+            await this.Load(new DynamicDictionary());
+
+        public async Task<IDictionary<string, object>> LoadDictionary(object seed) =>
+            await this.Load(new DynamicDictionary(seed));
+
+        public async Task<IDictionary<string, object>> LoadDictionary(IDictionary<string, object> seed) =>
+            await this.Load(new DynamicDictionary(seed));
+
+        public async Task<T> Load<T>() where T : new() =>
+            (await this.Load(new DynamicDictionary())).Bind<T>();
+
+        public async Task<T> Load<T>(object seed) where T : new() =>
+            (await this.Load(new DynamicDictionary(seed))).Bind<T>();
+
+        public async Task<T> Load<T>(IDictionary<string, object> seed) where T : new() =>
+            (await this.Load(new DynamicDictionary(seed))).Bind<T>();
+
+        private async Task<DynamicDictionary> Load(DynamicDictionary config)
         {
-            if (this.loadInvoked)
+            foreach (var loader in this.loaders)
             {
-                return this;
+                config = await loader?.Load(config) ?? config;
             }
 
-            this.loadInvoked = true;
-            return this.Load(new LocalScriptFileConfig(true, references));
-        }
-
-        private IDictionary<string, object> Cascade()
-        {
-            return this.dictionaries.Aggregate(
-                    (IEnumerable<KeyValuePair<string, object>>)new KeyValuePair<string, object>[0],
-                    (current, dictionary) => current.Union<KeyValuePair<string, object>>(dictionary, comparer))
-                .ToDictionary(pair => pair.Key, pair => pair.Value);
-        }
-
-        private IDictionary<string, object> InternAdditionTarget()
-        {
-            if (!this.dictionaries.Any() || this.dictionaries.Last() != this.additionTarget)
-            {
-                this.dictionaries.Add(this.additionTarget = new BasicConfig());
-            }
-
-            return this.additionTarget;
-        }
-
-        private class Comparer<TValue> : IEqualityComparer<KeyValuePair<string, TValue>>
-        {
-            public bool Equals(KeyValuePair<string, TValue> x, KeyValuePair<string, TValue> y)
-            {
-                return string.Equals(x.Key, y.Key, StringComparison.Ordinal);
-            }
-
-            public int GetHashCode(KeyValuePair<string, TValue> obj)
-            {
-                return obj.Key == null ? 0 : obj.Key.GetHashCode();
-            }
+            return config;
         }
     }
 }

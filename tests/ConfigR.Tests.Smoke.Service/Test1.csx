@@ -1,0 +1,1 @@
+﻿Config.Valediction = "goodbye world";

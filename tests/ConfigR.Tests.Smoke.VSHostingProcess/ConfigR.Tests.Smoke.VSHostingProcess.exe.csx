@@ -1,0 +1,1 @@
+﻿Config.Greeting  = "hello world";
