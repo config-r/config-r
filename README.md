@@ -16,7 +16,7 @@ Powered by [Roslyn](https://github.com/dotnet/roslyn).
 **Status**
 
  - Dev [![AppVeyor branch](https://img.shields.io/appveyor/ci/filipw/config-r/dev.svg)](https://ci.appveyor.com/project/filipw/config-r/branch/dev) 
- - Master [![AppVeyor branch](https://img.shields.io/appveyor/ci/filipw/config-r/dev.svg)](https://ci.appveyor.com/project/filipw/config-r/branch/develop) 
+ - Master [![AppVeyor branch](https://img.shields.io/appveyor/ci/filipw/config-r/master.svg)](https://ci.appveyor.com/project/filipw/config-r/branch/master) 
 
 ## Features
 
