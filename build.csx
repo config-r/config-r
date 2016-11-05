@@ -1,4 +1,4 @@
-#load "packages/simple-targets-csharp.4.0.0/simple-targets-csharp.csx"
+#load "packages/simple-targets-csx.5.0.0/simple-targets.csx"
 
 using System;
 using System.Collections.Generic;
