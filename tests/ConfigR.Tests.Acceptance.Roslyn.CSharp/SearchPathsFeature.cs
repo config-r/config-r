@@ -64,6 +64,27 @@ namespace ConfigR.Tests.Acceptance
         }
 
         [Scenario]
+        public static void LoadingAScriptFromWeb(string foo)
+        {
+            dynamic config = null;
+            
+            "Given remote config file which loads the first file"
+                .f(c => ConfigFile.Create(
+                        $@"#load ""https://gist.githubusercontent.com/adamralph/9c4d6a6a705e1762646fbcf124f634f9/raw/d15f7331621e9065c566e94f32972546711ef29a/sample-config3.csx""")
+                    .Using(c));
+
+            "When I load the config file"
+                .f(async () => config = await new Config().UseRoslynCSharpLoader().LoadDynamic());
+
+            "And I get WebGreeting"
+                .f(() => foo = config.WebGreeting<string>());
+
+            "Then Foo is 123"
+                .f(() => foo.Should().Be("Hello World from web!"));
+        }
+
+
+        [Scenario]
         public static void ReferencingAnAssemblyFromTheScriptFolder(string path1, string path2, Foo foo)
         {
             dynamic config = null;
