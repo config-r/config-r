@@ -15,7 +15,7 @@ namespace ConfigR.Roslyn.CSharp.Internal
     [CLSCompliant(false)]
     public class HttpSourceFileResolver : SourceFileResolver, IEquatable<HttpSourceFileResolver>
     {
-        private readonly Dictionary<string, string> _remoteFiles = new Dictionary<string, string>();
+        private readonly Dictionary<string, byte[]> _remoteFiles = new Dictionary<string, byte[]>();
 
         [CLSCompliant(false)]
         public HttpSourceFileResolver(ImmutableArray<string> searchPaths, string baseDirectory)
@@ -39,12 +39,8 @@ namespace ConfigR.Roslyn.CSharp.Internal
 
                 if (response.IsSuccessStatusCode)
                 {
-                    var responseFile = response.Content.ReadAsStringAsync().Result;
-                    if (!string.IsNullOrWhiteSpace(responseFile))
-                    {
-                        _remoteFiles.Add(path, responseFile);
-                        return path;
-                    }
+                    _remoteFiles.Add(path, response.Content.ReadAsByteArrayAsync().Result);
+                    return path;
                 }
             }
 
@@ -57,7 +53,7 @@ namespace ConfigR.Roslyn.CSharp.Internal
             if ((uri != null) && _remoteFiles.ContainsKey(resolvedPath))
             {
                 var storedFile = _remoteFiles[resolvedPath];
-                return new MemoryStream(Encoding.UTF8.GetBytes(storedFile));
+                return new MemoryStream(storedFile);
             }
 
             return base.OpenRead(resolvedPath);
