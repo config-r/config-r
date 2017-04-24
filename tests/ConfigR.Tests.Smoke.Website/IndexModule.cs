@@ -9,10 +9,6 @@ namespace ConfigR.Tests.Smoke.Website
 
     public class IndexModule : NancyModule
     {
-        [SuppressMessage(
-            "StyleCop.CSharp.SpacingRules",
-            "SA1013:ClosingCurlyBracketsMustBeSpacedCorrectly",
-            Justification = "Bug in StyleCop - see https://stylecop.codeplex.com/workitem/7725.")]
         public IndexModule()
         {
             this.Get["/"] = _ => this.View["index", new { Greeting = Global.Config.Get<string>("Greeting"), BuiltFor = Global.Config.Get<string>("BuiltFor") }];
