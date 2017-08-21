@@ -19,7 +19,7 @@ namespace ConfigR.Tests.Acceptance
             dynamic config = null;
 
             "Given a local config file containing Foo of 42"
-                .f(c => ConfigFile.Create("Config.Foo = 42;").Using(c));
+                .x(c => ConfigFile.Create("Config.Foo = 42;").Using(c));
 
             "And we are using Visual Studio hosting"
                 .x(() =>
@@ -37,13 +37,13 @@ namespace ConfigR.Tests.Acceptance
                 .Teardown(() => AppDomain.CurrentDomain.SetData("APP_CONFIG_FILE", Path.GetFileName(ConfigFile.GetDefaultPath())));
 
             "When I load the config"
-                .f(async () => config = await new Config().UseRoslynCSharpLoader().LoadDynamic());
+                .x(async () => config = await new Config().UseRoslynCSharpLoader().LoadDynamic());
 
             "And I get Foo"
-                .f(() => result = config.Foo<int>());
+                .x(() => result = config.Foo<int>());
 
             "Then Foo is 42"
-                .f(() => result.Should().Be(42));
+                .x(() => result.Should().Be(42));
         }
     }
 }

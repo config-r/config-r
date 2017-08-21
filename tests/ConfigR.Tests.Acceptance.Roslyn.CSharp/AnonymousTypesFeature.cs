@@ -17,7 +17,7 @@ namespace ConfigR.Tests.Acceptance
             dynamic result = null;
 
             "Given a local config file containing an anonymous type with a Bar of 'baz'"
-                .f(c =>
+                .x(c =>
                 {
                     var code =
 @"using ConfigR.Tests.Acceptance.Roslyn.CSharp.Support;
@@ -28,13 +28,13 @@ Config.Foo = new { Bar = ""baz"" };
                 });
 
             "When I load the config"
-                .f(async () => config = await new Config().UseRoslynCSharpLoader().LoadDynamic());
+                .x(async () => config = await new Config().UseRoslynCSharpLoader().LoadDynamic());
 
             "When I get the anonymous type"
-                .f(() => { result = config.Foo; });
+                .x(() => { result = config.Foo; });
 
             "Then the anonymous type has a Bar of 'baz'"
-                .f(() => ((string)result.Bar).Should().Be("baz"));
+                .x(() => ((string)result.Bar).Should().Be("baz"));
         }
     }
 }

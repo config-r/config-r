@@ -18,16 +18,16 @@ namespace ConfigR.Tests.Acceptance
             dynamic config = null;
 
             "Given a config file with a Foo of 123"
-                .f(c => ConfigFile.Create("Config.Foo = 123;").Using(c));
+                .x(c => ConfigFile.Create("Config.Foo = 123;").Using(c));
 
             "When I load the file"
-                .f(async () => config = await new Config().UseRoslynCSharpLoader().LoadDynamic());
+                .x(async () => config = await new Config().UseRoslynCSharpLoader().LoadDynamic());
 
             "And I get Foo with a default of 456"
-                .f(() => result = config.Foo<int>(456));
+                .x(() => result = config.Foo<int>(456));
 
             "Then the result is 123"
-                .f(() => result.Should().Be(123));
+                .x(() => result.Should().Be(123));
         }
 
         [Scenario]
@@ -36,16 +36,16 @@ namespace ConfigR.Tests.Acceptance
             dynamic config = null;
 
             "Given a config file with a Foo of 123"
-                .f(c => ConfigFile.Create("Config.Foo = 123;").Using(c));
+                .x(c => ConfigFile.Create("Config.Foo = 123;").Using(c));
 
             "When I load the file"
-                .f(async () => config = await new Config().UseRoslynCSharpLoader().LoadDynamic());
+                .x(async () => config = await new Config().UseRoslynCSharpLoader().LoadDynamic());
 
             "And I get Bar with a default of 456"
-                .f(() => result = config.Bar<int>(456));
+                .x(() => result = config.Bar<int>(456));
 
             "Then the result is 456"
-                .f(() => result.Should().Be(456));
+                .x(() => result.Should().Be(456));
         }
 
         [Scenario]
@@ -54,16 +54,16 @@ namespace ConfigR.Tests.Acceptance
             dynamic config = null;
 
             "Given a config file with a Foo of 123"
-                .f(c => ConfigFile.Create("Config.Foo = 123;").Using(c));
+                .x(c => ConfigFile.Create("Config.Foo = 123;").Using(c));
 
             "When I load the file"
-                .f(async () => config = await new Config().UseRoslynCSharpLoader().LoadDynamic());
+                .x(async () => config = await new Config().UseRoslynCSharpLoader().LoadDynamic());
 
             "And I get Bar with a default of 'abc'"
-                .f(() => exception = Record.Exception(() => config.Bar<int>("abc")));
+                .x(() => exception = Record.Exception(() => config.Bar<int>("abc")));
 
             "Then the exception indicates that 'abc' is the wrong type"
-                .f(() => exception.Message.Should().Contain("default is not").And.Contain("System.Int32"));
+                .x(() => exception.Message.Should().Contain("default is not").And.Contain("System.Int32"));
         }
     }
 }

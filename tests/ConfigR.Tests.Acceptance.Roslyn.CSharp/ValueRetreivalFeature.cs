@@ -18,19 +18,19 @@ namespace ConfigR.Tests.Acceptance
             dynamic config = null;
 
             "Given a local config file containing Foo of 42"
-                .f(c => ConfigFile.Create("Config.Foo = 42;").Using(c));
+                .x(c => ConfigFile.Create("Config.Foo = 42;").Using(c));
 
             "When I load the config"
-                .f(async () => config = await new Config().UseRoslynCSharpLoader().LoadDynamic());
+                .x(async () => config = await new Config().UseRoslynCSharpLoader().LoadDynamic());
 
             "And I get Bar"
-                .f(() => exception = Record.Exception(() => config.Bar<int>()));
+                .x(() => exception = Record.Exception(() => config.Bar<int>()));
 
             "Then an exception is thrown"
-                .f(() => exception.Should().NotBeNull());
+                .x(() => exception.Should().NotBeNull());
 
             "And the exception indicates that Bar does not exist"
-                .f(() => exception.Message.Should().Contain("'Bar' does not exist"));
+                .x(() => exception.Message.Should().Contain("'Bar' does not exist"));
         }
     }
 }

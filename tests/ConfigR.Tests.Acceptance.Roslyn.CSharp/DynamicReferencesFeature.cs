@@ -27,7 +27,7 @@ namespace ConfigR.Tests.Acceptance
             dynamic config = null;
 
             "Given an assembly on disk which defines a Foo type"
-                .f(c =>
+                .x(c =>
                 {
                     var code =
 $@"namespace {c.Step.Scenario.ScenarioOutline.Method.Name}
@@ -53,7 +53,7 @@ $@"namespace {c.Step.Scenario.ScenarioOutline.Method.Name}
                 });
 
             "And config file with Foo with a Bar of 'baz'"
-                .f(c =>
+                .x(c =>
                 {
                     var code =
 $@"using {c.Step.Scenario.ScenarioOutline.Method.Name};
@@ -63,17 +63,17 @@ Config.Foo = new Foo {{ Bar = ""baz"" }};
                 });
 
             "When I load the assembly"
-                .f(c => reference = Assembly.Load(c.Step.Scenario.ScenarioOutline.Method.Name));
+                .x(c => reference = Assembly.Load(c.Step.Scenario.ScenarioOutline.Method.Name));
 
             "And I load the config using the assembly as a reference"
-                .f(async () => config = await new Config()
+                .x(async () => config = await new Config()
                     .UseRoslynCSharpLoader(options: ScriptOptions.Default.ForConfigScript().AddReferences(reference)).LoadDynamic());
 
             "And I get the value"
-                .f(() => result = config.Foo);
+                .x(() => result = config.Foo);
 
             "Then the Foo Bar should be 'baz'"
-                .f(() => ((string)((dynamic)result).Bar).Should().Be("baz"));
+                .x(() => ((string)((dynamic)result).Bar).Should().Be("baz"));
         }
     }
 }

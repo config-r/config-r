@@ -23,7 +23,7 @@ if not exist .nuget\NuGet.exe (
 )
 
 :: restore packages
-.nuget\NuGet.exe restore .\ConfigR.sln -MSBuildVersion 14
+.nuget\NuGet.exe restore .\ConfigR.sln
 
 :: run script
-"%ProgramFiles(x86)%\MSBuild\14.0\Bin\csi.exe" .\build.csx %*
+"%ProgramFiles(x86)%\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\Roslyn\csi.exe" .\build.csx %*
