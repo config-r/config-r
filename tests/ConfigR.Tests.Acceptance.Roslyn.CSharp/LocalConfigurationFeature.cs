@@ -19,7 +19,7 @@ namespace ConfigR.Tests.Acceptance.Roslyn.CSharp
             dynamic config = null;
 
             "Given a local config file containing a Foo with a Bar of 'baz'"
-                .f(c =>
+                .x(c =>
                 {
                     var code =
 @"using ConfigR.Tests.Acceptance.Roslyn.CSharp.Support;
@@ -30,62 +30,62 @@ Config.Foo = new Foo { Bar = ""baz"" };
                 });
 
             "When I load the config"
-                .f(async () => config = await new Config().UseRoslynCSharpLoader().LoadDynamic());
+                .x(async () => config = await new Config().UseRoslynCSharpLoader().LoadDynamic());
 
             "And I get the Foo"
-                .f(() => result = config.Foo<Foo>());
+                .x(() => result = config.Foo<Foo>());
 
             "Then the Foo has a Bar of 'baz'"
-                .f(() => result.Bar.Should().Be("baz"));
+                .x(() => result.Bar.Should().Be("baz"));
         }
 
         [Scenario]
         public static void ScriptFailsToCompile(Exception exception)
         {
             "Given a local config file which fails to compile"
-                .f(c => ConfigFile.Create(@"This is not C#!").Using(c));
+                .x(c => ConfigFile.Create(@"This is not C#!").Using(c));
 
             "When I load the config file"
-                .f(async () => exception = await Record.ExceptionAsync(async () => await new Config().UseRoslynCSharpLoader().LoadDynamic()));
+                .x(async () => exception = await Record.ExceptionAsync(async () => await new Config().UseRoslynCSharpLoader().LoadDynamic()));
 
             "Then an exception is thrown"
-                .f(() => exception.Should().NotBeNull());
+                .x(() => exception.Should().NotBeNull());
 
             "And the exception should be a compilation error exception"
-                .f(() => exception.GetType().Name.Should().Be("CompilationErrorException"));
+                .x(() => exception.GetType().Name.Should().Be("CompilationErrorException"));
         }
 
         [Scenario]
         public static void ScriptFailsToExecute(Exception exception)
         {
             "Given a local config file which throws an exception with the message 'Boo!'"
-                .f(c => ConfigFile.Create(@"throw new System.Exception(""Boo!"");").Using(c));
+                .x(c => ConfigFile.Create(@"throw new System.Exception(""Boo!"");").Using(c));
 
             "When I load the config file"
-                .f(async () => exception = await Record.ExceptionAsync(async () => await new Config().UseRoslynCSharpLoader().LoadDynamic()));
+                .x(async () => exception = await Record.ExceptionAsync(async () => await new Config().UseRoslynCSharpLoader().LoadDynamic()));
 
             "Then an exception is thrown"
-                .f(() => exception.Should().NotBeNull());
+                .x(() => exception.Should().NotBeNull());
 
             "And the exception message is 'Boo!'"
-                .f(() => exception.Message.Should().Be("Boo!"));
+                .x(() => exception.Message.Should().Be("Boo!"));
         }
 
         [Scenario]
         public static void ConfigurationFileIsNull(Exception exception)
         {
             "Given the app domain configuration file is null"
-                .f(c => AppDomain.CurrentDomain.SetData("APP_CONFIG_FILE", null))
+                .x(c => AppDomain.CurrentDomain.SetData("APP_CONFIG_FILE", null))
                 .Teardown(() => AppDomain.CurrentDomain.SetData("APP_CONFIG_FILE", Path.GetFileName(ConfigFile.GetDefaultPath())));
 
             "When I load the config file"
-                .f(async () => exception = await Record.ExceptionAsync(async () => await new Config().UseRoslynCSharpLoader().LoadDynamic()));
+                .x(async () => exception = await Record.ExceptionAsync(async () => await new Config().UseRoslynCSharpLoader().LoadDynamic()));
 
             "Then an invalid operation exception is thrown"
-                .f(() => exception.Should().NotBeNull());
+                .x(() => exception.Should().NotBeNull());
 
             "And the exception message tells us that the app domain config file is null"
-                .f(() => exception.Message.Should().Be("AppDomain.CurrentDomain.SetupInformation.ConfigurationFile is null."));
+                .x(() => exception.Message.Should().Be("AppDomain.CurrentDomain.SetupInformation.ConfigurationFile is null."));
         }
     }
 }

@@ -17,16 +17,16 @@ namespace ConfigR.Tests.Acceptance.Roslyn.CSharp
             dynamic config = null;
 
             "Given a local config file which sets Foo using the value of Bar"
-                .f(c => ConfigFile.Create(@"Config.Foo = Config.Bar;").Using(c));
+                .x(c => ConfigFile.Create(@"Config.Foo = Config.Bar;").Using(c));
 
             "And I load the config seeded with Bar set to 'baz'"
-                .f(async () => config = await new Config().UseRoslynCSharpLoader().LoadDynamic(new { Bar = "baz" }));
+                .x(async () => config = await new Config().UseRoslynCSharpLoader().LoadDynamic(new { Bar = "baz" }));
 
             "And I get Foo"
-                .f(() => result = config.Foo<string>());
+                .x(() => result = config.Foo<string>());
 
             "Then Foo is 'baz'"
-                .f(() => result.Should().Be("baz"));
+                .x(() => result.Should().Be("baz"));
         }
 
         [Scenario]
@@ -35,16 +35,16 @@ namespace ConfigR.Tests.Acceptance.Roslyn.CSharp
             dynamic config = null;
 
             "Given a local config file which sets Foo using the value of Bar"
-                .f(c => ConfigFile.Create(@"Config.Foo = Config.Bar;").Using(c));
+                .x(c => ConfigFile.Create(@"Config.Foo = Config.Bar;").Using(c));
 
             "And I load the config seeded with Bar set to 'baz'"
-                .f(async () => config = await new Config().UseRoslynCSharpLoader().LoadDynamic(new Dictionary<string, object> { { "Bar", "baz" } }));
+                .x(async () => config = await new Config().UseRoslynCSharpLoader().LoadDynamic(new Dictionary<string, object> { { "Bar", "baz" } }));
 
             "And I get Foo"
-                .f(() => result = config.Foo<string>());
+                .x(() => result = config.Foo<string>());
 
             "Then Foo is 'baz'"
-                .f(() => result.Should().Be("baz"));
+                .x(() => result.Should().Be("baz"));
         }
 
         [Scenario]
@@ -53,16 +53,16 @@ namespace ConfigR.Tests.Acceptance.Roslyn.CSharp
             IDictionary<string, object> config = null;
 
             "Given a local config file which sets Foo using the value of Bar"
-                .f(c => ConfigFile.Create(@"Config.Foo = Config.Bar;").Using(c));
+                .x(c => ConfigFile.Create(@"Config.Foo = Config.Bar;").Using(c));
 
             "And I load the config seeded with Bar set to 'baz'"
-                .f(async () => config = await new Config().UseRoslynCSharpLoader().LoadDictionary(new { Bar = "baz" }));
+                .x(async () => config = await new Config().UseRoslynCSharpLoader().LoadDictionary(new { Bar = "baz" }));
 
             "And I get Foo"
-                .f(() => result = config.Get<string>("Foo"));
+                .x(() => result = config.Get<string>("Foo"));
 
             "Then Foo is 'baz'"
-                .f(() => result.Should().Be("baz"));
+                .x(() => result.Should().Be("baz"));
         }
 
         [Scenario]
@@ -71,16 +71,16 @@ namespace ConfigR.Tests.Acceptance.Roslyn.CSharp
             IDictionary<string, object> config = null;
 
             "Given a local config file which sets Foo using the value of Bar"
-                .f(c => ConfigFile.Create(@"Config.Foo = Config.Bar;").Using(c));
+                .x(c => ConfigFile.Create(@"Config.Foo = Config.Bar;").Using(c));
 
             "And I load the config seeded with Bar set to 'baz'"
-                .f(async () => config = await new Config().UseRoslynCSharpLoader().LoadDictionary(new Dictionary<string, object> { { "Bar", "baz" } }));
+                .x(async () => config = await new Config().UseRoslynCSharpLoader().LoadDictionary(new Dictionary<string, object> { { "Bar", "baz" } }));
 
             "And I get Foo"
-                .f(() => result = config.Get<string>("Foo"));
+                .x(() => result = config.Get<string>("Foo"));
 
             "Then Foo is 'baz'"
-                .f(() => result.Should().Be("baz"));
+                .x(() => result.Should().Be("baz"));
         }
     }
 }

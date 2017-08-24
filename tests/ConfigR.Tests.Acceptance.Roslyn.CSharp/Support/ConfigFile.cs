@@ -31,7 +31,7 @@ namespace ConfigR.Tests.Acceptance.Roslyn.CSharp.Support
         }
 
         private sealed class Disposable : IDisposable
-        {
+        {   
             private readonly Action whenDisposed;
 
             public Disposable(Action whenDisposed)

@@ -18,25 +18,25 @@ namespace ConfigR.Tests.Acceptance
             dynamic config = null;
 
             "Given a config file with a Foo string"
-                .f(c => ConfigFile.Create(@"Config.Foo = ""abc"";").Using(c));
+                .x(c => ConfigFile.Create(@"Config.Foo = ""abc"";").Using(c));
 
             "When I load the file"
-                .f(async () => config = await new Config().UseRoslynCSharpLoader().LoadDynamic());
+                .x(async () => config = await new Config().UseRoslynCSharpLoader().LoadDynamic());
 
             "And I try to get an integer named 'foo'"
-                .f(() => ex = Record.Exception(() => config.Foo<int>()));
+                .x(() => ex = Record.Exception(() => config.Foo<int>()));
 
             "Then an exception is thrown"
-                .f(() => ex.Should().NotBeNull());
+                .x(() => ex.Should().NotBeNull());
 
             "And the exception message contains 'Foo'"
-                .f(() => ex.Message.Should().Contain("Foo"));
+                .x(() => ex.Message.Should().Contain("Foo"));
 
             "And the exception message contains the full type name of int"
-                .f(() => ex.Message.Should().Contain(typeof(int).FullName));
+                .x(() => ex.Message.Should().Contain(typeof(int).FullName));
 
             "And the exception message contains the full type name of string"
-                .f(() => ex.Message.Should().Contain(typeof(string).FullName));
+                .x(() => ex.Message.Should().Contain(typeof(string).FullName));
         }
 
         [Scenario]
@@ -45,25 +45,25 @@ namespace ConfigR.Tests.Acceptance
             dynamic config = null;
 
             "Given a config file with a Foo null"
-                .f(c => ConfigFile.Create(@"Config.Foo = null;").Using(c));
+                .x(c => ConfigFile.Create(@"Config.Foo = null;").Using(c));
 
             "When I load the file"
-                .f(async () => config = await new Config().UseRoslynCSharpLoader().LoadDynamic());
+                .x(async () => config = await new Config().UseRoslynCSharpLoader().LoadDynamic());
 
             "And I try to get an integer named 'foo'"
-                .f(() => ex = Record.Exception(() => config.Foo<int>()));
+                .x(() => ex = Record.Exception(() => config.Foo<int>()));
 
             "Then an exception is thrown"
-                .f(() => ex.Should().NotBeNull());
+                .x(() => ex.Should().NotBeNull());
 
             "And the exception message contains 'Foo'"
-                .f(() => ex.Message.Should().Contain("Foo"));
+                .x(() => ex.Message.Should().Contain("Foo"));
 
             "And the exception message contains the full type name of int"
-                .f(() => ex.Message.Should().Contain(typeof(int).FullName));
+                .x(() => ex.Message.Should().Contain(typeof(int).FullName));
 
             "And the exception message contains 'null'"
-                .f(() => ex.Message.Should().Contain("null"));
+                .x(() => ex.Message.Should().Contain("null"));
         }
     }
 }

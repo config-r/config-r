@@ -16,7 +16,7 @@ namespace ConfigR.Tests.Acceptance
             dynamic config = null;
 
             "Given a config file containing a Foo with a Bar of 'baz'"
-                .f(c =>
+                .x(c =>
                 {
                     var code =
 @"using ConfigR.Tests.Acceptance.Roslyn.CSharp.Support;
@@ -27,13 +27,13 @@ Config.Foo = new Foo { Bar = ""baz"" };
                 });
 
             "When I load the file"
-                .f(async () => config = await new Config().UseRoslynCSharpLoader("foo.csx").LoadDynamic());
+                .x(async () => config = await new Config().UseRoslynCSharpLoader("foo.csx").LoadDynamic());
 
             "And I get the Foo"
-                .f(() => result = config.Foo<Foo>());
+                .x(() => result = config.Foo<Foo>());
 
             "Then the Foo has a Bar of 'baz'"
-                .f(() => result.Bar.Should().Be("baz"));
+                .x(() => result.Bar.Should().Be("baz"));
         }
     }
 }

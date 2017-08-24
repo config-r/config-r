@@ -40,11 +40,11 @@ No pull request is too small. Even whitespace fixes are appreciated. Before you 
 
 ## How to build
 
-Navigate to your clone root folder and execute `build.cmd`. The only prerequisite you need is MSBuild 14, which is also included in Visual Studio 2015.
+Navigate to your clone root folder and execute `build.cmd`. The prerequisite you need is MSBuild 15, which is also included in Visual Studio 2017.
 
 `build.cmd` executes the default build targets which include compilation, test execution and packaging. After the build has completed, the build artifacts will be located in `artifacts/output/`.
 
-You can also build the solution using Visual Studio 2015 or later. At the time of writing the build is only confirmed to work on Windows using the Microsoft .NET framework.
+You can also build the solution using Visual Studio 2017 or later. At the time of writing the build is only confirmed to work on Windows using the Microsoft .NET framework 4.6+.
 
 ### Extras
 

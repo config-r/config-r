@@ -17,16 +17,16 @@ namespace ConfigR.Tests.Acceptance.Roslyn.CSharp
             var config = default(IDictionary<string, object>);
 
             "Given a local config file with a Foo of 123"
-                .f(c => ConfigFile.Create(@"ConfigDictionary[""Foo""] = 123;").Using(c));
+                .x(c => ConfigFile.Create(@"ConfigDictionary[""Foo""] = 123;").Using(c));
 
             "When I load the config"
-                .f(async () => config = await new Config().UseRoslynCSharpLoader().LoadDictionary());
+                .x(async () => config = await new Config().UseRoslynCSharpLoader().LoadDictionary());
 
             "And I get Foo"
-                .f(() => result = config.Get<int>("Foo"));
+                .x(() => result = config.Get<int>("Foo"));
 
             "Then the result is 123"
-                .f(() => result.Should().Be(123));
+                .x(() => result.Should().Be(123));
         }
 
         [Scenario]
@@ -35,16 +35,16 @@ namespace ConfigR.Tests.Acceptance.Roslyn.CSharp
             var config = default(IDictionary<string, object>);
 
             "Given a local config file with a Foo of 123"
-                .f(c => ConfigFile.Create(@"ConfigDictionary[""Foo""] = 123;").Using(c));
+                .x(c => ConfigFile.Create(@"ConfigDictionary[""Foo""] = 123;").Using(c));
 
             "When I load the config"
-                .f(async () => config = await new Config().UseRoslynCSharpLoader().LoadDictionary());
+                .x(async () => config = await new Config().UseRoslynCSharpLoader().LoadDictionary());
 
             "And I get Bar with a default of 456"
-                .f(() => result = config.Get("Bar", 456));
+                .x(() => result = config.Get("Bar", 456));
 
             "Then the result is 456"
-                .f(() => result.Should().Be(456));
+                .x(() => result.Should().Be(456));
         }
     }
 }

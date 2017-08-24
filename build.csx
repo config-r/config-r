@@ -18,7 +18,7 @@ var version = File.ReadAllText("src/CommonAssemblyInfo.cs")
 // locations
 var solution = "./ConfigR.sln";
 var logs = "./artifacts/logs";
-var msBuild = $"{Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86)}/MSBuild/14.0/Bin/msbuild.exe";
+var msBuild = $"{Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86)}/Microsoft Visual Studio/2017/Enterprise/MSBuild/15.0/Bin/msbuild.exe";
 var nuspecs = new[] { "./src/ConfigR/ConfigR.nuspec", "./src/ConfigR.Roslyn.CSharp/ConfigR.Roslyn.CSharp.nuspec", };
 var output = "./artifacts/output";
 var nuget = "./.nuget/NuGet.exe";
