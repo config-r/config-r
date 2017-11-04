@@ -9,4 +9,4 @@ packages
 
 *.sln.ide
 *.TMP
-.nuget/NuGet.exe
+.nuget

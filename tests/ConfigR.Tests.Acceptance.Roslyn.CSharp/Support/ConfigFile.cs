@@ -1,4 +1,4 @@
-﻿// <copyright file="ConfigFile.cs" company="ConfigR contributors">
+// <copyright file="ConfigFile.cs" company="ConfigR contributors">
 //  Copyright (c) ConfigR contributors. (configr.net@gmail.com)
 // </copyright>
 
@@ -9,7 +9,7 @@ namespace ConfigR.Tests.Acceptance.Roslyn.CSharp.Support
 
     public static class ConfigFile
     {
-        private static readonly string defaultPath = GetDefaultPath();
+        private static readonly string defaultPath = Path.ChangeExtension(GetDefaultPath(), "csx");
 
         public static IDisposable Create(string contents) => Create(contents, defaultPath);
 
@@ -27,7 +27,7 @@ namespace ConfigR.Tests.Acceptance.Roslyn.CSharp.Support
         public static string GetDefaultPath()
         {
             AppDomain.CurrentDomain.SetData("APP_CONFIG_FILE", "Test.exe.config");
-            return Path.ChangeExtension(AppDomain.CurrentDomain.SetupInformation.ConfigurationFile, "csx");
+            return AppDomain.CurrentDomain.SetupInformation.ConfigurationFile;
         }
 
         private sealed class Disposable : IDisposable
