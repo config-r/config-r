@@ -1,4 +1,5 @@
 #r "packages/Bullseye.1.0.0-rc.4/lib/netstandard2.0/Bullseye.dll"
+#r "packages/SimpleExec.2.2.0/lib/netstandard2.0/SimpleExec.dll"
 
 using System;
 using System.Collections.Generic;
@@ -6,6 +7,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using static Bullseye.Targets;
+using static SimpleExec.Command;
 
 // version
 var versionSuffix = Environment.GetEnvironmentVariable("VERSION_SUFFIX") ?? "-adhoc";
@@ -31,16 +33,16 @@ Add("default", DependsOn("pack", "accept"));
 
 Add("logs", () => Directory.CreateDirectory(logs));
 
-Add("restore", () => Cmd(nuget, $"restore {solution}"));
+Add("restore", () => Run(nuget, $"restore {solution}"));
 
 Add(
     "find-msbuild",
-    () => msBuild = $"{ReadCmd(vswhere, "-latest -requires Microsoft.Component.MSBuild -property installationPath").Trim()}/MSBuild/15.0/Bin/MSBuild.exe");
+    () => msBuild = $"{Read(vswhere, "-latest -requires Microsoft.Component.MSBuild -property installationPath").Trim()}/MSBuild/15.0/Bin/MSBuild.exe");
 
 Add(
     "build",
     DependsOn("restore", "logs", "find-msbuild"),
-    () => Cmd(
+    () => Run(
         msBuild,
         $"{solution} /p:Configuration=Release /nologo /m /v:m /nr:false " +
             $"/fl /flp:LogFile={logs}/msbuild.log;Verbosity=Detailed;PerformanceSummary"));
@@ -61,7 +63,7 @@ Add(
             File.WriteAllText(nuspec, content);
             try
             {
-                Cmd(nuget, $"pack {nuspec} -Version {version} -OutputDirectory {output} -NoPackageAnalysis");
+                Run(nuget, $"pack {nuspec} -Version {version} -OutputDirectory {output} -NoPackageAnalysis");
             }
             finally
             {
@@ -74,56 +76,7 @@ Add(
 Add(
     "accept",
     DependsOn("build"),
-    () => Cmd(
+    () => Run(
         xunit, $"{acceptanceTests} -html {acceptanceTests}.TestResults.html -xml {acceptanceTests}.TestResults.xml"));
 
 Run(Args);
-
-// helper
-public static void Cmd(string fileName, string args)
-{
-    using (var process = new Process())
-    {
-        process.StartInfo = new ProcessStartInfo { FileName = $"\"{fileName}\"", Arguments = args, UseShellExecute = false, };
-        Console.WriteLine($"Running '{process.StartInfo.FileName} {process.StartInfo.Arguments}'...");
-        process.Start();
-        process.WaitForExit();
-        if (process.ExitCode != 0)
-        {
-            throw new InvalidOperationException($"The command exited with code {process.ExitCode}.");
-        }
-    }
-}
-
-public static string ReadCmd(string fileName, string args)
-{
-    var output = new StringBuilder();
-    using (var process = new Process())
-    {
-        process.StartInfo = new ProcessStartInfo {
-            FileName = $"\"{fileName}\"",
-            Arguments = args,
-            UseShellExecute = false,
-            RedirectStandardOutput = true,
-            RedirectStandardError = true,
-        };
-
-        process.OutputDataReceived += (sender, e) => output.AppendLine(e.Data);
-        process.ErrorDataReceived += (sender, e) => output.AppendLine(e.Data);
-
-        Console.WriteLine($"Running '{process.StartInfo.FileName} {process.StartInfo.Arguments}'...");
-        process.Start();
-
-        process.BeginOutputReadLine();
-        process.BeginErrorReadLine();
-
-        process.WaitForExit();
-
-        if (process.ExitCode != 0)
-        {
-            throw new InvalidOperationException($"The command exited with code {process.ExitCode}. {output.ToString()}");
-        }
-    }
-
-    return output.ToString();
-}
