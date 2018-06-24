@@ -1,11 +1,11 @@
-#load "packages/simple-targets-csx.6.0.0/contentFiles/csx/any/simple-targets.csx"
+#r "packages/Bullseye.1.0.0-rc.4/lib/netstandard2.0/Bullseye.dll"
 
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using static SimpleTargets;
+using static Bullseye.Targets;
 
 // version
 var versionSuffix = Environment.GetEnvironmentVariable("VERSION_SUFFIX") ?? "-adhoc";
@@ -27,19 +27,17 @@ var acceptanceTests = Path.GetFullPath("./tests/ConfigR.Tests.Acceptance.Roslyn.
 var xunit = "./packages/xunit.runner.console.2.1.0/tools/xunit.console.exe";
 
 // targets
-var targets = new TargetDictionary();
+Add("default", DependsOn("pack", "accept"));
 
-targets.Add("default", DependsOn("pack", "accept"));
+Add("logs", () => Directory.CreateDirectory(logs));
 
-targets.Add("logs", () => Directory.CreateDirectory(logs));
+Add("restore", () => Cmd(nuget, $"restore {solution}"));
 
-targets.Add("restore", () => Cmd(nuget, $"restore {solution}"));
-
-targets.Add(
+Add(
     "find-msbuild",
     () => msBuild = $"{ReadCmd(vswhere, "-latest -requires Microsoft.Component.MSBuild -property installationPath").Trim()}/MSBuild/15.0/Bin/MSBuild.exe");
 
-targets.Add(
+Add(
     "build",
     DependsOn("restore", "logs", "find-msbuild"),
     () => Cmd(
@@ -47,9 +45,9 @@ targets.Add(
         $"{solution} /p:Configuration=Release /nologo /m /v:m /nr:false " +
             $"/fl /flp:LogFile={logs}/msbuild.log;Verbosity=Detailed;PerformanceSummary"));
 
-targets.Add("output", () => Directory.CreateDirectory(output));
+Add("output", () => Directory.CreateDirectory(output));
 
-targets.Add(
+Add(
     "pack",
     DependsOn("build", "output"),
     () =>
@@ -73,13 +71,13 @@ targets.Add(
         }
     });
 
-targets.Add(
+Add(
     "accept",
     DependsOn("build"),
     () => Cmd(
         xunit, $"{acceptanceTests} -html {acceptanceTests}.TestResults.html -xml {acceptanceTests}.TestResults.xml"));
 
-Run(Args, targets);
+Run(Args);
 
 // helper
 public static void Cmd(string fileName, string args)
