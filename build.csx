@@ -26,7 +26,7 @@ var nuspecs = new[] { "./src/ConfigR/ConfigR.nuspec", "./src/ConfigR.Roslyn.CSha
 var output = "./artifacts/output";
 var nuget = "./.nuget/v4.3.0/NuGet.exe";
 var acceptanceTests = Path.GetFullPath("./tests/ConfigR.Tests.Acceptance.Roslyn.CSharp/bin/Release/ConfigR.Tests.Acceptance.Roslyn.CSharp.dll");
-var xunit = "./packages/xunit.runner.console.2.1.0/tools/xunit.console.exe";
+var xunit = "./packages/xunit.runner.console.2.4.0/tools/net46/xunit.console.exe";
 
 // targets
 Add("default", DependsOn("pack", "accept"));
