@@ -1,4 +1,4 @@
-#r "packages/Bullseye.1.0.0-rc.4/lib/netstandard2.0/Bullseye.dll"
+#r "packages/Bullseye.1.1.0-rc.2/lib/netstandard2.0/Bullseye.dll"
 #r "packages/SimpleExec.2.2.0/lib/netstandard2.0/SimpleExec.dll"
 
 using System;
@@ -29,17 +29,17 @@ var acceptanceTests = Path.GetFullPath("./tests/ConfigR.Tests.Acceptance.Roslyn.
 var xunit = "./packages/xunit.runner.console.2.4.0/tools/net46/xunit.console.exe";
 
 // targets
-Add("default", DependsOn("pack", "accept"));
+Target("default", DependsOn("pack", "accept"));
 
-Add("logs", () => Directory.CreateDirectory(logs));
+Target("logs", () => Directory.CreateDirectory(logs));
 
-Add("restore", () => Run(nuget, $"restore {solution}"));
+Target("restore", () => Run(nuget, $"restore {solution}"));
 
-Add(
+Target(
     "find-msbuild",
     () => msBuild = $"{Read(vswhere, "-latest -requires Microsoft.Component.MSBuild -property installationPath").Trim()}/MSBuild/15.0/Bin/MSBuild.exe");
 
-Add(
+Target(
     "build",
     DependsOn("restore", "logs", "find-msbuild"),
     () => Run(
@@ -47,36 +47,34 @@ Add(
         $"{solution} /p:Configuration=Release /nologo /m /v:m /nr:false " +
             $"/fl /flp:LogFile={logs}/msbuild.log;Verbosity=Detailed;PerformanceSummary"));
 
-Add("output", () => Directory.CreateDirectory(output));
+Target("output", () => Directory.CreateDirectory(output));
 
-Add(
+Target(
     "pack",
     DependsOn("build", "output"),
-    () =>
+    nuspecs,
+    nuspec =>
     {
-        foreach (var nuspec in nuspecs)
+        var originalNuspec = $"{nuspec}.original";
+        File.Move(nuspec, originalNuspec);
+        var originalContent = File.ReadAllText(originalNuspec);
+            var content = originalContent.Replace("[0.0.0]", $"[{version}]");
+        File.WriteAllText(nuspec, content);
+        try
         {
-            var originalNuspec = $"{nuspec}.original";
-            File.Move(nuspec, originalNuspec);
-            var originalContent = File.ReadAllText(originalNuspec);
-                var content = originalContent.Replace("[0.0.0]", $"[{version}]");
-            File.WriteAllText(nuspec, content);
-            try
-            {
-                Run(nuget, $"pack {nuspec} -Version {version} -OutputDirectory {output} -NoPackageAnalysis");
-            }
-            finally
-            {
-                File.Delete(nuspec);
-                File.Move(originalNuspec, nuspec);
-            }
+            Run(nuget, $"pack {nuspec} -Version {version} -OutputDirectory {output} -NoPackageAnalysis");
+        }
+        finally
+        {
+            File.Delete(nuspec);
+            File.Move(originalNuspec, nuspec);
         }
     });
 
-Add(
+Target(
     "accept",
     DependsOn("build"),
     () => Run(
         xunit, $"{acceptanceTests} -html {acceptanceTests}.TestResults.html -xml {acceptanceTests}.TestResults.xml"));
 
-Run(Args);
+RunTargets(Args);
