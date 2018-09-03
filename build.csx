@@ -1,4 +1,4 @@
-#r "packages/Bullseye.1.1.0-rc.2/lib/netstandard2.0/Bullseye.dll"
+#r "packages/Bullseye.1.2.0/lib/netstandard2.0/Bullseye.dll"
 #r "packages/SimpleExec.2.2.0/lib/netstandard2.0/SimpleExec.dll"
 
 using System;
