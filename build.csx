@@ -1,5 +1,5 @@
 #r "packages/Bullseye.1.2.0/lib/netstandard2.0/Bullseye.dll"
-#r "packages/SimpleExec.2.2.0/lib/netstandard2.0/SimpleExec.dll"
+#r "packages/SimpleExec.3.0.0/lib/netstandard2.0/SimpleExec.dll"
 
 using System;
 using System.Collections.Generic;
