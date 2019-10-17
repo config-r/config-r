@@ -47,7 +47,7 @@ Navigate to your clone root folder and execute `build.cmd`. The prerequisite you
 You can also build the solution using Visual Studio 2017 or later. At the time of writing the build is only confirmed to work on Windows using the Microsoft .NET framework 4.6+.
 
 ### Extras
-
+changes has been made
 * View the full list of build targets:
 
     `build.cmd -T`
