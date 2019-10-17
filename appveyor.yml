@@ -16,3 +16,4 @@ artifacts:
 - path: artifacts\**\*.*
 - path: tests\**\*TestResults.*
 deploy: off
+changes has been made
